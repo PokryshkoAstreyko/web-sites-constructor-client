@@ -1,12 +1,10 @@
 "use strict";
 /**
- * Created by Солнышко on 11.01.2017.
+ * Created by Dima on 11.01.2017.
  */
 var LineContainer = (function () {
-    function LineContainer(container) {
-        this.lenght = 12;
+    function LineContainer() {
         this.containers = [];
-        this.containers.push(container);
     }
     return LineContainer;
 }());

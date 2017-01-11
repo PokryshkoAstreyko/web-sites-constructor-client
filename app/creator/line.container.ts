@@ -1,14 +1,10 @@
 import {Container} from "./container";
 /**
- * Created by Солнышко on 11.01.2017.
+ * Created by Dima on 11.01.2017.
  */
-export class LineContainer{
+export class LineContainer {
 
-    containers: Container[];
-    length: number=12;
-
-    constructor(container: Container){
-        this.containers=[];
-        this.containers.push(container);
+    containers: Container[] = [];
+    constructor() {
     }
 }

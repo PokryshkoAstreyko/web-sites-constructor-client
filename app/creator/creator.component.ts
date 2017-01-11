@@ -1,5 +1,4 @@
-import {Component, Input, OnInit,OnChanges} from "@angular/core";
-import {Product} from "./product";
+import {Component, Input, OnInit, OnChanges} from "@angular/core";
 import {FormBuilder, FormGroup} from "@angular/forms";
 import {Container} from "./container";
 import {LineContainer} from "./line.container";
@@ -14,150 +13,61 @@ declare var $: any;
 
 })
 
+export class CreatorComponent implements OnInit{
 
+    lineContainers: LineContainer[] = [];
+    selectedContainerID: number = 0;
+    selectedLineContainerID: number = 0;
+    availableComponents: string[] = [];
+    f: number = 2;
 
-export class CreatorComponent implements OnInit {
-    postText: string[];
-    leftClassContainer: string="col-md-1 work";
-    rightClassContainer: string="col-md-1 work";
-    postSaved: boolean = false;
-    counterItem: number = 0;
-    selectedProduct: Product;
-    valueContainer: number=0;
-    showSlider: boolean=false;
 
     ngOnInit() {
-        // $ init summernote
         $('#summernote').summernote();
-
-
     }
-
-    ngOnChanges(...args: any[]) {
-
-    }
-
-
-    private _formBuilder: FormBuilder;
-    savePostForm: FormGroup;
-
-
-    savePost(event: any) {
+    savePost() {
         let text = $('#summernote').summernote('code');
         console.log(text);
         if (text != null && text != '') {
-
-            this.workAreaComponents[this.workAreaComponents.indexOf(this.selectedProduct)].postText=text;
-            this.selectedProduct.postText=text;
-
-            this.postSaved = true;
-            setTimeout(() => this.postSaved = false, 2000);
-        }
-        else {
-            console.error("posts empty");
-            this.postSaved = false;
+            this.lineContainers[this.selectedLineContainerID].containers[this.selectedContainerID].postText = text;
         }
     }
 
-    // /** URL for upload server images */
-    // @Input() hostUpload: string;
-    //
-    // /** Uploaded images server folder */
-    // @Input() uploadFolder: string = "";
-
-
-    listOne: Array<string> = ['Coffee', 'Orange Juice', 'Red Wine', 'Unhealty drink!', 'Water'];
-
-    removeElem($event: any) {
-
+    constructor() {
+        this.availableComponents.push("Container");
     }
 
-    availableProducts: Array<Product> = [];
-    shoppingBasket: Array<Product> = [];
-
-    availableComponents: Array<Object> = [];
-    workAreaComponents: Array<Product> = [];
-    containers: Container[];
-    lineContainers: LineContainer[];
-    selectedContainer : Container;
-
-    constructor(formBuilder: FormBuilder) {
-        this.availableProducts.push(new Product("Blue Shoes", 3, 35));
-        this.availableProducts.push(new Product("Good Jacket", 1, 90));
-        this.availableProducts.push(new Product("Red Shirt", 5, 12));
-        this.availableProducts.push(new Product("Blue Jeans", 4, 60));
-
-        this.availableComponents.push(new Product("Container", 3, 35));
-        this.availableComponents.push(new Product("Item", 1, 90));
-        this.selectedProduct = new Product("Item", 1, 90);
-        this.selectedProduct.postText="";
-        this.containers=[];
-        this.containers.push(new Container('work col-md-1',1));
-        this.containers.push(new Container('work col-md-1',2));
-        this.containers.push(new Container('work col-md-1',3));
-        this.containers.push(new Container('work col-md-1',4));
-        this.selectedContainer=this.containers[0];
-
-        this.lineContainers=[];
-        this.lineContainers.push(new LineContainer(new Container('work col-md-1',1)));
-        this.lineContainers[0].containers=this.containers;
-
-        this._formBuilder = formBuilder;
-        this.savePostForm = this._formBuilder.group({})
-        let newProduct = new  Product('df',2,3);
-        newProduct.postText="wer";
-        this.workAreaComponents.push(newProduct);
+    addContainer(lineContainer: LineContainer) {
+        lineContainer.containers.push(new Container());
+        console.log("add container" + lineContainer);
     }
 
-    addToWorkArea(event: any,container: Container,lineContainer: LineContainer) {
-            this.availableComponents.pop();
-            this.availableComponents.push(new Product("Item", 1, 90));
-            if(event.dragData.name=="Item"){
-                let newProduct: Product = event.dragData;
-                newProduct.postText = "item" + this.counterItem++;
-                container.items.push(newProduct);
-                this.workAreaComponents.push(newProduct);
-            }
-            else {
-                if(this.containers.length!=12){
-                    lineContainer.containers.push(new Container('work col-md-1',4));
-                    console.log("add container");
-                }
-            }
-
-        console.log(lineContainer);
-
-    }
-
-    toConsole(event: any) {
-        console.log(event);
-    }
-
-    toSelectItem(product: Product) {
-        this.selectedProduct = product;
-        $('#summernote').summernote('code',product.postText);
-
-    }
-    toResizeContainer(event: any){
-        // console.log( $('#ex1').slider('getValue'));
-        // this.valueContainer= $('#ex1').slider('getValue');
-        // this.leftClassContainer="work col-md-"+this.valueContainer;
-        // this.rightClassContainer="work col-md-"+(12-this.valueContainer);
-        console.log(event.target.value);
-    }
-    totoggleShowResize(container: any){
-        container.showResize=!container.showResize;
-        this.showSlider=!this.showSlider;
-        this.selectedContainer=container;
-
-    }
-    addLineContainer(container: any){
-        console.log(container);
-        let lineContainer =  new LineContainer(new Container('work col-md-12',4));
-        console.log(lineContainer);
+    addLineContainer() {
+        let lineContainer = new LineContainer();
+        lineContainer.containers.push(new Container());
         this.lineContainers.push(lineContainer);
+        console.log("linecontainers");
         console.log(this.lineContainers);
+    }
 
+    toSelect(container: Container, lineContainer: LineContainer) {
+        this.selectedLineContainerID = this.lineContainers.indexOf(lineContainer);
+        this.selectedContainerID = this.lineContainers[this.selectedLineContainerID].containers.indexOf(container);
+    }
+
+    toSelectContainer(container: Container, lineContainer: LineContainer) {
+        this.toSelect(container, lineContainer);
+        $('#summernote').summernote('code', container.postText);
+    }
+
+    toIncreaseSize(container: Container, lineContainer: LineContainer) {
+        this.toSelect(container, lineContainer);
+        this.lineContainers[this.selectedLineContainerID].containers[this.selectedContainerID].toIncreaseSize();
+    }
+
+    toDecreaseSize(container: Container, lineContainer: LineContainer) {
+        this.toSelect(container, lineContainer);
+        this.lineContainers[this.selectedLineContainerID].containers[this.selectedContainerID].toDecreaseSize();
     }
 
 }

@@ -1,20 +1,24 @@
-import {Product} from "./product";
 /**
  * Created by Dima on 11.01.2017.
  */
 
-export class Container{
+export class Container {
 
-    classCss: string;
-    items: Product[];
-    id: number;
-    showResize: boolean;
+    size: number;
+    postText: string;
 
-    constructor(classCss : string,
-                  id : number){
-       this.classCss=classCss;
-       this.id=id;
-       this.items=[];
-       this.showResize=false;
+    constructor() {
+        this.size = 2;
+        this.postText = "213";
+    }
+    toIncreaseSize(){
+        if(this.size!=12){
+            this.size++;
+        }
+    }
+    toDecreaseSize(){
+        if(this.size!=1){
+            this.size--;
+        }
     }
 }
