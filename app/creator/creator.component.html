@@ -2,40 +2,12 @@
 
 
     <!--<div id="summernote">Hello Summernote</div>-->
-
-    <hr/>
-    <h4 (click)="toConsole()">Posted below: </h4>
-    <p value="dfdg"></p>
-
-    <div class="col-md-10" style="padding-left: 1px; padding-right: 1px; min-height: 600px;">
-        <div class="panel panel-default" style="min-height: inherit;">
-
-            <div class="panel-body dnd-placeholder" dnd-droppable (onDropSuccess)="addToWorkArea($event)"
-                 [dropZones]="['demo1']">
-                Workspace
-                <hr>
-
-                <div *ngFor="let product of workAreaComponents" style="border: 1px solid black;">
-                    <div *ngIf="product.name === 'Item'" data-toggle="modal" data-target="#create-modal"
-                         (click)="toSelectItem(product)" >
-                        <div  class="row col-md-offset-1" [innerHTML]="product.postText | escapeHtml"></div>
-                    </div>
-
-                </div>
-
-            </div>
-
-        </div>
-    </div>
-
-
     <div class="col-md-2" style="padding-left: 0; padding-right: 0; min-height: 600px;">
         <div class="panel panel-default" style="min-height: inherit;">
-
             <div dnd-droppable class="panel-body">
                 Components:
                 <hr>
-                <div *ngFor="let product of availableComponents" class="panel panel-default"
+                <div *ngFor="let product of availableComponents" class="panel panel-default "
                      dnd-draggable [dragEnabled] [dropZones]="['demo1']"
                      [dragData]="product">
                     <div class="panel-body">
@@ -43,11 +15,60 @@
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
 
+    <div class="col-md-10" style="padding-left: 1px; padding-right: 1px; min-height: 600px;">
+        <div class="panel panel-default" style="min-height: inherit;">
 
+            <div class="panel-body dnd-placeholder" dnd-droppable
+                 (onDropSuccess)="addLineContainer($event)"
+                 [dropZones]="['demo1']" >
+                Workspace
+                <div *ngIf="showSlider">
+                    <div class="row col-md-10">
+                        <input type="range" min="0" max="10" step="1" value="6">
+                    </div>
+                    <div clas="col-md-2-">fdg</div>
+                </div>
+                <div *ngFor="let lineContainer of lineContainers">
+
+                    <div class=" text-center" style="border: 1px solid black">
+                        <div style="border: 1px solid black">
+
+                            <div class="col-md-12 work">
+                                <div *ngFor="let container of lineContainer.containers" class="{{container.class}} dnd-placeholder"
+                                     style="border: 1px solid black"
+                                     dnd-droppable
+                                     (onDropSuccess)="addToWorkArea($event,container,lineContainer)"
+                                     [dropZones]="['demo1']">
+
+
+                                    <button (click)="totoggleShowResize(container)">click</button>
+                                    <div *ngIf="container.items.length==0">{{container.id}}</div>
+                                    <div *ngFor="let item of container.items" style="border: 1px solid black;">
+                                        <div *ngIf="item.name === 'Item'" data-toggle="modal"
+                                             data-target="#create-modal"
+                                             (click)="toSelectItem(item)">
+                                            <div class="row col-md-offset-1"
+                                                 [innerHTML]="item.postText | escapeHtml"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
 </div>
 
 
@@ -68,7 +89,7 @@
                     <h4>Post something with Summernote:</h4>
                     <div class="form-group">
                         <label>Post</label>
-                        <textarea id="summernote" class="form-control" rows="3" style="min-height: 600px;"></textarea>
+                        <textarea id="summernote" class="form-control" rows="10"> </textarea>
                     </div>
                 </div>
             </div>

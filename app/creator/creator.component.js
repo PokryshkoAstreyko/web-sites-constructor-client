@@ -11,10 +11,16 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require("@angular/core");
 var product_1 = require("./product");
 var forms_1 = require("@angular/forms");
+var container_1 = require("./container");
+var line_container_1 = require("./line.container");
 var CreatorComponent = (function () {
     function CreatorComponent(formBuilder) {
+        this.leftClassContainer = "col-md-1 work";
+        this.rightClassContainer = "col-md-1 work";
         this.postSaved = false;
-        this.counterItem = 1;
+        this.counterItem = 0;
+        this.valueContainer = 0;
+        this.showSlider = false;
         // /** URL for upload server images */
         // @Input() hostUpload: string;
         //
@@ -33,6 +39,15 @@ var CreatorComponent = (function () {
         this.availableComponents.push(new product_1.Product("Item", 1, 90));
         this.selectedProduct = new product_1.Product("Item", 1, 90);
         this.selectedProduct.postText = "";
+        this.containers = [];
+        this.containers.push(new container_1.Container('work col-md-1', 1));
+        this.containers.push(new container_1.Container('work col-md-1', 2));
+        this.containers.push(new container_1.Container('work col-md-1', 3));
+        this.containers.push(new container_1.Container('work col-md-1', 4));
+        this.selectedContainer = this.containers[0];
+        this.lineContainers = [];
+        this.lineContainers.push(new line_container_1.LineContainer(new container_1.Container('work col-md-1', 1)));
+        this.lineContainers[0].containers = this.containers;
         this._formBuilder = formBuilder;
         this.savePostForm = this._formBuilder.group({});
         var newProduct = new product_1.Product('df', 2, 3);
@@ -42,6 +57,12 @@ var CreatorComponent = (function () {
     CreatorComponent.prototype.ngOnInit = function () {
         // $ init summernote
         $('#summernote').summernote();
+    };
+    CreatorComponent.prototype.ngOnChanges = function () {
+        var args = [];
+        for (var _i = 0; _i < arguments.length; _i++) {
+            args[_i] = arguments[_i];
+        }
     };
     CreatorComponent.prototype.savePost = function (event) {
         var _this = this;
@@ -60,13 +81,22 @@ var CreatorComponent = (function () {
     };
     CreatorComponent.prototype.removeElem = function ($event) {
     };
-    CreatorComponent.prototype.addToWorkArea = function ($event) {
+    CreatorComponent.prototype.addToWorkArea = function (event, container, lineContainer) {
         this.availableComponents.pop();
         this.availableComponents.push(new product_1.Product("Item", 1, 90));
-        var newProduct = $event.dragData;
-        newProduct.postText = "item" + this.counterItem++;
-        this.workAreaComponents.push(newProduct);
-        console.log(this.workAreaComponents);
+        if (event.dragData.name == "Item") {
+            var newProduct = event.dragData;
+            newProduct.postText = "item" + this.counterItem++;
+            container.items.push(newProduct);
+            this.workAreaComponents.push(newProduct);
+        }
+        else {
+            if (this.containers.length != 12) {
+                lineContainer.containers.push(new container_1.Container('work col-md-1', 4));
+                console.log("add container");
+            }
+        }
+        console.log(lineContainer);
     };
     CreatorComponent.prototype.toConsole = function (event) {
         console.log(event);
@@ -75,9 +105,24 @@ var CreatorComponent = (function () {
         this.selectedProduct = product;
         $('#summernote').summernote('code', product.postText);
     };
-    CreatorComponent.prototype.toCreateSummer = function () {
+    CreatorComponent.prototype.toResizeContainer = function (event) {
+        // console.log( $('#ex1').slider('getValue'));
+        // this.valueContainer= $('#ex1').slider('getValue');
+        // this.leftClassContainer="work col-md-"+this.valueContainer;
+        // this.rightClassContainer="work col-md-"+(12-this.valueContainer);
+        console.log(event.target.value);
     };
-    CreatorComponent.prototype.replaceElements = function ($event) {
+    CreatorComponent.prototype.totoggleShowResize = function (container) {
+        container.showResize = !container.showResize;
+        this.showSlider = !this.showSlider;
+        this.selectedContainer = container;
+    };
+    CreatorComponent.prototype.addLineContainer = function (container) {
+        console.log(container);
+        var lineContainer = new line_container_1.LineContainer(new container_1.Container('work col-md-12', 4));
+        console.log(lineContainer);
+        this.lineContainers.push(lineContainer);
+        console.log(this.lineContainers);
     };
     return CreatorComponent;
 }());
@@ -85,6 +130,7 @@ CreatorComponent = __decorate([
     core_1.Component({
         moduleId: module.id,
         templateUrl: 'creator.component.html',
+        styleUrls: ['./creator.component.css']
     }),
     __metadata("design:paramtypes", [forms_1.FormBuilder])
 ], CreatorComponent);

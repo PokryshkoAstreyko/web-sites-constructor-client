@@ -1,9 +1,8 @@
-﻿import {NgModule, PipeTransform, Pipe}      from '@angular/core';
-import {BrowserModule, DomSanitizer} from '@angular/platform-browser';
-import {FormsModule, FormBuilder, ControlContainer}    from '@angular/forms';
+﻿import { NgModule, PipeTransform, Pipe }      from '@angular/core';
+import { BrowserModule, DomSanitizer } from '@angular/platform-browser';
+import { FormsModule, FormBuilder, ControlContainer }    from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
-// used to create fake backend
 import { AppComponent }  from './app.component';
 import { routing }        from './app.routing';
 
@@ -11,11 +10,12 @@ import { AuthGuard } from './_guards/index';
 import { AuthenticationService, UserService } from './_services/index';
 import { LoginComponent } from './login/index';
 import { HomeComponent } from './home/index';
-import { RegisterComponent } from "./signup/index";
+import { RegisterComponent } from "./register/index";
 import { NavbarComponent } from "./navbar/navbar.component";
 import { ProfileComponent } from "./profile/profile.component";
 import { DndModule } from "ng2-dnd";
 import { CreatorComponent } from "./creator/creator.component";
+import { UserPageComponent} from "./user.page/user.page.component";
 
 
 @Pipe({ name: 'escapeHtml', pure: false })
@@ -48,9 +48,8 @@ export class EscapeHtmlPipe implements PipeTransform {
         NavbarComponent,
         ProfileComponent,
         CreatorComponent,
-
-        EscapeHtmlPipe
-
+        EscapeHtmlPipe,
+        UserPageComponent
     ],
     providers: [
         AuthGuard,

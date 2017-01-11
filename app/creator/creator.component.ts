@@ -1,6 +1,8 @@
-import {Component, Input, OnInit} from "@angular/core";
+import {Component, Input, OnInit,OnChanges} from "@angular/core";
 import {Product} from "./product";
 import {FormBuilder, FormGroup} from "@angular/forms";
+import {Container} from "./container";
+import {LineContainer} from "./line.container";
 // import { Ng2Summernote } from 'ng2-summernote/ng2-summernote';
 
 declare var $: any;
@@ -8,22 +10,33 @@ declare var $: any;
 @Component({
     moduleId: module.id,
     templateUrl: 'creator.component.html',
+    styleUrls: ['./creator.component.css']
 
 })
 
 
+
 export class CreatorComponent implements OnInit {
     postText: string[];
-    errorMessage: string;
+    leftClassContainer: string="col-md-1 work";
+    rightClassContainer: string="col-md-1 work";
     postSaved: boolean = false;
-    counterItem: number = 1;
+    counterItem: number = 0;
     selectedProduct: Product;
-
+    valueContainer: number=0;
+    showSlider: boolean=false;
 
     ngOnInit() {
         // $ init summernote
         $('#summernote').summernote();
+
+
     }
+
+    ngOnChanges(...args: any[]) {
+
+    }
+
 
     private _formBuilder: FormBuilder;
     savePostForm: FormGroup;
@@ -64,6 +77,9 @@ export class CreatorComponent implements OnInit {
 
     availableComponents: Array<Object> = [];
     workAreaComponents: Array<Product> = [];
+    containers: Container[];
+    lineContainers: LineContainer[];
+    selectedContainer : Container;
 
     constructor(formBuilder: FormBuilder) {
         this.availableProducts.push(new Product("Blue Shoes", 3, 35));
@@ -75,6 +91,16 @@ export class CreatorComponent implements OnInit {
         this.availableComponents.push(new Product("Item", 1, 90));
         this.selectedProduct = new Product("Item", 1, 90);
         this.selectedProduct.postText="";
+        this.containers=[];
+        this.containers.push(new Container('work col-md-1',1));
+        this.containers.push(new Container('work col-md-1',2));
+        this.containers.push(new Container('work col-md-1',3));
+        this.containers.push(new Container('work col-md-1',4));
+        this.selectedContainer=this.containers[0];
+
+        this.lineContainers=[];
+        this.lineContainers.push(new LineContainer(new Container('work col-md-1',1)));
+        this.lineContainers[0].containers=this.containers;
 
         this._formBuilder = formBuilder;
         this.savePostForm = this._formBuilder.group({})
@@ -83,13 +109,24 @@ export class CreatorComponent implements OnInit {
         this.workAreaComponents.push(newProduct);
     }
 
-    addToWorkArea($event: any) {
-        this.availableComponents.pop();
-        this.availableComponents.push(new Product("Item", 1, 90));
-        let newProduct: Product = $event.dragData;
-        newProduct.postText = "item" + this.counterItem++;
-        this.workAreaComponents.push(newProduct);
-        console.log(this.workAreaComponents);
+    addToWorkArea(event: any,container: Container,lineContainer: LineContainer) {
+            this.availableComponents.pop();
+            this.availableComponents.push(new Product("Item", 1, 90));
+            if(event.dragData.name=="Item"){
+                let newProduct: Product = event.dragData;
+                newProduct.postText = "item" + this.counterItem++;
+                container.items.push(newProduct);
+                this.workAreaComponents.push(newProduct);
+            }
+            else {
+                if(this.containers.length!=12){
+                    lineContainer.containers.push(new Container('work col-md-1',4));
+                    console.log("add container");
+                }
+            }
+
+        console.log(lineContainer);
+
     }
 
     toConsole(event: any) {
@@ -101,12 +138,26 @@ export class CreatorComponent implements OnInit {
         $('#summernote').summernote('code',product.postText);
 
     }
-    toCreateSummer(){
+    toResizeContainer(event: any){
+        // console.log( $('#ex1').slider('getValue'));
+        // this.valueContainer= $('#ex1').slider('getValue');
+        // this.leftClassContainer="work col-md-"+this.valueContainer;
+        // this.rightClassContainer="work col-md-"+(12-this.valueContainer);
+        console.log(event.target.value);
+    }
+    totoggleShowResize(container: any){
+        container.showResize=!container.showResize;
+        this.showSlider=!this.showSlider;
+        this.selectedContainer=container;
 
     }
+    addLineContainer(container: any){
+        console.log(container);
+        let lineContainer =  new LineContainer(new Container('work col-md-12',4));
+        console.log(lineContainer);
+        this.lineContainers.push(lineContainer);
+        console.log(this.lineContainers);
 
-
-    replaceElements($event: any) {
     }
 
 }

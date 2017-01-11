@@ -12,18 +12,18 @@ var core_1 = require("@angular/core");
 var platform_browser_1 = require("@angular/platform-browser");
 var forms_1 = require("@angular/forms");
 var http_1 = require("@angular/http");
-// used to create fake backend
 var app_component_1 = require("./app.component");
 var app_routing_1 = require("./app.routing");
 var index_1 = require("./_guards/index");
 var index_2 = require("./_services/index");
 var index_3 = require("./login/index");
 var index_4 = require("./home/index");
-var index_5 = require("./signup/index");
+var index_5 = require("./register/index");
 var navbar_component_1 = require("./navbar/navbar.component");
 var profile_component_1 = require("./profile/profile.component");
 var ng2_dnd_1 = require("ng2-dnd");
 var creator_component_1 = require("./creator/creator.component");
+var user_page_component_1 = require("./user.page/user.page.component");
 var EscapeHtmlPipe = (function () {
     function EscapeHtmlPipe(sanitized) {
         this.sanitized = sanitized;
@@ -66,7 +66,8 @@ AppModule = __decorate([
             navbar_component_1.NavbarComponent,
             profile_component_1.ProfileComponent,
             creator_component_1.CreatorComponent,
-            EscapeHtmlPipe
+            EscapeHtmlPipe,
+            user_page_component_1.UserPageComponent
         ],
         providers: [
             index_1.AuthGuard,
