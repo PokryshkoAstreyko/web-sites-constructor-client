@@ -5,7 +5,7 @@ import {Container} from "./container";
 export class LineContainer{
 
     containers: Container[];
-    lenght: number=12;
+    length: number=12;
 
     constructor(container: Container){
         this.containers=[];

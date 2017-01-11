@@ -29,7 +29,7 @@
                     <div class="row col-md-10">
                         <input type="range" min="0" max="10" step="1" value="6">
                     </div>
-                    <div clas="col-md-2-">fdg</div>
+                    <div class="col-md-2-">fdg</div>
                 </div>
                 <div *ngFor="let lineContainer of lineContainers">
 
@@ -37,7 +37,7 @@
                         <div style="border: 1px solid black">
 
                             <div class="col-md-12 work">
-                                <div *ngFor="let container of lineContainer.containers" class="{{container.class}} dnd-placeholder"
+                                <div *ngFor="let container of lineContainer.containers" class="{{container.classCss}} dnd-placeholder"
                                      style="border: 1px solid black"
                                      dnd-droppable
                                      (onDropSuccess)="addToWorkArea($event,container,lineContainer)"

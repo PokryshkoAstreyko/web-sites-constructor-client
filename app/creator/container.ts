@@ -5,14 +5,14 @@ import {Product} from "./product";
 
 export class Container{
 
-    class: string;
+    classCss: string;
     items: Product[];
     id: number;
     showResize: boolean;
 
-    constructor(newclass : string,
+    constructor(classCss : string,
                   id : number){
-       this.class=newclass;
+       this.classCss=classCss;
        this.id=id;
        this.items=[];
        this.showResize=false;
