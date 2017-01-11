@@ -15,6 +15,8 @@ declare var $: any;
 
 export class CreatorComponent implements OnInit{
 
+    listOfPages : Array<string> = [];
+
     lineContainers: LineContainer[] = [];
     selectedContainerID: number = 0;
     selectedLineContainerID: number = 0;
@@ -35,6 +37,14 @@ export class CreatorComponent implements OnInit{
 
     constructor() {
         this.availableComponents.push("Container");
+    }
+
+    addPage(){
+        this.listOfPages.push("new page");
+    }
+
+    removePage(index : number){
+        this.listOfPages.splice(index, 1);
     }
 
     addContainer(lineContainer: LineContainer) {

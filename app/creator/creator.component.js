@@ -13,6 +13,7 @@ var container_1 = require("./container");
 var line_container_1 = require("./line.container");
 var CreatorComponent = (function () {
     function CreatorComponent() {
+        this.listOfPages = [];
         this.lineContainers = [];
         this.selectedContainerID = 0;
         this.selectedLineContainerID = 0;
@@ -29,6 +30,12 @@ var CreatorComponent = (function () {
         if (text != null && text != '') {
             this.lineContainers[this.selectedLineContainerID].containers[this.selectedContainerID].postText = text;
         }
+    };
+    CreatorComponent.prototype.addPage = function () {
+        this.listOfPages.push("new page");
+    };
+    CreatorComponent.prototype.removePage = function (index) {
+        this.listOfPages.splice(index, 1);
     };
     CreatorComponent.prototype.addContainer = function (lineContainer) {
         lineContainer.containers.push(new container_1.Container());

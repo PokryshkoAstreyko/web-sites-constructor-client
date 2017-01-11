@@ -1,5 +1,33 @@
-<div class="row" style="margin-top: 1%;">
+<div class="row">
+    <!--<div class="col-md-12" style="padding-right: 0; padding-left: 0;">-->
+    <div class="panel panel-default" style="min-height: inherit;">
+        <div class="panel-body">
+            Pages
+            <hr>
+            <ul class="list-inline" dnd-sortable-container [sortableData]="listOfPages">
+                <li>
+                    <button type="button" class="btn btn-success btn-sm" aria-label="Left Align" (click)="addPage();">
+                        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                    </button>
+                </li>
+                <li class="panel panel-default" *ngFor="let item of listOfPages; let i = index" dnd-sortable
+                    [sortableIndex]="i" style="margin-right: 1%;">
+                    <div class="panel-head">
+                        <span class="pull-right" style="color: grey" (click)="removePage(i);">x</span>
+                    </div>
+                    <div class="panel-body">
+                        <div>
+                            {{i+1}}){{item}}
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!--</div>-->
+</div>
 
+<div class="row" style="margin-top: 1%;">
     <div class="col-md-2" style="padding-left: 0; padding-right: 0; min-height: 600px;">
         <div class="panel panel-default" style="min-height: inherit;">
             <div dnd-droppable class="panel-body">
