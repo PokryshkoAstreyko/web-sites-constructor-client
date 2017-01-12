@@ -77,8 +77,7 @@ AppModule = __decorate([
             forms_1.ControlContainer
         ],
         bootstrap: [app_component_1.AppComponent]
-    }),
-    __metadata("design:paramtypes", [])
+    })
 ], AppModule);
 exports.AppModule = AppModule;
 //# sourceMappingURL=app.module.js.map

@@ -25,6 +25,7 @@
     <div class="panel panel-default" style="min-height: inherit;">
         <div class="panel-body">
             Pages
+
             <hr>
             <ul class="list-inline" dnd-sortable-container [sortableData]="listOfPages">
                 <li>
@@ -63,6 +64,11 @@
                         {{component}}
                     </div>
                 </div>
+                <div class="panel panel-default" data-toggle="modal" data-target="#view-modal" >
+                    <div class="panel-body">
+                        View
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -81,10 +87,10 @@
                     <div class="col-md-12 work" dnd-sortable-container [dropZones]="['boxers-zone']"
                          [sortableData]="lineContainer.containers">
                         <div class="row" style="height: 10px; padding: 0 3px">
-                            <a  data-toggle="modal"
-                                data-target="#delete-modal"
-                                (click)="SelectLineContainer(lineContainer)"
-                                style="float: right">
+                            <a data-toggle="modal"
+                               data-target="#delete-modal"
+                               (click)="SelectLineContainer(lineContainer)"
+                               style="float: right">
                                 <span class="fa fa-trash-o" style="color: #515151"></span>
                             </a>
                         </div>
@@ -96,22 +102,22 @@
                              dnd-draggable [dragEnabled] [dropZones]="['demo1']"
                              [dragData]="component"
                              style="border: 1px dotted skyblue; margin: 1px 0; border-radius: 6px;min-height: 50px;">
-                            <div style="border-bottom: 1px dotted skyblue; padding: 0 3px" >
+                            <div style="border-bottom: 1px dotted skyblue; padding: 0 3px">
                                 <a (click)="DecreaseSize(container,lineContainer)">
-                                <span class="fa fa-minus"></span>
+                                    <span class="fa fa-minus"></span>
                                 </a>
                                 <a (click)="IncreaseSize(container,lineContainer)">
-                                <span class="fa fa-plus"></span>
+                                    <span class="fa fa-plus"></span>
                                 </a>
                                 <a data-toggle="modal"
                                    data-target="#create-modal"
                                    (click)="EditContainer(container,lineContainer)">
-                                <span class="fa fa-edit"></span>
-                                </a >
-                                <a  data-toggle="modal"
-                                    data-target="#delete-modal"
-                                    (click)="Select(container,lineContainer)"
-                                        style="float: right">
+                                    <span class="fa fa-edit"></span>
+                                </a>
+                                <a data-toggle="modal"
+                                   data-target="#delete-modal"
+                                   (click)="Select(container,lineContainer)"
+                                   style="float: right">
                                     <span class="fa fa-trash-o"></span>
                                 </a>
                             </div>
@@ -176,3 +182,35 @@
         </div>
     </div>
 </div>
+
+
+<!--View Modal-->
+<div class="modal fade" id="view-modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel">
+    <div class="modal-dialog  " style="min-width: 1200px">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div>
+                    <h4 class="modal-title">
+                        View WebSite
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </h4>
+                </div>
+            </div>
+            <div class="modal-body">
+                <div col-md-12 class="panel-body">
+                    <div *ngFor="let lineContainer of lineContainers" class="row panel-body " >
+                        <div *ngFor="let container of lineContainer.containers" class="work col-md-{{container.size}} panel-body">
+                            <div [innerHTML]="container.postText | escapeHtml" style="padding: 2px"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Ok</button>
+            </div>
+        </div>
+    </div>
+</div>
+
