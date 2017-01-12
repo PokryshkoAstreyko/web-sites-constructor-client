@@ -14,6 +14,7 @@ var line_container_1 = require("./line.container");
 var CreatorComponent = (function () {
     function CreatorComponent() {
         this.listOfPages = [];
+        this.pageToEdit = 0;
         this.lineContainers = [];
         this.selectedContainerID = 0;
         this.selectedLineContainerID = 0;
@@ -31,8 +32,8 @@ var CreatorComponent = (function () {
             this.lineContainers[this.selectedLineContainerID].containers[this.selectedContainerID].postText = text;
         }
     };
-    CreatorComponent.prototype.addPage = function () {
-        this.listOfPages.push("new page");
+    CreatorComponent.prototype.addPage = function (title) {
+        this.listOfPages.push(title);
     };
     CreatorComponent.prototype.removePage = function (index) {
         this.listOfPages.splice(index, 1);
