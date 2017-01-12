@@ -9,7 +9,7 @@ export class Container {
 
     constructor() {
         this.size = 2;
-        this.postText = "213";
+        this.postText = "";
     }
     toIncreaseSize(){
         if(this.size!=12){

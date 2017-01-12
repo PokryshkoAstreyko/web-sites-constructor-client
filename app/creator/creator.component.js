@@ -19,7 +19,7 @@ var CreatorComponent = (function () {
         this.selectedContainerID = 0;
         this.selectedLineContainerID = 0;
         this.availableComponents = [];
-        this.f = 2;
+        this.deleteLineContainer = false;
         this.availableComponents.push("Container");
     }
     CreatorComponent.prototype.ngOnInit = function () {
@@ -38,7 +38,8 @@ var CreatorComponent = (function () {
     CreatorComponent.prototype.removePage = function (index) {
         this.listOfPages.splice(index, 1);
     };
-    CreatorComponent.prototype.addContainer = function (lineContainer) {
+    CreatorComponent.prototype.addContainer = function (event, lineContainer) {
+        console.log(event);
         lineContainer.containers.push(new container_1.Container());
         console.log("add container" + lineContainer);
     };
@@ -49,21 +50,34 @@ var CreatorComponent = (function () {
         console.log("linecontainers");
         console.log(this.lineContainers);
     };
-    CreatorComponent.prototype.toSelect = function (container, lineContainer) {
+    CreatorComponent.prototype.Select = function (container, lineContainer) {
         this.selectedLineContainerID = this.lineContainers.indexOf(lineContainer);
         this.selectedContainerID = this.lineContainers[this.selectedLineContainerID].containers.indexOf(container);
+        this.deleteLineContainer = false;
     };
-    CreatorComponent.prototype.toSelectContainer = function (container, lineContainer) {
-        this.toSelect(container, lineContainer);
+    CreatorComponent.prototype.SelectLineContainer = function (lineContainer) {
+        this.selectedLineContainerID = this.lineContainers.indexOf(lineContainer);
+        this.deleteLineContainer = true;
+    };
+    CreatorComponent.prototype.EditContainer = function (container, lineContainer) {
+        this.Select(container, lineContainer);
         $('#summernote').summernote('code', container.postText);
     };
-    CreatorComponent.prototype.toIncreaseSize = function (container, lineContainer) {
-        this.toSelect(container, lineContainer);
+    CreatorComponent.prototype.IncreaseSize = function (container, lineContainer) {
+        this.Select(container, lineContainer);
         this.lineContainers[this.selectedLineContainerID].containers[this.selectedContainerID].toIncreaseSize();
     };
-    CreatorComponent.prototype.toDecreaseSize = function (container, lineContainer) {
-        this.toSelect(container, lineContainer);
+    CreatorComponent.prototype.DecreaseSize = function (container, lineContainer) {
+        this.Select(container, lineContainer);
         this.lineContainers[this.selectedLineContainerID].containers[this.selectedContainerID].toDecreaseSize();
+    };
+    CreatorComponent.prototype.DeleteContainer = function () {
+        if (this.deleteLineContainer) {
+            this.lineContainers.splice(this.selectedLineContainerID, 1);
+        }
+        else {
+            this.lineContainers[this.selectedLineContainerID].containers.splice(this.selectedContainerID, 1);
+        }
     };
     return CreatorComponent;
 }());

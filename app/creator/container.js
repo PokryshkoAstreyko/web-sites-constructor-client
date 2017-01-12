@@ -5,7 +5,7 @@
 var Container = (function () {
     function Container() {
         this.size = 2;
-        this.postText = "213";
+        this.postText = "";
     }
     Container.prototype.toIncreaseSize = function () {
         if (this.size != 12) {

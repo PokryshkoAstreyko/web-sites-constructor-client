@@ -13,21 +13,22 @@ declare var $: any;
 
 })
 
-export class CreatorComponent implements OnInit{
+export class CreatorComponent implements OnInit {
 
-    listOfPages : Array<string> = [];
-    pageToEdit : number = 0;
+    listOfPages: Array<string> = [];
+    pageToEdit: number = 0;
 
     lineContainers: LineContainer[] = [];
     selectedContainerID: number = 0;
     selectedLineContainerID: number = 0;
     availableComponents: string[] = [];
-    f: number = 2;
+    deleteLineContainer: boolean = false;
 
 
     ngOnInit() {
         $('#summernote').summernote();
     }
+
     savePost() {
         let text = $('#summernote').summernote('code');
         console.log(text);
@@ -40,15 +41,16 @@ export class CreatorComponent implements OnInit{
         this.availableComponents.push("Container");
     }
 
-    addPage(title: string){
+    addPage(title: string) {
         this.listOfPages.push(title);
     }
 
-    removePage(index : number){
+    removePage(index: number) {
         this.listOfPages.splice(index, 1);
     }
 
-    addContainer(lineContainer: LineContainer) {
+    addContainer(event: any, lineContainer: LineContainer) {
+        console.log(event);
         lineContainer.containers.push(new Container());
         console.log("add container" + lineContainer);
     }
@@ -61,24 +63,41 @@ export class CreatorComponent implements OnInit{
         console.log(this.lineContainers);
     }
 
-    toSelect(container: Container, lineContainer: LineContainer) {
+    Select(container: Container, lineContainer: LineContainer) {
         this.selectedLineContainerID = this.lineContainers.indexOf(lineContainer);
         this.selectedContainerID = this.lineContainers[this.selectedLineContainerID].containers.indexOf(container);
+        this.deleteLineContainer = false;
     }
 
-    toSelectContainer(container: Container, lineContainer: LineContainer) {
-        this.toSelect(container, lineContainer);
+    SelectLineContainer(lineContainer: LineContainer) {
+        this.selectedLineContainerID = this.lineContainers.indexOf(lineContainer);
+        this.deleteLineContainer = true;
+    }
+
+    EditContainer(container: Container, lineContainer: LineContainer) {
+        this.Select(container, lineContainer);
         $('#summernote').summernote('code', container.postText);
     }
 
-    toIncreaseSize(container: Container, lineContainer: LineContainer) {
-        this.toSelect(container, lineContainer);
+    IncreaseSize(container: Container, lineContainer: LineContainer) {
+        this.Select(container, lineContainer);
         this.lineContainers[this.selectedLineContainerID].containers[this.selectedContainerID].toIncreaseSize();
     }
 
-    toDecreaseSize(container: Container, lineContainer: LineContainer) {
-        this.toSelect(container, lineContainer);
+    DecreaseSize(container: Container, lineContainer: LineContainer) {
+        this.Select(container, lineContainer);
         this.lineContainers[this.selectedLineContainerID].containers[this.selectedContainerID].toDecreaseSize();
+    }
+
+    DeleteContainer() {
+
+        if (this.deleteLineContainer) {
+            this.lineContainers.splice(this.selectedLineContainerID, 1);
+        }
+        else {
+            this.lineContainers[this.selectedLineContainerID].containers.splice(this.selectedContainerID, 1);
+        }
+
     }
 
 }

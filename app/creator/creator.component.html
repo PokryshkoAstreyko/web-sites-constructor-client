@@ -76,35 +76,46 @@
                 Workspace
 
                 <div *ngFor="let lineContainer of lineContainers" class="col-md-12 dnd-placeholder list-group-item"
-                     dnd-droppable (onDropSuccess)="addContainer(lineContainer)" [dropZones]="['demo1']"
-                     style="border: 1px dotted black">
+                     dnd-droppable (onDropSuccess)="addContainer($event,lineContainer)" [dropZones]="['demo1']"
+                     style="border: 1px dotted black; border-radius: 5px;min-height: 50px; padding-top: 0">
                     <div class="col-md-12 work" dnd-sortable-container [dropZones]="['boxers-zone']"
                          [sortableData]="lineContainer.containers">
+                        <div class="row" style="height: 10px; padding: 0 3px">
+                            <a  data-toggle="modal"
+                                data-target="#delete-modal"
+                                (click)="SelectLineContainer(lineContainer)"
+                                style="float: right">
+                                <span class="fa fa-trash-o" style="color: #515151"></span>
+                            </a>
+                        </div>
+
+
                         <div *ngFor="let container of lineContainer.containers; let i = index"
                              class="work col-md-{{container.size}} list-group-item panel-body" dnd-sortable
                              [sortableIndex]="i"
-                             style="border: 1px dotted skyblue">
-                            <a (click)="toDecreaseSize(container,lineContainer)">
-                                <span class="fa fa-minus">
-
-                            </span>
-                            </a>
-                            <a (click)="toIncreaseSize(container,lineContainer)">
-                                <span class="fa fa-plus">
-
-                            </span>
-                            </a>
-                            <a data-toggle="modal"
-                               data-target="#create-modal"
-                               (click)="toSelectContainer(container,lineContainer)">
-                                <span class="fa fa-edit">
-
-                            </span>
-                            </a>
-
-                            <div [innerHTML]="container.postText | escapeHtml">
+                             dnd-draggable [dragEnabled] [dropZones]="['demo1']"
+                             [dragData]="component"
+                             style="border: 1px dotted skyblue; margin: 1px 0; border-radius: 6px;min-height: 50px;">
+                            <div style="border-bottom: 1px dotted skyblue; padding: 0 3px" >
+                                <a (click)="DecreaseSize(container,lineContainer)">
+                                <span class="fa fa-minus"></span>
+                                </a>
+                                <a (click)="IncreaseSize(container,lineContainer)">
+                                <span class="fa fa-plus"></span>
+                                </a>
+                                <a data-toggle="modal"
+                                   data-target="#create-modal"
+                                   (click)="EditContainer(container,lineContainer)">
+                                <span class="fa fa-edit"></span>
+                                </a >
+                                <a  data-toggle="modal"
+                                    data-target="#delete-modal"
+                                    (click)="Select(container,lineContainer)"
+                                        style="float: right">
+                                    <span class="fa fa-trash-o"></span>
+                                </a>
                             </div>
-
+                            <div [innerHTML]="container.postText | escapeHtml" style="padding: 2px"></div>
                         </div>
                     </div>
 
@@ -140,3 +151,28 @@
     </div>
 </div>
 
+<!--Delete Modal-->
+<div class="modal fade" id="delete-modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel">
+    <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div>
+                    <h4 class="modal-title">
+                        Delete container
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </h4>
+                </div>
+            </div>
+            <div class="modal-body">
+                Do you want to remove this container?
+            </div>
+            <div class="modal-footer">
+                <button type="button" (click)="DeleteContainer()" class="btn btn-primary" data-dismiss="modal">Yes
+                </button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+            </div>
+        </div>
+    </div>
+</div>
