@@ -14,7 +14,7 @@
 #sticker{
     float: left;
     min-height: 400px;
-    width: 220px
+    width: 200px
 
 }
 #sticker-sticky-wrapper{
@@ -22,4 +22,9 @@
 }
 .sticky-wrapper{
     width: 220px;
+}
+
+.nav-pills>li.active>a, .nav-pills>li.active>a:hover, .nav-pills>li.active>a:focus {
+    color: #ffffff;
+    background-color: #149c82;
 }

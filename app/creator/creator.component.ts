@@ -71,7 +71,9 @@ export class CreatorComponent implements OnInit {
     }
 
     addPage(title: string) {
-        this.listOfPages.push(title);
+        // $('#PageModal').title = title;
+         this.listOfPages.push(title);
+
     }
 
     removePage(index: number) {

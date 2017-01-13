@@ -57,6 +57,7 @@ var CreatorComponent = (function () {
         }
     };
     CreatorComponent.prototype.addPage = function (title) {
+        // $('#PageModal').title = title;
         this.listOfPages.push(title);
     };
     CreatorComponent.prototype.removePage = function (index) {

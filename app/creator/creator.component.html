@@ -1,7 +1,6 @@
 <!-- Modal -->
 <div id="PageModal" class="modal fade" role="dialog">
     <div class="modal-dialog">
-
         <!-- Modal content-->
         <div class="modal-content">
             <div class="modal-header">
@@ -21,13 +20,9 @@
 </div>
 
 
-
-
-
-<div>
-
-    <div class="col-md-2" style=" padding: 0;margin-top: 3px; margin-right: 1px ;width: 220px">
-        <div id="sticker" class="panel panel-default" style="min-height: inherit; width: 220px">
+<div class="row">
+    <div class="col-md-2" style="padding: 0; margin-top: 3%; margin-right: 1px; margin-left: 10px; width: 200px; min-height: 600px;">
+        <div id="sticker" class="panel panel-default" style="min-height: inherit; width: 200px">
             <ul class="nav nav-tabs">
                 <li class=""><a href="#instruments" data-toggle="tab" aria-expanded="false">Instruments</a></li>
                 <li class="active"><a href="#pages" data-toggle="tab" aria-expanded="true">Pages</a></li>
@@ -35,8 +30,6 @@
             <div id="myTabContent" class="tab-content">
                 <div class="tab-pane fade" id="instruments">
                     <div dnd-droppable class="panel-body">
-                        Components:
-                        <hr>
                         <div *ngFor="let component of availableComponents" class="panel panel-default "
                              dnd-draggable [dragEnabled] [dropZones]="['demo1']"
                              [dragData]="component">
@@ -52,23 +45,67 @@
                     </div>
                 </div>
                 <div class="tab-pane fade active in" id="pages">
-                    <p>Food truck fixie locavore, accusamus mcsweeney's marfa nulla single-origin coffee squid. Exercitation +1
-                        labore velit, blog sartorial PBR leggings next level wes anderson artisan four loko farm-to-table craft beer
-                        twee. Qui photo booth letterpress, commodo enim craft beer mlkshk aliquip jean shorts ullamco ad vinyl
-                        cillum PBR. Homo nostrud organic, assumenda labore aesthetic magna delectus mollit.</p>
+                    <div dnd-sortable-container [sortableData]="listOfPages" class="panel-body">
+                        <div class="text-center" style="margin-bottom: 3%;">
+                            <button type="button" class="btn btn-success btn-sm" aria-label="Left Align" data-toggle="modal" data-target="#PageModal">
+                                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                            </button>
+                        </div>
+                        <div *ngFor="let page of listOfPages; let i = index" dnd-sortable
+                             [sortableIndex]="i" class="panel panel-default" data-toggle="modal" data-target="#PageModal">
+                            <div class="panel-head">
+                                <span class="pull-right" style="color: grey; padding-right: 6px;" (click)="removePage(i);">x</span>
+                            </div>
+                            <div class="panel-body">
+                                {{i+1}}{{page}}
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
 
-    <div class="col-md-10" style="padding: 1px;  margin-top: 3px; min-height: 600px;">
+    <div class="col-md-10" style="padding: 1px;  margin-top: 3%; min-height: 600px;">
         <div class="panel panel-default" style="min-height: inherit;">
-
             <div class="panel-body dnd-placeholder" dnd-droppable
                  (onDropSuccess)="addLineContainer($event)"
                  [dropZones]="['demo1']" style=" padding-bottom: 80px">
                 Workspace
+                <!-- Horizontal Menu of page -->
+                <!--<ul class="nav nav-tabs">-->
+                    <!--<li *ngFor="let page of listOfPages" [class]="setClassForNavTabs(page)">-->
+                        <!--<a [href]="'#' + replaceSpacesFromId(page)" data-toggle="tab" aria-expanded="true">{{page}}</a>-->
+                    <!--</li>-->
+                <!--</ul>-->
+                <!--<div id="horizontalTabContent" class="tab-content">-->
+                    <!--<div *ngFor="let page of listOfPages" [class]="setClassForTabContent(page)"-->
+                         <!--[id]="replaceSpacesFromId(page)">-->
+                        <!--{{page}}-->
+                    <!--</div>-->
+                <!--</div>-->
+                <!--  END of horizontal page menu-->
+
+
+                <!-- Vertical Menu of page -->
+                <div class="col-md-2">
+                    <ul class="nav nav-pills nav-stacked">
+                        <li *ngFor="let page of listOfPages" [class]="setClassForNavTabs(page)">
+                            <a data-toggle="pill" [href]="'#'+replaceSpacesFromId(page)">
+                                {{page}}
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div id="verticalTabContent" class="tab-content">
+                    <div *ngFor="let page of listOfPages" [class]="setClassForTabContent(page)"
+                         [id]="replaceSpacesFromId(page)">
+                        {{page}}
+                    </div>
+                </div>
+                <!--  END of vertical page menu-->
+
 
                 <div *ngFor="let lineContainer of lineContainers" class="col-md-12 dnd-placeholder list-group-item"
                      dnd-droppable (onDropSuccess)="addContainer($event,lineContainer)" [dropZones]="['demo1']"
@@ -90,7 +127,7 @@
                              [sortableIndex]="i"
                              dnd-draggable [dragEnabled] [dropZones]="['demo1']"
                              [dragData]="component"
-                             style="border: 1px dotted skyblue; margin: 1px 0; border-radius: 6px;min-height: 50px;">
+                             style="border: 1px dotted skyblue; margin: 1px 0; border-radius: 6px; min-height: 50px;">
                             <div style="border-bottom: 1px dotted skyblue; padding: 0 3px">
                                 <a (click)="DecreaseSize(container,lineContainer)">
                                     <span class="fa fa-minus"></span>
