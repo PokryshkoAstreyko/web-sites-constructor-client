@@ -13,7 +13,7 @@ var container_1 = require("./container");
 var line_container_1 = require("./line.container");
 var CreatorComponent = (function () {
     function CreatorComponent() {
-        this.listOfPages = [];
+        this.listOfPages = ['hui', 'pizda', 'djigurda'];
         this.pageToEdit = 0;
         this.lineContainers = [];
         this.selectedContainerID = 0;
@@ -22,6 +22,29 @@ var CreatorComponent = (function () {
         this.deleteLineContainer = false;
         this.availableComponents.push("Container");
     }
+    //Methods for nav tabs menu__________________
+    CreatorComponent.prototype.setAreaExpanded = function (page) {
+        if (this.listOfPages.indexOf(page) == 0) {
+            return "true";
+        }
+        return "false";
+    };
+    CreatorComponent.prototype.setClassForNavTabs = function (page) {
+        if (this.listOfPages.indexOf(page) == 0) {
+            return "active";
+        }
+        return " ";
+    };
+    CreatorComponent.prototype.setClassForTabContent = function (page) {
+        if (this.listOfPages.indexOf(page) == 0) {
+            return 'tab-pane fade active in';
+        }
+        return 'tab-pane fade';
+    };
+    CreatorComponent.prototype.replaceSpacesFromId = function (page) {
+        return page.replace(/\s/g, '');
+    };
+    //END of Methods for nav tabs menu__________________
     CreatorComponent.prototype.ngOnInit = function () {
         $('#summernote').summernote();
     };

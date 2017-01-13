@@ -9,16 +9,20 @@
                 <h4 class="modal-title">Enter page title</h4>
             </div>
             <div class="modal-body">
-                <input type="text" class="form-control" #title>
+                <input type="text" class="form-control" id="title" name="title" #title ([ngModel])="pageToEditId" required>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-success" data-dismiss="modal"
-                        (click)="addPage(title.value); title.value='';">Save
+                <button  type="button" class="btn btn-success" data-dismiss="modal"
+                (click)="addPage(title.value); title.value='';">Save
                 </button>
             </div>
         </div>
     </div>
 </div>
+
+
+
+
 
 <div class="row">
     <!--<div class="col-md-12" style="padding-right: 0; padding-left: 0;">-->
@@ -75,7 +79,18 @@
 
     <div class="col-md-10" style="padding-left: 1px; padding-right: 1px; min-height: 600px;">
         <div class="panel panel-default" style="min-height: inherit;">
-
+            <!-- Horizontal menu -->
+            <ul class="nav nav-tabs">
+                <li *ngFor="let page of listOfPages" [class]="setClassForNavTabs(page)">
+                    <a [href]="'#' + replaceSpacesFromId(page)" data-toggle="tab" aria-expanded="true">{{page}}</a>
+                </li>
+            </ul>
+            <div id="myTabContent" class="tab-content" >
+                <div *ngFor="let page of listOfPages" [class]="setClassForTabContent(page)" [id]="replaceSpacesFromId(page)" >
+                    {{page}}
+                </div>
+            </div>
+            <!-- END of horizontal menu -->
             <div class="panel-body dnd-placeholder" dnd-droppable
                  (onDropSuccess)="addLineContainer($event)"
                  [dropZones]="['demo1']">

@@ -15,14 +15,41 @@ declare var $: any;
 
 export class CreatorComponent implements OnInit {
 
-    listOfPages: Array<string> = [];
+
+    listOfPages: Array<string> = ['hui', 'pizda', 'djigurda'];
     pageToEdit: number = 0;
+
 
     lineContainers: LineContainer[] = [];
     selectedContainerID: number = 0;
     selectedLineContainerID: number = 0;
     availableComponents: string[] = [];
     deleteLineContainer: boolean = false;
+
+    //Methods for nav tabs menu__________________
+    setAreaExpanded(page: string){
+        if(this.listOfPages.indexOf(page) == 0){
+            return "true";
+        }
+        return "false";
+    }
+    setClassForNavTabs(page: string){
+        if(this.listOfPages.indexOf(page) == 0){
+            return "active";
+        }
+        return " ";
+
+    }
+    setClassForTabContent(page : string) {
+        if (this.listOfPages.indexOf(page) == 0) {
+            return 'tab-pane fade active in';
+        }
+        return 'tab-pane fade';
+    }
+    replaceSpacesFromId(page : string){
+        return page.replace(/\s/g,'');
+    }
+    //END of Methods for nav tabs menu__________________
 
 
     ngOnInit() {
