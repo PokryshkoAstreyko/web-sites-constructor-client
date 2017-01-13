@@ -47,6 +47,7 @@ var CreatorComponent = (function () {
     //END of Methods for nav tabs menu__________________
     CreatorComponent.prototype.ngOnInit = function () {
         $('#summernote').summernote();
+        $("#sticker").sticky({ topSpacing: 0 });
     };
     CreatorComponent.prototype.savePost = function () {
         var text = $('#summernote').summernote('code');
@@ -77,6 +78,7 @@ var CreatorComponent = (function () {
         this.selectedLineContainerID = this.lineContainers.indexOf(lineContainer);
         this.selectedContainerID = this.lineContainers[this.selectedLineContainerID].containers.indexOf(container);
         this.deleteLineContainer = false;
+        console.log(container.postText);
     };
     CreatorComponent.prototype.SelectLineContainer = function (lineContainer) {
         this.selectedLineContainerID = this.lineContainers.indexOf(lineContainer);
