@@ -2,6 +2,7 @@ import {Component, Input, OnInit, OnChanges} from "@angular/core";
 import {FormBuilder, FormGroup} from "@angular/forms";
 import {Container} from "./container";
 import {LineContainer} from "./line.container";
+import {Page} from "./page";
 // import { Ng2Summernote } from 'ng2-summernote/ng2-summernote';
 
 declare var $: any;
@@ -16,7 +17,7 @@ declare var $: any;
 export class CreatorComponent implements OnInit {
 
 
-    listOfPages: Array<string> = ['hui', 'pizda', 'djigurda'];
+    listOfPages: Page[]=[];
     pageToEdit: number = 0;
 
 
@@ -25,29 +26,33 @@ export class CreatorComponent implements OnInit {
     selectedLineContainerID: number = 0;
     availableComponents: string[] = [];
     deleteLineContainer: boolean = false;
+    constructor() {
+        this.availableComponents.push("Container");
+        this.listOfPages.push(new Page("Main"));
+    }
 
     //Methods for nav tabs menu__________________
-    setAreaExpanded(page: string){
+    setAreaExpanded(page: Page){
         if(this.listOfPages.indexOf(page) == 0){
             return "true";
         }
         return "false";
     }
-    setClassForNavTabs(page: string){
+    setClassForNavTabs(page: Page){
         if(this.listOfPages.indexOf(page) == 0){
             return "active";
         }
         return " ";
 
     }
-    setClassForTabContent(page : string) {
+    setClassForTabContent(page : Page) {
         if (this.listOfPages.indexOf(page) == 0) {
             return 'tab-pane fade active in';
         }
         return 'tab-pane fade';
     }
-    replaceSpacesFromId(page : string){
-        return page.replace(/\s/g,'');
+    replaceSpacesFromId(page : Page){
+        return page.name.replace(/\s/g,'');
     }
     //END of Methods for nav tabs menu__________________
 
@@ -66,14 +71,9 @@ export class CreatorComponent implements OnInit {
         }
     }
 
-    constructor() {
-        this.availableComponents.push("Container");
-    }
-
     addPage(title: string) {
         // $('#PageModal').title = title;
-         this.listOfPages.push(title);
-
+         this.listOfPages.push( new Page(title));
     }
 
     removePage(index: number) {

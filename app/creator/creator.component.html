@@ -57,7 +57,7 @@
                                 <span class="pull-right" style="color: grey; padding-right: 6px;" (click)="removePage(i);">x</span>
                             </div>
                             <div class="panel-body">
-                                {{i+1}}{{page}}
+                                {{page.name}}
                             </div>
                         </div>
                     </div>
@@ -93,7 +93,7 @@
                     <ul class="nav nav-pills nav-stacked">
                         <li *ngFor="let page of listOfPages" [class]="setClassForNavTabs(page)">
                             <a data-toggle="pill" [href]="'#'+replaceSpacesFromId(page)">
-                                {{page}}
+                                {{page.name}}
                             </a>
                         </li>
                     </ul>
@@ -101,7 +101,7 @@
                 <div id="verticalTabContent" class="tab-content">
                     <div *ngFor="let page of listOfPages" [class]="setClassForTabContent(page)"
                          [id]="replaceSpacesFromId(page)">
-                        {{page}}
+                        {{page.name}}
                     </div>
                 </div>
                 <!--  END of vertical page menu-->

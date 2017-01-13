@@ -11,9 +11,10 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require("@angular/core");
 var container_1 = require("./container");
 var line_container_1 = require("./line.container");
+var page_1 = require("./page");
 var CreatorComponent = (function () {
     function CreatorComponent() {
-        this.listOfPages = ['hui', 'pizda', 'djigurda'];
+        this.listOfPages = [];
         this.pageToEdit = 0;
         this.lineContainers = [];
         this.selectedContainerID = 0;
@@ -21,6 +22,7 @@ var CreatorComponent = (function () {
         this.availableComponents = [];
         this.deleteLineContainer = false;
         this.availableComponents.push("Container");
+        this.listOfPages.push(new page_1.Page("Main"));
     }
     //Methods for nav tabs menu__________________
     CreatorComponent.prototype.setAreaExpanded = function (page) {
@@ -42,7 +44,7 @@ var CreatorComponent = (function () {
         return 'tab-pane fade';
     };
     CreatorComponent.prototype.replaceSpacesFromId = function (page) {
-        return page.replace(/\s/g, '');
+        return page.name.replace(/\s/g, '');
     };
     //END of Methods for nav tabs menu__________________
     CreatorComponent.prototype.ngOnInit = function () {
@@ -58,7 +60,7 @@ var CreatorComponent = (function () {
     };
     CreatorComponent.prototype.addPage = function (title) {
         // $('#PageModal').title = title;
-        this.listOfPages.push(title);
+        this.listOfPages.push(new page_1.Page(title));
     };
     CreatorComponent.prototype.removePage = function (index) {
         this.listOfPages.splice(index, 1);
