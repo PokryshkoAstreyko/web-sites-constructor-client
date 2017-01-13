@@ -1,4 +1,5 @@
 .debug-menu{
+    position: fixed;
 }
 .work{
     padding: 0;
@@ -6,4 +7,19 @@
 }
 #ex1Slider .slider-selection {
     background: #BABABA;
+}
+.container-fluid{
+    padding-left: 0; padding-right: 0;
+}
+#sticker{
+    float: left;
+    min-height: 400px;
+    width: 220px
+
+}
+#sticker-sticky-wrapper{
+    width: 220px;
+}
+.sticky-wrapper{
+    width: 220px;
 }

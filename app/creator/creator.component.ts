@@ -27,6 +27,8 @@ export class CreatorComponent implements OnInit {
 
     ngOnInit() {
         $('#summernote').summernote();
+        $("#sticker").sticky({ topSpacing: 0 });
+
     }
 
     savePost() {
@@ -67,6 +69,7 @@ export class CreatorComponent implements OnInit {
         this.selectedLineContainerID = this.lineContainers.indexOf(lineContainer);
         this.selectedContainerID = this.lineContainers[this.selectedLineContainerID].containers.indexOf(container);
         this.deleteLineContainer = false;
+        console.log(container.postText);
     }
 
     SelectLineContainer(lineContainer: LineContainer) {
