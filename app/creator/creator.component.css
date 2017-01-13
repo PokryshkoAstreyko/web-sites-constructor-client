@@ -13,18 +13,32 @@
 }
 #sticker{
     float: left;
-    min-height: 400px;
-    width: 200px
+}
 
-}
-#sticker-sticky-wrapper{
-    width: 220px;
-}
-.sticky-wrapper{
-    width: 220px;
-}
 
 .nav-pills>li.active>a, .nav-pills>li.active>a:hover, .nav-pills>li.active>a:focus {
     color: #ffffff;
     background-color: #149c82;
+}
+
+
+.two ul {
+    background: #D4E7EE;
+    overflow: hidden;
+    padding: 0;
+}
+.two li {
+    float: left;
+}
+.two a {
+    display: block;
+    padding: 1em;
+    border-right: 1px solid #ADC0CE;
+    background: rgba(173, 192, 206, .3);
+    color: #29838C;
+}
+.two a:hover {background: #ADC0CE}
+
+.a{
+    text-decoration: none;
 }

@@ -15,7 +15,7 @@ var page_1 = require("./page");
 var CreatorComponent = (function () {
     function CreatorComponent() {
         this.listOfPages = [];
-        this.pageToEdit = 0;
+        this.page = 0;
         this.lineContainers = [];
         this.selectedContainerID = 0;
         this.selectedLineContainerID = 0;
@@ -38,12 +38,14 @@ var CreatorComponent = (function () {
         return " ";
     };
     CreatorComponent.prototype.setClassForTabContent = function (page) {
+        console.log(page);
         if (this.listOfPages.indexOf(page) == 0) {
             return 'tab-pane fade active in';
         }
         return 'tab-pane fade';
     };
     CreatorComponent.prototype.replaceSpacesFromId = function (page) {
+        console.log(page);
         return page.name.replace(/\s/g, '');
     };
     //END of Methods for nav tabs menu__________________

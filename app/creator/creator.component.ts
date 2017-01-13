@@ -18,7 +18,7 @@ export class CreatorComponent implements OnInit {
 
 
     listOfPages: Page[]=[];
-    pageToEdit: number = 0;
+    page: number = 0;
 
 
     lineContainers: LineContainer[] = [];
@@ -39,6 +39,7 @@ export class CreatorComponent implements OnInit {
         return "false";
     }
     setClassForNavTabs(page: Page){
+
         if(this.listOfPages.indexOf(page) == 0){
             return "active";
         }
@@ -46,12 +47,14 @@ export class CreatorComponent implements OnInit {
 
     }
     setClassForTabContent(page : Page) {
+        console.log(page);
         if (this.listOfPages.indexOf(page) == 0) {
             return 'tab-pane fade active in';
         }
         return 'tab-pane fade';
     }
     replaceSpacesFromId(page : Page){
+        console.log(page);
         return page.name.replace(/\s/g,'');
     }
     //END of Methods for nav tabs menu__________________

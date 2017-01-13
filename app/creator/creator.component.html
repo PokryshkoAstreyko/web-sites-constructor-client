@@ -19,145 +19,157 @@
     </div>
 </div>
 
+<div class="row" style="margin-top: 4px">
+    <div class="col-md-2" style="padding: 0">
+        <div id="sticker" class="col-md-12"
+             style="padding: 0; margin-right: 1px; margin-left: 10px; min-height: 600px;">
+            <div class=" panel panel-success " style="min-height: inherit;">
+                    <ul class="nav nav-tabs ">
+                        <li class=""><a href="#instruments" data-toggle="tab" aria-expanded="false">Instruments</a></li>
+                        <li class="active"><a href="#pages" data-toggle="tab" aria-expanded="true">Pages</a></li>
+                    </ul>
+                    <div id="myTabContent" class="tab-content">
+                        <div class="tab-pane fade" id="instruments">
+                            <div dnd-droppable class="panel-body">
+                                <div *ngFor="let component of availableComponents" class="panel panel-default "
+                                     dnd-draggable [dragEnabled] [dropZones]="['demo1']"
+                                     [dragData]="component">
+                                    <div class="panel-body">
+                                        {{component}}
+                                    </div>
+                                </div>
+                                <div class="panel panel-default" data-toggle="modal" data-target="#view-modal">
+                                    <div class="panel-body">
+                                        View
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade active in" id="pages">
+                            <div dnd-sortable-container [sortableData]="listOfPages" class="panel-body">
+                                <div class="text-center" style="margin-bottom: 3%;">
+                                    <button type="button" class="btn btn-success btn-sm" aria-label="Left Align"
+                                            data-toggle="modal"
+                                            data-target="#PageModal">
+                                        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
 
-<div class="row">
-    <div class="col-md-2" style="padding: 0; margin-top: 3%; margin-right: 1px; margin-left: 10px; width: 200px; min-height: 600px;">
-        <div id="sticker" class="panel panel-default" style="min-height: inherit; width: 200px">
-            <ul class="nav nav-tabs">
-                <li class=""><a href="#instruments" data-toggle="tab" aria-expanded="false">Instruments</a></li>
-                <li class="active"><a href="#pages" data-toggle="tab" aria-expanded="true">Pages</a></li>
-            </ul>
-            <div id="myTabContent" class="tab-content">
-                <div class="tab-pane fade" id="instruments">
-                    <div dnd-droppable class="panel-body">
-                        <div *ngFor="let component of availableComponents" class="panel panel-default "
-                             dnd-draggable [dragEnabled] [dropZones]="['demo1']"
-                             [dragData]="component">
-                            <div class="panel-body">
-                                {{component}}
-                            </div>
-                        </div>
-                        <div class="panel panel-default" data-toggle="modal" data-target="#view-modal">
-                            <div class="panel-body">
-                                View
+                                    </button>
+                                </div>
+                                <div *ngFor="let page of listOfPages; let i = index" dnd-sortable
+                                     [sortableIndex]="i" class="panel panel-default">
+                                    <div class="panel-head">
+                            <span class="pull-right" style="color: grey; padding-right: 6px;"
+                                  (click)="removePage(i);">x</span>
+                                    </div>
+                                    <div class="panel-body">
+                                        {{page.name}}
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="tab-pane fade active in" id="pages">
-                    <div dnd-sortable-container [sortableData]="listOfPages" class="panel-body">
-                        <div class="text-center" style="margin-bottom: 3%;">
-                            <button type="button" class="btn btn-success btn-sm" aria-label="Left Align" data-toggle="modal" data-target="#PageModal">
-                                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-                            </button>
-                        </div>
-                        <div *ngFor="let page of listOfPages; let i = index" dnd-sortable
-                             [sortableIndex]="i" class="panel panel-default" data-toggle="modal" data-target="#PageModal">
-                            <div class="panel-head">
-                                <span class="pull-right" style="color: grey; padding-right: 6px;" (click)="removePage(i);">x</span>
-                            </div>
-                            <div class="panel-body">
-                                {{page.name}}
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
     </div>
-
-
-    <div class="col-md-10" style="padding: 1px;  margin-top: 3%; min-height: 600px;">
-        <div class="panel panel-default" style="min-height: inherit;">
-            <div class="panel-body dnd-placeholder" dnd-droppable
-                 (onDropSuccess)="addLineContainer($event)"
-                 [dropZones]="['demo1']" style=" padding-bottom: 80px">
-                Workspace
-                <!-- Horizontal Menu of page -->
-                <!--<ul class="nav nav-tabs">-->
-                    <!--<li *ngFor="let page of listOfPages" [class]="setClassForNavTabs(page)">-->
-                        <!--<a [href]="'#' + replaceSpacesFromId(page)" data-toggle="tab" aria-expanded="true">{{page}}</a>-->
-                    <!--</li>-->
-                <!--</ul>-->
-                <!--<div id="horizontalTabContent" class="tab-content">-->
-                    <!--<div *ngFor="let page of listOfPages" [class]="setClassForTabContent(page)"-->
-                         <!--[id]="replaceSpacesFromId(page)">-->
-                        <!--{{page}}-->
-                    <!--</div>-->
-                <!--</div>-->
-                <!--  END of horizontal page menu-->
-
-
-                <!-- Vertical Menu of page -->
-                <div class="col-md-2">
-                    <ul class="nav nav-pills nav-stacked">
-                        <li *ngFor="let page of listOfPages" [class]="setClassForNavTabs(page)">
-                            <a data-toggle="pill" [href]="'#'+replaceSpacesFromId(page)">
-                                {{page.name}}
-                            </a>
-                        </li>
-                    </ul>
+    <div class="col-md-10" style="padding: 0">
+        <div class="col-md-12" style="min-height: 600px;">
+            <div class="panel panel-success" style="min-height: inherit;">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        Workspace
+                    </h3>
                 </div>
-                <div id="verticalTabContent" class="tab-content">
-                    <div *ngFor="let page of listOfPages" [class]="setClassForTabContent(page)"
-                         [id]="replaceSpacesFromId(page)">
-                        {{page.name}}
-                    </div>
-                </div>
-                <!--  END of vertical page menu-->
+
+                <div class="panel-body dnd-placeholder" dnd-droppable
+                     (onDropSuccess)="addLineContainer($event)"
+                     [dropZones]="['demo1']" style=" padding-bottom: 80px">
 
 
-                <div *ngFor="let lineContainer of lineContainers" class="col-md-12 dnd-placeholder list-group-item"
-                     dnd-droppable (onDropSuccess)="addContainer($event,lineContainer)" [dropZones]="['demo1']"
-                     style="border: 1px dotted black; border-radius: 5px;min-height: 50px; padding-top: 0;">
-                    <div class="col-md-12 work" dnd-sortable-container [dropZones]="['boxers-zone']"
-                         [sortableData]="lineContainer.containers">
-                        <div class="row" style="height: 10px; padding: 0 3px">
-                            <a data-toggle="modal"
-                               data-target="#delete-modal"
-                               (click)="SelectLineContainer(lineContainer)"
-                               style="float: right">
-                                <span class="fa fa-trash-o" style="color: #515151"></span>
-                            </a>
+                    <nav class=" row navbar navbar-default" style="margin: 0">
+                        <div class="container-fluid">
+                            <div class="navbar-header" style="padding-left: 15px">
+
+                            </div>
+
+                            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                                <ul class="nav navbar-nav" style="padding-left: 20px; display: inline">
+                                    <a class="navbar-brand" style="padding-right: 40px" href="">Title Site</a>
+                                    <li *ngFor="let page of listOfPages" href=""><a>{{page.name}}</a></li>
+                                </ul>
+                            </div>
                         </div>
+                    </nav><!-- Horizontal Menu of page -->
+                    <!--<ul class="nav nav-tabs">-->
+                    <!--<li *ngFor="let page of listOfPages" [class]="setClassForNavTabs(page)">-->
+                    <!--<a [href]="'#' + replaceSpacesFromId(page)" data-toggle="tab" aria-expanded="true">{{page}}</a>-->
+                    <!--</li>-->
+                    <!--</ul>-->
+                    <!--<div id="horizontalTabContent" class="tab-content">-->
+                    <!--<div *ngFor="let page of listOfPages" [class]="setClassForTabContent(page)"-->
+                    <!--[id]="replaceSpacesFromId(page)">-->
+                    <!--{{page}}-->
+                    <!--</div>-->
+                    <!--</div>-->
+                    <!--  END of horizontal page menu-->
 
 
-                        <div *ngFor="let container of lineContainer.containers; let i = index"
-                             class="work col-md-{{container.size}} list-group-item panel-body" dnd-sortable
-                             [sortableIndex]="i"
-                             dnd-draggable [dragEnabled] [dropZones]="['demo1']"
-                             [dragData]="component"
-                             style="border: 1px dotted skyblue; margin: 1px 0; border-radius: 6px; min-height: 50px;">
-                            <div style="border-bottom: 1px dotted skyblue; padding: 0 3px">
-                                <a (click)="DecreaseSize(container,lineContainer)">
-                                    <span class="fa fa-minus"></span>
-                                </a>
-                                <a (click)="IncreaseSize(container,lineContainer)">
-                                    <span class="fa fa-plus"></span>
-                                </a>
-                                <a data-toggle="modal"
-                                   data-target="#create-modal"
-                                   (click)="EditContainer(container,lineContainer)">
-                                    <span class="fa fa-edit"></span>
-                                </a>
+                    <!-- Vertical Menu of page -->
+
+                    <!--  END of vertical page menu-->
+
+
+                    <div *ngFor="let lineContainer of lineContainers" class="col-md-12 dnd-placeholder list-group-item"
+                         dnd-droppable (onDropSuccess)="addContainer($event,lineContainer)" [dropZones]="['demo1']"
+                         style="border: 1px dotted black; border-radius: 5px;min-height: 50px; padding-top: 0;"
+                         #workSpace>
+                        <div class="col-md-12 work" dnd-sortable-container [dropZones]="['boxers-zone']"
+                             [sortableData]="lineContainer.containers">
+                            <div class="row" style="height: 10px; padding: 0 3px">
                                 <a data-toggle="modal"
                                    data-target="#delete-modal"
-                                   (click)="Select(container,lineContainer)"
+                                   (click)="SelectLineContainer(lineContainer)"
                                    style="float: right">
-                                    <span class="fa fa-trash-o"></span>
+                                    <span class="fa fa-trash-o" style="color: #515151"></span>
                                 </a>
                             </div>
-                            <div [innerHTML]="container.postText | escapeHtml" style="padding: 2px"></div>
-                        </div>
-                    </div>
 
+
+                            <div *ngFor="let container of lineContainer.containers; let i = index"
+                                 class="work col-md-{{container.size}} list-group-item panel-body" dnd-sortable
+                                 [sortableIndex]="i"
+                                 dnd-draggable [dragEnabled] [dropZones]="['demo1']"
+                                 [dragData]="component"
+                                 style="border: 1px dotted skyblue; margin: 1px 0; border-radius: 6px; min-height: 50px;">
+                                <div style="border-bottom: 1px dotted skyblue; padding: 0 3px">
+                                    <a (click)="DecreaseSize(container,lineContainer)">
+                                        <span class="fa fa-minus"></span>
+                                    </a>
+                                    <a (click)="IncreaseSize(container,lineContainer)">
+                                        <span class="fa fa-plus"></span>
+                                    </a>
+                                    <a data-toggle="modal"
+                                       data-target="#create-modal"
+                                       (click)="EditContainer(container,lineContainer)">
+                                        <span class="fa fa-edit"></span>
+                                    </a>
+                                    <a data-toggle="modal"
+                                       data-target="#delete-modal"
+                                       (click)="Select(container,lineContainer)"
+                                       style="float: right">
+                                        <span class="fa fa-trash-o"></span>
+                                    </a>
+                                </div>
+                                <div [innerHTML]="container.postText | escapeHtml" style="padding: 2px"></div>
+                            </div>
+                        </div>
+
+                    </div>
                 </div>
             </div>
         </div>
+
     </div>
 </div>
-
-
 <!--Summernote Modal-->
 <div class="modal fade" id="create-modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel">
     <div class="modal-dialog modal-lg" role="document">
