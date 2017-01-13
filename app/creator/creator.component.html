@@ -20,32 +20,50 @@
     </div>
 </div>
 
-<div  >
 
-    <div class="col-md-2"   style=" padding: 0;margin-top: 3px; margin-right: 1px ;width: 220px">
+
+
+
+<div>
+
+    <div class="col-md-2" style=" padding: 0;margin-top: 3px; margin-right: 1px ;width: 220px">
         <div id="sticker" class="panel panel-default" style="min-height: inherit; width: 220px">
-            <div dnd-droppable class="panel-body">
-                Components:
-                <hr>
-                <div *ngFor="let component of availableComponents" class="panel panel-default "
-                     dnd-draggable [dragEnabled] [dropZones]="['demo1']"
-                     [dragData]="component">
-                    <div class="panel-body">
-                        {{component}}
+            <ul class="nav nav-tabs">
+                <li class=""><a href="#instruments" data-toggle="tab" aria-expanded="false">Instruments</a></li>
+                <li class="active"><a href="#pages" data-toggle="tab" aria-expanded="true">Pages</a></li>
+            </ul>
+            <div id="myTabContent" class="tab-content">
+                <div class="tab-pane fade" id="instruments">
+                    <div dnd-droppable class="panel-body">
+                        Components:
+                        <hr>
+                        <div *ngFor="let component of availableComponents" class="panel panel-default "
+                             dnd-draggable [dragEnabled] [dropZones]="['demo1']"
+                             [dragData]="component">
+                            <div class="panel-body">
+                                {{component}}
+                            </div>
+                        </div>
+                        <div class="panel panel-default" data-toggle="modal" data-target="#view-modal">
+                            <div class="panel-body">
+                                View
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="panel panel-default" data-toggle="modal" data-target="#view-modal">
-                    <div class="panel-body">
-                        View
-                    </div>
+                <div class="tab-pane fade active in" id="pages">
+                    <p>Food truck fixie locavore, accusamus mcsweeney's marfa nulla single-origin coffee squid. Exercitation +1
+                        labore velit, blog sartorial PBR leggings next level wes anderson artisan four loko farm-to-table craft beer
+                        twee. Qui photo booth letterpress, commodo enim craft beer mlkshk aliquip jean shorts ullamco ad vinyl
+                        cillum PBR. Homo nostrud organic, assumenda labore aesthetic magna delectus mollit.</p>
                 </div>
             </div>
         </div>
     </div>
 
 
-    <div  class="col-md-10" style="padding: 1px;  margin-top: 3px; min-height: 600px;">
-        <div class="panel panel-default" style="min-height: inherit;" >
+    <div class="col-md-10" style="padding: 1px;  margin-top: 3px; min-height: 600px;">
+        <div class="panel panel-default" style="min-height: inherit;">
 
             <div class="panel-body dnd-placeholder" dnd-droppable
                  (onDropSuccess)="addLineContainer($event)"
