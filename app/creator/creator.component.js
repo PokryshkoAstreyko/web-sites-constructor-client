@@ -15,6 +15,7 @@ var page_1 = require("./page");
 var CreatorComponent = (function () {
     function CreatorComponent() {
         this.listOfPages = [];
+        this.deletedPageID = 0;
         this.lineContainers = [];
         this.selectedContainerID = 0;
         this.selectedLineContainerID = 0;
@@ -42,15 +43,15 @@ var CreatorComponent = (function () {
             this.selectedPage = this.listOfPages[0];
         }
     };
-    CreatorComponent.prototype.removePage = function (index) {
-        if (this.listOfPages.length > 1) {
-            this.selectedPage = this.listOfPages[0];
-        }
-        else {
+    CreatorComponent.prototype.removePage = function () {
+        this.listOfPages.splice(this.deletedPageID, 1);
+        this.selectedPage = this.listOfPages[0];
+        if (this.listOfPages.length == 0) {
             this.selectedPage = new page_1.Page("");
-            console.log(this.selectedPage);
         }
-        this.listOfPages.splice(index, 1);
+    };
+    CreatorComponent.prototype.selectDeletePageID = function (page) {
+        this.deletedPageID = page;
     };
     // openPageModal(){
     //     $('#PageModal').modal('toggle');
