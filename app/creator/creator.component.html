@@ -48,15 +48,16 @@
                     <div class="tab-pane fade active in" id="pages">
                         <div dnd-sortable-container [sortableData]="listOfPages" class="panel-body">
                             <div class="text-center" style="margin-bottom: 3%;">
-                                <button type="button" class="btn btn-success btn-sm" aria-label="Left Align"
+                                <button type="button" class="btn btn-success btn-sm"
                                         data-toggle="modal"
                                         data-target="#PageModal">
                                     <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                                    Add Page
 
                                 </button>
                             </div>
                             <div *ngFor="let page of listOfPages; let i = index" dnd-sortable
-                                 [sortableIndex]="i" class="panel panel-default">
+                                 [sortableIndex]="i" class="panel panel-default" (click)="selectPage(page)">
                                 <div class="panel-head">
                             <span class="pull-right" style="color: grey; padding-right: 6px;"
                                   (click)="removePage(i);">x</span>
@@ -95,9 +96,10 @@
                                 <span class="icon-bar"></span>
                             </button>
                             <a class="navbar-brand" href="" style="margin-right: 20px">Title Site</a>
-                                <ul class="nav navbar-nav navbar-right" style="padding-top: 4px; margin-left: 50px">
-                                    <li style="float: left" *ngFor="let page of listOfPages" href=""><a>{{page.name}}</a></li>
-                                </ul>
+                            <ul class="nav navbar-nav navbar-right" style="padding-top: 4px; margin-left: 50px">
+                                <li style="float: left" *ngFor="let page of listOfPages" href=""><a>{{page.name}}</a>
+                                </li>
+                            </ul>
                             <div class="collapse navbar-collapse" id="navbar-collapse-4">
                                 <ul class="nav navbar-nav navbar-right">
                                     <li style="padding-left: 0" *ngFor="let page of listOfPages" href=""><a>{{page.name}}</a>
@@ -106,7 +108,10 @@
                             </div>
                         </div>
                     </nav>
-                    <div *ngFor="let lineContainer of lineContainers" class="col-md-12 dnd-placeholder list-group-item"
+
+
+                    <div *ngFor="let lineContainer of selectedPage.lineContainers"
+                         class="col-md-12 dnd-placeholder list-group-item"
                          dnd-droppable (onDropSuccess)="addContainer($event,lineContainer)" [dropZones]="['demo1']"
                          style="border: 1px dotted black; border-radius: 5px;min-height: 50px; padding-top: 0;"
                          #workSpace>
@@ -227,7 +232,7 @@
             </div>
             <div class="modal-body">
                 <div col-md-12 class="panel-body">
-                    <div *ngFor="let lineContainer of lineContainers" class="row panel-body ">
+                    <div *ngFor="let lineContainer of selectedPage.lineContainers" class="row panel-body ">
                         <div *ngFor="let container of lineContainer.containers"
                              class="work col-md-{{container.size}} panel-body">
                             <div [innerHTML]="container.postText | escapeHtml" style="padding: 2px"></div>

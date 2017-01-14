@@ -18,7 +18,7 @@ export class CreatorComponent implements OnInit {
 
 
     listOfPages: Page[]=[];
-    page: number = 0;
+    selectedPage: Page;
 
 
     lineContainers: LineContainer[] = [];
@@ -29,36 +29,8 @@ export class CreatorComponent implements OnInit {
     constructor() {
         this.availableComponents.push("Container");
         this.listOfPages.push(new Page("Main"));
+        this.selectedPage=this.listOfPages[0];
     }
-
-    //Methods for nav tabs menu__________________
-    setAreaExpanded(page: Page){
-        if(this.listOfPages.indexOf(page) == 0){
-            return "true";
-        }
-        return "false";
-    }
-    setClassForNavTabs(page: Page){
-
-        if(this.listOfPages.indexOf(page) == 0){
-            return "active";
-        }
-        return " ";
-
-    }
-    setClassForTabContent(page : Page) {
-        console.log(page);
-        if (this.listOfPages.indexOf(page) == 0) {
-            return 'tab-pane fade active in';
-        }
-        return 'tab-pane fade';
-    }
-    replaceSpacesFromId(page : Page){
-        console.log(page);
-        return page.name.replace(/\s/g,'');
-    }
-    //END of Methods for nav tabs menu__________________
-
 
     ngOnInit() {
         $('#summernote').summernote();
@@ -70,7 +42,7 @@ export class CreatorComponent implements OnInit {
         let text = $('#summernote').summernote('code');
         console.log(text);
         if (text != null && text != '') {
-            this.lineContainers[this.selectedLineContainerID].containers[this.selectedContainerID].postText = text;
+            this.selectedPage.lineContainers[this.selectedLineContainerID].containers[this.selectedContainerID].postText = text;
         }
     }
 
@@ -80,6 +52,14 @@ export class CreatorComponent implements OnInit {
     }
 
     removePage(index: number) {
+
+        if(this.listOfPages.length>1){
+            this.selectedPage=this.listOfPages[0];
+        }
+        else{
+            this.selectedPage=new Page("");
+            console.log(this.selectedPage);
+        }
         this.listOfPages.splice(index, 1);
     }
 
@@ -92,21 +72,25 @@ export class CreatorComponent implements OnInit {
     addLineContainer() {
         let lineContainer = new LineContainer();
         lineContainer.containers.push(new Container());
-        this.lineContainers.push(lineContainer);
+        this.selectedPage.lineContainers.push(lineContainer);
         console.log("linecontainers");
         console.log(this.lineContainers);
     }
 
     Select(container: Container, lineContainer: LineContainer) {
-        this.selectedLineContainerID = this.lineContainers.indexOf(lineContainer);
-        this.selectedContainerID = this.lineContainers[this.selectedLineContainerID].containers.indexOf(container);
+        this.selectedLineContainerID = this.selectedPage.lineContainers.indexOf(lineContainer);
+        this.selectedContainerID = this.selectedPage.lineContainers[this.selectedLineContainerID].containers.indexOf(container);
         this.deleteLineContainer = false;
         console.log(container.postText);
     }
 
     SelectLineContainer(lineContainer: LineContainer) {
-        this.selectedLineContainerID = this.lineContainers.indexOf(lineContainer);
+        this.selectedLineContainerID = this.selectedPage.lineContainers.indexOf(lineContainer);
         this.deleteLineContainer = true;
+    }
+    selectPage(event: any){
+        console.log(event);
+        this.selectedPage=event;
     }
 
     EditContainer(container: Container, lineContainer: LineContainer) {
@@ -116,21 +100,21 @@ export class CreatorComponent implements OnInit {
 
     IncreaseSize(container: Container, lineContainer: LineContainer) {
         this.Select(container, lineContainer);
-        this.lineContainers[this.selectedLineContainerID].containers[this.selectedContainerID].toIncreaseSize();
+        this.selectedPage.lineContainers[this.selectedLineContainerID].containers[this.selectedContainerID].toIncreaseSize();
     }
 
     DecreaseSize(container: Container, lineContainer: LineContainer) {
         this.Select(container, lineContainer);
-        this.lineContainers[this.selectedLineContainerID].containers[this.selectedContainerID].toDecreaseSize();
+        this.selectedPage.lineContainers[this.selectedLineContainerID].containers[this.selectedContainerID].toDecreaseSize();
     }
 
     DeleteContainer() {
 
         if (this.deleteLineContainer) {
-            this.lineContainers.splice(this.selectedLineContainerID, 1);
+            this.selectedPage.lineContainers.splice(this.selectedLineContainerID, 1);
         }
         else {
-            this.lineContainers[this.selectedLineContainerID].containers.splice(this.selectedContainerID, 1);
+            this.selectedPage.lineContainers[this.selectedLineContainerID].containers.splice(this.selectedContainerID, 1);
         }
 
     }

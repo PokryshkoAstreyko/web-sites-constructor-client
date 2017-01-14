@@ -15,7 +15,6 @@ var page_1 = require("./page");
 var CreatorComponent = (function () {
     function CreatorComponent() {
         this.listOfPages = [];
-        this.page = 0;
         this.lineContainers = [];
         this.selectedContainerID = 0;
         this.selectedLineContainerID = 0;
@@ -23,32 +22,8 @@ var CreatorComponent = (function () {
         this.deleteLineContainer = false;
         this.availableComponents.push("Container");
         this.listOfPages.push(new page_1.Page("Main"));
+        this.selectedPage = this.listOfPages[0];
     }
-    //Methods for nav tabs menu__________________
-    CreatorComponent.prototype.setAreaExpanded = function (page) {
-        if (this.listOfPages.indexOf(page) == 0) {
-            return "true";
-        }
-        return "false";
-    };
-    CreatorComponent.prototype.setClassForNavTabs = function (page) {
-        if (this.listOfPages.indexOf(page) == 0) {
-            return "active";
-        }
-        return " ";
-    };
-    CreatorComponent.prototype.setClassForTabContent = function (page) {
-        console.log(page);
-        if (this.listOfPages.indexOf(page) == 0) {
-            return 'tab-pane fade active in';
-        }
-        return 'tab-pane fade';
-    };
-    CreatorComponent.prototype.replaceSpacesFromId = function (page) {
-        console.log(page);
-        return page.name.replace(/\s/g, '');
-    };
-    //END of Methods for nav tabs menu__________________
     CreatorComponent.prototype.ngOnInit = function () {
         $('#summernote').summernote();
         $("#sticker").sticky({ topSpacing: 0 });
@@ -57,7 +32,7 @@ var CreatorComponent = (function () {
         var text = $('#summernote').summernote('code');
         console.log(text);
         if (text != null && text != '') {
-            this.lineContainers[this.selectedLineContainerID].containers[this.selectedContainerID].postText = text;
+            this.selectedPage.lineContainers[this.selectedLineContainerID].containers[this.selectedContainerID].postText = text;
         }
     };
     CreatorComponent.prototype.addPage = function (title) {
@@ -65,6 +40,13 @@ var CreatorComponent = (function () {
         this.listOfPages.push(new page_1.Page(title));
     };
     CreatorComponent.prototype.removePage = function (index) {
+        if (this.listOfPages.length > 1) {
+            this.selectedPage = this.listOfPages[0];
+        }
+        else {
+            this.selectedPage = new page_1.Page("");
+            console.log(this.selectedPage);
+        }
         this.listOfPages.splice(index, 1);
     };
     CreatorComponent.prototype.addContainer = function (event, lineContainer) {
@@ -75,19 +57,23 @@ var CreatorComponent = (function () {
     CreatorComponent.prototype.addLineContainer = function () {
         var lineContainer = new line_container_1.LineContainer();
         lineContainer.containers.push(new container_1.Container());
-        this.lineContainers.push(lineContainer);
+        this.selectedPage.lineContainers.push(lineContainer);
         console.log("linecontainers");
         console.log(this.lineContainers);
     };
     CreatorComponent.prototype.Select = function (container, lineContainer) {
-        this.selectedLineContainerID = this.lineContainers.indexOf(lineContainer);
-        this.selectedContainerID = this.lineContainers[this.selectedLineContainerID].containers.indexOf(container);
+        this.selectedLineContainerID = this.selectedPage.lineContainers.indexOf(lineContainer);
+        this.selectedContainerID = this.selectedPage.lineContainers[this.selectedLineContainerID].containers.indexOf(container);
         this.deleteLineContainer = false;
         console.log(container.postText);
     };
     CreatorComponent.prototype.SelectLineContainer = function (lineContainer) {
-        this.selectedLineContainerID = this.lineContainers.indexOf(lineContainer);
+        this.selectedLineContainerID = this.selectedPage.lineContainers.indexOf(lineContainer);
         this.deleteLineContainer = true;
+    };
+    CreatorComponent.prototype.selectPage = function (event) {
+        console.log(event);
+        this.selectedPage = event;
     };
     CreatorComponent.prototype.EditContainer = function (container, lineContainer) {
         this.Select(container, lineContainer);
@@ -95,18 +81,18 @@ var CreatorComponent = (function () {
     };
     CreatorComponent.prototype.IncreaseSize = function (container, lineContainer) {
         this.Select(container, lineContainer);
-        this.lineContainers[this.selectedLineContainerID].containers[this.selectedContainerID].toIncreaseSize();
+        this.selectedPage.lineContainers[this.selectedLineContainerID].containers[this.selectedContainerID].toIncreaseSize();
     };
     CreatorComponent.prototype.DecreaseSize = function (container, lineContainer) {
         this.Select(container, lineContainer);
-        this.lineContainers[this.selectedLineContainerID].containers[this.selectedContainerID].toDecreaseSize();
+        this.selectedPage.lineContainers[this.selectedLineContainerID].containers[this.selectedContainerID].toDecreaseSize();
     };
     CreatorComponent.prototype.DeleteContainer = function () {
         if (this.deleteLineContainer) {
-            this.lineContainers.splice(this.selectedLineContainerID, 1);
+            this.selectedPage.lineContainers.splice(this.selectedLineContainerID, 1);
         }
         else {
-            this.lineContainers[this.selectedLineContainerID].containers.splice(this.selectedContainerID, 1);
+            this.selectedPage.lineContainers[this.selectedLineContainerID].containers.splice(this.selectedContainerID, 1);
         }
     };
     return CreatorComponent;
