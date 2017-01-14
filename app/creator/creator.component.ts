@@ -19,6 +19,7 @@ export class CreatorComponent implements OnInit {
 
     listOfPages: Page[]=[];
     selectedPage: Page;
+    deletedPageID: number=0;
 
 
     lineContainers: LineContainer[] = [];
@@ -54,16 +55,17 @@ export class CreatorComponent implements OnInit {
         }
     }
 
-    removePage(index: number) {
+    removePage() {
 
-        if(this.listOfPages.length>1){
-            this.selectedPage=this.listOfPages[0];
-        }
-        else{
+        this.listOfPages.splice(this.deletedPageID, 1);
+        this.selectedPage=this.listOfPages[0];
+        if(this.listOfPages.length==0){
             this.selectedPage=new Page("");
-            console.log(this.selectedPage);
         }
-        this.listOfPages.splice(index, 1);
+
+    }
+    selectDeletePageID(page: number){
+            this.deletedPageID=page;
     }
     // openPageModal(){
     //     $('#PageModal').modal('toggle');
