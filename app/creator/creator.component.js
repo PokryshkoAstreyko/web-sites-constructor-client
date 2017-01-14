@@ -24,24 +24,21 @@ var CreatorComponent = (function () {
         this.availableComponents = [];
         this.deleteLineContainer = false;
         this.HTMLCode = '';
+        this.editorContent = 'My Document\'s Title';
         this.availableComponents.push("Container");
         this.listOfPages.push(new page_1.Page("Main"));
         this.selectedPage = this.listOfPages[0];
     }
     CreatorComponent.prototype.ngOnInit = function () {
-        $('#summernote').summernote();
         $("#sticker").sticky({ topSpacing: 0 });
     };
     CreatorComponent.prototype.savePost = function () {
-        var text = $('#summernote').summernote('code');
-        console.log(text);
+        var text = $('#froala-editor').froalaEditor('html.get');
         if (text != null && text != '') {
             this.selectedPage.lineContainers[this.selectedLineContainerID].containers[this.selectedContainerID].postText = text;
         }
     };
     CreatorComponent.prototype.addPage = function (title) {
-        console.log(title);
-        // $('#PageModal').title = title;
         this.listOfPages.push(new page_1.Page(title));
         if (this.listOfPages.length == 1) {
             this.selectedPage = this.listOfPages[0];
@@ -66,22 +63,17 @@ var CreatorComponent = (function () {
     //     this.addLineContainer();
     // }
     CreatorComponent.prototype.addContainer = function (event, lineContainer) {
-        console.log(event);
         lineContainer.containers.push(new container_1.Container());
-        console.log("add container" + lineContainer);
     };
     CreatorComponent.prototype.addLineContainer = function () {
         var lineContainer = new line_container_1.LineContainer();
         lineContainer.containers.push(new container_1.Container());
         this.selectedPage.lineContainers.push(lineContainer);
-        console.log("linecontainers");
-        console.log(this.lineContainers);
     };
     CreatorComponent.prototype.Select = function (container, lineContainer) {
         this.selectedLineContainerID = this.selectedPage.lineContainers.indexOf(lineContainer);
         this.selectedContainerID = this.selectedPage.lineContainers[this.selectedLineContainerID].containers.indexOf(container);
         this.deleteLineContainer = false;
-        console.log(container.postText);
     };
     CreatorComponent.prototype.SelectLineContainer = function (lineContainer) {
         this.selectedLineContainerID = this.selectedPage.lineContainers.indexOf(lineContainer);
@@ -93,7 +85,7 @@ var CreatorComponent = (function () {
     };
     CreatorComponent.prototype.EditContainer = function (container, lineContainer) {
         this.Select(container, lineContainer);
-        $('#summernote').summernote('code', container.postText);
+        $('#froala-editor').froalaEditor('html.set', container.postText);
     };
     CreatorComponent.prototype.IncreaseSize = function (container, lineContainer) {
         this.Select(container, lineContainer);

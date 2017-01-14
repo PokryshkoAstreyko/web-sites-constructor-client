@@ -18,10 +18,10 @@ declare var $: any;
 export class CreatorComponent implements OnInit {
 
 
-    listOfPages: Page[]=[];
+    listOfPages: Page[] = [];
     selectedPage: Page;
-    selectedViewPage: Page=new Page("");
-    deletedPageID: number=0;
+    selectedViewPage: Page = new Page("");
+    deletedPageID: number = 0;
 
 
     lineContainers: LineContainer[] = [];
@@ -29,51 +29,52 @@ export class CreatorComponent implements OnInit {
     selectedLineContainerID: number = 0;
     availableComponents: string[] = [];
     deleteLineContainer: boolean = false;
-    HTMLCode: string='';
+    HTMLCode: string = '';
+    public editorContent: string = 'My Document\'s Title';
+
     constructor() {
         this.availableComponents.push("Container");
         this.listOfPages.push(new Page("Main"));
-        this.selectedPage=this.listOfPages[0];
+        this.selectedPage = this.listOfPages[0];
     }
 
     ngOnInit() {
-        $('#summernote').summernote();
-        $("#sticker").sticky({ topSpacing: 0 });
+        $("#sticker").sticky({topSpacing: 0});
 
     }
 
     savePost() {
-        let text = $('#summernote').summernote('code');
-        console.log(text);
-        if (text != null && text != '') {
-            this.selectedPage.lineContainers[this.selectedLineContainerID].containers[this.selectedContainerID].postText = text;
-        }
+        let text =  $('#froala-editor').froalaEditor('html.get');
+            if (text != null && text != '') {
+                this.selectedPage.lineContainers[this.selectedLineContainerID].containers[this.selectedContainerID].postText = text;
+            }
     }
 
     addPage(title: string) {
-        console.log(title);
-        // $('#PageModal').title = title;
-        this.listOfPages.push( new Page(title));
-        if(this.listOfPages.length==1){
-            this.selectedPage=this.listOfPages[0];
+        this.listOfPages.push(new Page(title));
+        if (this.listOfPages.length == 1) {
+            this.selectedPage = this.listOfPages[0];
         }
     }
-    editTitlePage(title:string){
-        this.selectedPage.name=title;
+
+    editTitlePage(title: string) {
+        this.selectedPage.name = title;
     }
 
     removePage() {
 
         this.listOfPages.splice(this.deletedPageID, 1);
-        this.selectedPage=this.listOfPages[0];
-        if(this.listOfPages.length==0){
-            this.selectedPage=new Page("");
+        this.selectedPage = this.listOfPages[0];
+        if (this.listOfPages.length == 0) {
+            this.selectedPage = new Page("");
         }
 
     }
-    selectDeletePageID(page: number){
-            this.deletedPageID=page;
+
+    selectDeletePageID(page: number) {
+        this.deletedPageID = page;
     }
+
     // openPageModal(){
     //     $('#PageModal').modal('toggle');
     //     this.selectedPage=new Page("df");
@@ -81,38 +82,34 @@ export class CreatorComponent implements OnInit {
     // }
 
     addContainer(event: any, lineContainer: LineContainer) {
-        console.log(event);
         lineContainer.containers.push(new Container());
-        console.log("add container" + lineContainer);
     }
 
     addLineContainer() {
         let lineContainer = new LineContainer();
         lineContainer.containers.push(new Container());
         this.selectedPage.lineContainers.push(lineContainer);
-        console.log("linecontainers");
-        console.log(this.lineContainers);
     }
 
     Select(container: Container, lineContainer: LineContainer) {
         this.selectedLineContainerID = this.selectedPage.lineContainers.indexOf(lineContainer);
         this.selectedContainerID = this.selectedPage.lineContainers[this.selectedLineContainerID].containers.indexOf(container);
         this.deleteLineContainer = false;
-        console.log(container.postText);
     }
 
     SelectLineContainer(lineContainer: LineContainer) {
         this.selectedLineContainerID = this.selectedPage.lineContainers.indexOf(lineContainer);
         this.deleteLineContainer = true;
     }
-    selectPage(event: any){
+
+    selectPage(event: any) {
         console.log(event);
-        this.selectedPage=event;
+        this.selectedPage = event;
     }
 
     EditContainer(container: Container, lineContainer: LineContainer) {
         this.Select(container, lineContainer);
-        $('#summernote').summernote('code', container.postText);
+        $('#froala-editor').froalaEditor('html.set',container.postText);
     }
 
     IncreaseSize(container: Container, lineContainer: LineContainer) {
@@ -135,13 +132,15 @@ export class CreatorComponent implements OnInit {
         }
 
     }
-    ToHTML(){
-        this.HTMLCode=PageToHTML.transfer(this.selectedPage);
-        this.selectedViewPage=this.selectedPage;
+
+    ToHTML() {
+        this.HTMLCode = PageToHTML.transfer(this.selectedPage);
+        this.selectedViewPage = this.selectedPage;
     }
-    selectViewPage(page:Page){
-        this.HTMLCode=PageToHTML.transfer(page);
-        this.selectedViewPage=page;
+
+    selectViewPage(page: Page) {
+        this.HTMLCode = PageToHTML.transfer(page);
+        this.selectedViewPage = page;
     }
 
 }
