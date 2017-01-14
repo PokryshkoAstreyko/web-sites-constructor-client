@@ -3,6 +3,7 @@ import {FormBuilder, FormGroup} from "@angular/forms";
 import {Container} from "./container";
 import {LineContainer} from "./line.container";
 import {Page} from "./page";
+import {PageToHTML} from "./PageToHTML";
 // import { Ng2Summernote } from 'ng2-summernote/ng2-summernote';
 
 declare var $: any;
@@ -19,6 +20,7 @@ export class CreatorComponent implements OnInit {
 
     listOfPages: Page[]=[];
     selectedPage: Page;
+    selectedViewPage: Page=new Page("");
     deletedPageID: number=0;
 
 
@@ -27,6 +29,7 @@ export class CreatorComponent implements OnInit {
     selectedLineContainerID: number = 0;
     availableComponents: string[] = [];
     deleteLineContainer: boolean = false;
+    HTMLCode: string='';
     constructor() {
         this.availableComponents.push("Container");
         this.listOfPages.push(new Page("Main"));
@@ -131,6 +134,14 @@ export class CreatorComponent implements OnInit {
             this.selectedPage.lineContainers[this.selectedLineContainerID].containers.splice(this.selectedContainerID, 1);
         }
 
+    }
+    ToHTML(){
+        this.HTMLCode=PageToHTML.transfer(this.selectedPage);
+        this.selectedViewPage=this.selectedPage;
+    }
+    selectViewPage(page:Page){
+        this.HTMLCode=PageToHTML.transfer(page);
+        this.selectedViewPage=page;
     }
 
 }

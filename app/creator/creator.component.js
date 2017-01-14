@@ -12,15 +12,18 @@ var core_1 = require("@angular/core");
 var container_1 = require("./container");
 var line_container_1 = require("./line.container");
 var page_1 = require("./page");
+var PageToHTML_1 = require("./PageToHTML");
 var CreatorComponent = (function () {
     function CreatorComponent() {
         this.listOfPages = [];
+        this.selectedViewPage = new page_1.Page("");
         this.deletedPageID = 0;
         this.lineContainers = [];
         this.selectedContainerID = 0;
         this.selectedLineContainerID = 0;
         this.availableComponents = [];
         this.deleteLineContainer = false;
+        this.HTMLCode = '';
         this.availableComponents.push("Container");
         this.listOfPages.push(new page_1.Page("Main"));
         this.selectedPage = this.listOfPages[0];
@@ -107,6 +110,14 @@ var CreatorComponent = (function () {
         else {
             this.selectedPage.lineContainers[this.selectedLineContainerID].containers.splice(this.selectedContainerID, 1);
         }
+    };
+    CreatorComponent.prototype.ToHTML = function () {
+        this.HTMLCode = PageToHTML_1.PageToHTML.transfer(this.selectedPage);
+        this.selectedViewPage = this.selectedPage;
+    };
+    CreatorComponent.prototype.selectViewPage = function (page) {
+        this.HTMLCode = PageToHTML_1.PageToHTML.transfer(page);
+        this.selectedViewPage = page;
     };
     return CreatorComponent;
 }());

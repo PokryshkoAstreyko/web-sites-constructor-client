@@ -17,13 +17,15 @@
                                     {{component}}
                                 </div>
                             </div>
-                            <div class="panel panel-default" data-toggle="modal" data-target="#view-modal">
+                            <div class="panel panel-default" data-toggle="modal" data-target="#view-modal"
+                                 (click)="ToHTML()">
                                 <div class="panel-body">
                                     View
                                 </div>
                             </div>
-                            <div class="panel panel-default" data-toggle="modal" data-target="#view-code-modal">
-                                <div class="panel-body">
+                            <div class="panel panel-default">
+                                <div class="panel-body" data-toggle="modal" data-target="#view-code-modal"
+                                     (click)="ToHTML()">
                                     View code
                                 </div>
                             </div>
@@ -44,10 +46,13 @@
                                  [sortableIndex]="i" (click)="selectPage(page)">
                                 <div *ngIf="page==selectedPage" class="panel panel-info">
                                     <div class="panel-head">
-                                        <span class="pull-right fa fa-trash-o" style="padding-right: 6px; padding-top: 2px;"
-                                          data-toggle="modal" data-target="#delete-page-modal" (click)="selectDeletePageID(i)"></span>
+                                        <span class="pull-right fa fa-trash-o"
+                                              style="padding-right: 6px; padding-top: 2px;"
+                                              data-toggle="modal" data-target="#delete-page-modal"
+                                              (click)="selectDeletePageID(i)"></span>
                                         <span class="fa fa-edit" style="padding-left: 6px;"
-                                              data-toggle="modal" data-target="#edit-page-modal" (click)="selectPage(page);titleEdit.value=selectedPage.name"></span>
+                                              data-toggle="modal" data-target="#edit-page-modal"
+                                              (click)="selectPage(page);titleEdit.value=selectedPage.name"></span>
                                     </div>
                                     <div class="panel-body" style="padding-top: 6px; padding-bottom: 12px">
                                         {{page.name}}
@@ -55,10 +60,13 @@
                                 </div>
                                 <div *ngIf="page!=selectedPage" class="panel panel-default">
                                     <div class="panel-head">
-                                        <span class="pull-right fa fa-trash-o" style="padding-right: 6px; padding-top: 2px;"
-                                              data-toggle="modal" data-target="#delete-page-modal" (click)="selectDeletePageID(i)"></span>
+                                        <span class="pull-right fa fa-trash-o"
+                                              style="padding-right: 6px; padding-top: 2px;"
+                                              data-toggle="modal" data-target="#delete-page-modal"
+                                              (click)="selectDeletePageID(i)"></span>
                                         <span class="fa fa-edit" style="padding-left: 6px;"
-                                              data-toggle="modal" data-target="#edit-page-modal" (click)="selectPage(page);titleEdit.value=selectedPage.name"></span>
+                                              data-toggle="modal" data-target="#edit-page-modal"
+                                              (click)="selectPage(page);titleEdit.value=selectedPage.name"></span>
                                     </div>
                                     <div class="panel-body" style="padding-top: 6px; padding-bottom: 12px">
                                         {{page.name}}
@@ -89,7 +97,7 @@
                     <nav class="navbar navbar-default">
                         <div class="container">
                             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
-                                    data-target="#navbar-collapse-4">
+                                    data-target="#navbar-collapse-1">
                                 <span class="sr-only">Toggle navigation</span>
                                 <span class="icon-bar"></span>
                                 <span class="icon-bar"></span>
@@ -97,12 +105,12 @@
                             </button>
                             <a class="navbar-brand" style="margin-right: 20px">Title Site</a>
                             <ul class="nav navbar-nav navbar-right" style="padding-top: 4px; margin-left: 50px">
-                                <li style="float: left" *ngFor="let page of listOfPages" href=""><a>{{page.name}}</a>
+                                <li style="float: left" *ngFor="let page of listOfPages"><a>{{page.name}}</a>
                                 </li>
                             </ul>
-                            <div class="collapse navbar-collapse" id="navbar-collapse-4">
+                            <div class="collapse navbar-collapse" id="navbar-collapse-1">
                                 <ul class="nav navbar-nav navbar-right">
-                                    <li style="padding-left: 0" *ngFor="let page of listOfPages" href=""><a>{{page.name}}</a>
+                                    <li style="padding-left: 0" *ngFor="let page of listOfPages"><a>{{page.name}}</a>
                                     </li>
                                 </ul>
                             </div>
@@ -193,7 +201,7 @@
 </div>
 
 <!--Delete Container Modal -->
-<div class="modal fade" id="delete-container-modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel">
+<div class="modal fade" id="delete-container-modal">
     <div class="modal-dialog modal-md" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -219,7 +227,7 @@
 </div>
 
 <!--Delete Page Modal-->
-<div class="modal fade" id="delete-page-modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel">
+<div class="modal fade" id="delete-page-modal" >
     <div class="modal-dialog modal-md" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -245,8 +253,8 @@
 </div>
 
 <!--View Modal-->
-<div class="modal fade" id="view-modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel">
-    <div class="modal-dialog  " style="min-width: 1200px">
+<div class="modal fade" id="view-modal" >
+    <div class="modal-dialog  " style="min-width: 1200px;">
         <div class="modal-content">
             <div class="modal-header">
                 <div>
@@ -258,9 +266,35 @@
                     </h4>
                 </div>
             </div>
-            <div class="modal-body">
+            <div class="modal-body" style="min-height: 500px">
                 <div col-md-12 class="panel-body">
-                    <div *ngFor="let lineContainer of selectedPage.lineContainers" class="row panel-body ">
+                    <nav class="navbar navbar-default">
+                        <div class="container">
+                            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                                    data-target="#navbar-collapse-2">
+                                <span class="sr-only">Toggle navigation</span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </button>
+                            <a class="navbar-brand" style="margin-right: 20px">Title Site</a>
+                            <ul class="nav navbar-nav navbar-right" style="padding-top: 4px; margin-left: 50px">
+                                <li style="float: left" *ngFor="let page of listOfPages" href=""
+                                    (click)="selectViewPage(page)">
+                                    <a>{{page.name}}</a>
+                                </li>
+                            </ul>
+                            <div class="collapse navbar-collapse" id="navbar-collapse-2">
+                                <ul class="nav navbar-nav navbar-right">
+                                    <li style="padding-left: 0" *ngFor="let page of listOfPages" href=""
+                                        (click)="selectViewPage(page)">
+                                        <a>{{page.name}}</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </nav>
+                    <div *ngFor="let lineContainer of selectedViewPage.lineContainers" class="row panel-body ">
                         <div *ngFor="let container of lineContainer.containers"
                              class="work col-md-{{container.size}} panel-body">
                             <div [innerHTML]="container.postText | escapeHtml" style="padding: 2px"></div>
@@ -275,7 +309,8 @@
     </div>
 </div>
 
-<div class="modal fade" id="view-code-modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel">
+<!--View-Code-Modal-->
+<div class="modal fade" id="view-code-modal" >
     <div class="modal-dialog  " style="min-width: 1200px">
         <div class="modal-content">
             <div class="modal-header">
@@ -288,12 +323,35 @@
                     </h4>
                 </div>
             </div>
-            <div class="modal-body">
-                <div col-md-12 class="panel-body">
-                    <div *ngFor="let lineContainer of selectedPage.lineContainers" class="row panel-body ">
-                        <div *ngFor="let container of lineContainer.containers"
-                             class="work col-md-{{container.size}} panel-body">
-                            <div [innerHTML]="container.postText | escapeHtml" style="padding: 2px"></div>
+
+            <div class="row">
+                <div class="col-md-2" style="padding-right: 0px">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            Pages
+                        </div>
+                        <div class="panel-body">
+                            <div *ngFor="let page of listOfPages; let i = index" (click)="selectViewPage(page)">
+                                <div *ngIf="page==selectedViewPage" class="panel panel-info">
+                                    <div class="panel-body">
+                                        {{page.name}}
+                                    </div>
+                                </div>
+                                <div *ngIf="page!=selectedViewPage" class="panel panel-default">
+                                    <div class="panel-body">
+                                        {{page.name}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-10">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">Page code</div>
+                        <div class="panel-body">
+                                <textarea class="form-control" type="textarea"
+                                          rows="25" readonly>{{HTMLCode}}</textarea>
                         </div>
                     </div>
                 </div>
@@ -306,7 +364,7 @@
 </div>
 
 <!-- Enter Title Modal -->
-<div id="PageModal" class="modal fade" role="dialog">
+<div id="PageModal" class="modal fade" >
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -326,7 +384,7 @@
 </div>
 
 <!-- Edit Title Modal -->
-<div id="edit-page-modal" class="modal fade" role="dialog">
+<div id="edit-page-modal" class="modal fade">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -337,7 +395,8 @@
                 <input type="text" class="form-control" #titleEdit>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-success" data-dismiss="modal" (click)="editTitlePage(titleEdit.value);">
+                <button type="button" class="btn btn-success" data-dismiss="modal"
+                        (click)="editTitlePage(titleEdit.value);">
                     Save
                 </button>
             </div>
