@@ -25,8 +25,7 @@
             '@angular/forms': 'npm:@angular/forms/bundles/forms.umd.js',
 
             'ng2-dnd': 'node_modules/ng2-dnd/bundles/index.umd.js',
-             "ng2-summernote": "node_modules/ng2-summernote",
-
+             'ng2-summernote': 'node_modules/ng2-summernote',
             // other libraries
             'rxjs': 'npm:rxjs'
         },

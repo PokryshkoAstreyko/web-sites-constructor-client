@@ -15,7 +15,8 @@ import { NavbarComponent } from "./navbar/navbar.component";
 import { ProfileComponent } from "./profile/profile.component";
 import { DndModule } from "ng2-dnd";
 import { CreatorComponent } from "./creator/creator.component";
-import { UserPageComponent} from "./user.page/user.page.component";
+import { UserPageComponent } from "./user.page/user.page.component";
+import {FroalaViewDirective, FroalaEditorDirective} from "./froala.directives";
 
 
 @Pipe({ name: 'escapeHtml', pure: false })
@@ -49,7 +50,8 @@ export class EscapeHtmlPipe implements PipeTransform {
         ProfileComponent,
         CreatorComponent,
         EscapeHtmlPipe,
-        UserPageComponent
+        UserPageComponent,
+        FroalaEditorDirective,FroalaViewDirective
     ],
     providers: [
         AuthGuard,

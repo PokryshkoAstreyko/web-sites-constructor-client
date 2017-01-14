@@ -24,6 +24,7 @@ var profile_component_1 = require("./profile/profile.component");
 var ng2_dnd_1 = require("ng2-dnd");
 var creator_component_1 = require("./creator/creator.component");
 var user_page_component_1 = require("./user.page/user.page.component");
+var froala_directives_1 = require("./froala.directives");
 var EscapeHtmlPipe = (function () {
     function EscapeHtmlPipe(sanitized) {
         this.sanitized = sanitized;
@@ -67,7 +68,8 @@ AppModule = __decorate([
             profile_component_1.ProfileComponent,
             creator_component_1.CreatorComponent,
             EscapeHtmlPipe,
-            user_page_component_1.UserPageComponent
+            user_page_component_1.UserPageComponent,
+            froala_directives_1.FroalaEditorDirective, froala_directives_1.FroalaViewDirective
         ],
         providers: [
             index_1.AuthGuard,
@@ -77,7 +79,8 @@ AppModule = __decorate([
             forms_1.ControlContainer
         ],
         bootstrap: [app_component_1.AppComponent]
-    })
+    }),
+    __metadata("design:paramtypes", [])
 ], AppModule);
 exports.AppModule = AppModule;
 //# sourceMappingURL=app.module.js.map
