@@ -19,7 +19,6 @@ export class CreatorComponent implements OnInit {
 
     listOfPages: Page[]=[];
     selectedPage: Page;
-    deletedPageID: number=0;
 
 
     lineContainers: LineContainer[] = [];
@@ -48,34 +47,21 @@ export class CreatorComponent implements OnInit {
     }
 
     addPage(title: string) {
-        console.log(title);
         // $('#PageModal').title = title;
-        this.listOfPages.push( new Page(title));
-        if(this.listOfPages.length==1){
+         this.listOfPages.push( new Page(title));
+    }
+
+    removePage(index: number) {
+
+        if(this.listOfPages.length>1){
             this.selectedPage=this.listOfPages[0];
         }
-    }
-    editTitlePage(title:string){
-        this.selectedPage.name=title;
-    }
-
-    removePage() {
-
-        this.listOfPages.splice(this.deletedPageID, 1);
-        this.selectedPage=this.listOfPages[0];
-        if(this.listOfPages.length==0){
+        else{
             this.selectedPage=new Page("");
+            console.log(this.selectedPage);
         }
-
+        this.listOfPages.splice(index, 1);
     }
-    selectDeletePageID(page: number){
-            this.deletedPageID=page;
-    }
-    // openPageModal(){
-    //     $('#PageModal').modal('toggle');
-    //     this.selectedPage=new Page("df");
-    //     this.addLineContainer();
-    // }
 
     addContainer(event: any, lineContainer: LineContainer) {
         console.log(event);

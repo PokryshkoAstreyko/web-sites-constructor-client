@@ -1,3 +1,24 @@
+<!-- Modal -->
+<div id="PageModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Enter page title</h4>
+            </div>
+            <div class="modal-body">
+                <input type="text" class="form-control" #title>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" data-dismiss="modal"
+                        (click)="addPage(title.value); title.value='';">Save
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="row" style="margin-top: 4px">
     <div class="col-md-2" style="padding: 0">
         <div id="sticker" class="col-md-12"
@@ -26,40 +47,24 @@
                     </div>
                     <div class="tab-pane fade active in" id="pages">
                         <div dnd-sortable-container [sortableData]="listOfPages" class="panel-body">
-                            <div class="text-center" style="margin-bottom: 15px;">
+                            <div class="text-center" style="margin-bottom: 3%;">
                                 <button type="button" class="btn btn-success btn-sm"
                                         data-toggle="modal"
-                                        data-target="#PageModal" (click)="title.value='' ">
+                                        data-target="#PageModal">
                                     <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
                                     Add Page
 
                                 </button>
                             </div>
                             <div *ngFor="let page of listOfPages; let i = index" dnd-sortable
-                                 [sortableIndex]="i" (click)="selectPage(page)">
-                                <div *ngIf="page==selectedPage" class="panel panel-info">
-                                    <div class="panel-head">
-                                        <span class="pull-right fa fa-trash-o" style="padding-right: 6px; padding-top: 2px;"
-                                          data-toggle="modal" data-target="#delete-page-modal" (click)="selectDeletePageID(i)"></span>
-                                        <span class="fa fa-edit" style="padding-left: 6px;"
-                                              data-toggle="modal" data-target="#edit-page-modal" (click)="selectPage(page);titleEdit.value=selectedPage.name"></span>
-                                    </div>
-                                    <div class="panel-body" style="padding-top: 6px; padding-bottom: 12px">
-                                        {{page.name}}
-                                    </div>
+                                 [sortableIndex]="i" class="panel panel-default" (click)="selectPage(page)">
+                                <div class="panel-head">
+                            <span class="pull-right" style="color: grey; padding-right: 6px;"
+                                  (click)="removePage(i);">x</span>
                                 </div>
-                                <div *ngIf="page!=selectedPage" class="panel panel-default">
-                                    <div class="panel-head">
-                                        <span class="pull-right fa fa-trash-o" style="padding-right: 6px; padding-top: 2px;"
-                                              data-toggle="modal" data-target="#delete-page-modal" (click)="selectDeletePageID(i)"></span>
-                                        <span class="fa fa-edit" style="padding-left: 6px;"
-                                              data-toggle="modal" data-target="#edit-page-modal" (click)="selectPage(page);titleEdit.value=selectedPage.name"></span>
-                                    </div>
-                                    <div class="panel-body" style="padding-top: 6px; padding-bottom: 12px">
-                                        {{page.name}}
-                                    </div>
+                                <div class="panel-body">
+                                    {{page.name}}
                                 </div>
-
                             </div>
                         </div>
                     </div>
@@ -104,56 +109,53 @@
                         </div>
                     </nav>
 
-                    <!--<div *ngIf="listOfPages.length==0" class="col-md-12" dnd-droppable-->
-                    <!--(onDropSuccess)="openPageModal()" [dropZones]="['demo1']" style="min-height: 400px;"></div>-->
 
-                    <div *ngIf="listOfPages.length!=0">
-                        <div *ngFor="let lineContainer of selectedPage.lineContainers"
-                             class="col-md-12 dnd-placeholder list-group-item"
-                             dnd-droppable (onDropSuccess)="addContainer($event,lineContainer)" [dropZones]="['demo1']"
-                             style="border: 1px dotted black; border-radius: 5px;min-height: 50px; padding-top: 0;"
-                             #workSpace>
-                            <div class="col-md-12 work" dnd-sortable-container [dropZones]="['boxers-zone']"
-                                 [sortableData]="lineContainer.containers">
-                                <div class="row" style="height: 10px; padding: 0 3px">
+                    <div *ngFor="let lineContainer of selectedPage.lineContainers"
+                         class="col-md-12 dnd-placeholder list-group-item"
+                         dnd-droppable (onDropSuccess)="addContainer($event,lineContainer)" [dropZones]="['demo1']"
+                         style="border: 1px dotted black; border-radius: 5px;min-height: 50px; padding-top: 0;"
+                         #workSpace>
+                        <div class="col-md-12 work" dnd-sortable-container [dropZones]="['boxers-zone']"
+                             [sortableData]="lineContainer.containers">
+                            <div class="row" style="height: 10px; padding: 0 3px">
+                                <a data-toggle="modal"
+                                   data-target="#delete-modal"
+                                   (click)="SelectLineContainer(lineContainer)"
+                                   style="float: right">
+                                    <span class="fa fa-trash-o" style="color: #515151"></span>
+                                </a>
+                            </div>
+
+
+                            <div *ngFor="let container of lineContainer.containers; let i = index"
+                                 class="work col-md-{{container.size}} list-group-item panel-body" dnd-sortable
+                                 [sortableIndex]="i"
+                                 dnd-draggable [dragEnabled] [dropZones]="['demo1']"
+                                 [dragData]="component"
+                                 style="border: 1px dotted skyblue; margin: 1px 0; border-radius: 6px; min-height: 50px;">
+                                <div style="border-bottom: 1px dotted skyblue; padding: 0 3px">
+                                    <a (click)="DecreaseSize(container,lineContainer)">
+                                        <span class="fa fa-minus"></span>
+                                    </a>
+                                    <a (click)="IncreaseSize(container,lineContainer)">
+                                        <span class="fa fa-plus"></span>
+                                    </a>
                                     <a data-toggle="modal"
-                                       data-target="#delete-container-modal"
-                                       (click)="SelectLineContainer(lineContainer)"
+                                       data-target="#create-modal"
+                                       (click)="EditContainer(container,lineContainer)">
+                                        <span class="fa fa-edit"></span>
+                                    </a>
+                                    <a data-toggle="modal"
+                                       data-target="#delete-modal"
+                                       (click)="Select(container,lineContainer)"
                                        style="float: right">
-                                        <span class="fa fa-trash-o" style="color: #515151"></span>
+                                        <span class="fa fa-trash-o"></span>
                                     </a>
                                 </div>
-
-
-                                <div *ngFor="let container of lineContainer.containers; let i = index"
-                                     class="work col-md-{{container.size}} list-group-item panel-body" dnd-sortable
-                                     [sortableIndex]="i"
-                                     dnd-draggable [dragEnabled] [dropZones]="['demo1']"
-                                     [dragData]="component"
-                                     style="border: 1px dotted skyblue; margin: 1px 0; border-radius: 6px; min-height: 50px;">
-                                    <div style="border-bottom: 1px dotted skyblue; padding: 0 3px">
-                                        <a (click)="DecreaseSize(container,lineContainer)">
-                                            <span class="fa fa-minus"></span>
-                                        </a>
-                                        <a (click)="IncreaseSize(container,lineContainer)">
-                                            <span class="fa fa-plus"></span>
-                                        </a>
-                                        <a data-toggle="modal"
-                                           data-target="#create-modal"
-                                           (click)="EditContainer(container,lineContainer)">
-                                            <span class="fa fa-edit"></span>
-                                        </a>
-                                        <a data-toggle="modal"
-                                           data-target="#delete-container-modal"
-                                           (click)="Select(container,lineContainer)"
-                                           style="float: right">
-                                            <span class="fa fa-trash-o"></span>
-                                        </a>
-                                    </div>
-                                    <div [innerHTML]="container.postText | escapeHtml" style="padding: 2px"></div>
-                                </div>
+                                <div [innerHTML]="container.postText | escapeHtml" style="padding: 2px"></div>
                             </div>
                         </div>
+
                     </div>
                 </div>
             </div>
@@ -187,8 +189,8 @@
     </div>
 </div>
 
-<!--Delete Container Modal -->
-<div class="modal fade" id="delete-container-modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel">
+<!--Delete Modal-->
+<div class="modal fade" id="delete-modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel">
     <div class="modal-dialog modal-md" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -213,31 +215,6 @@
     </div>
 </div>
 
-<!--Delete Page Modal-->
-<div class="modal fade" id="delete-page-modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel">
-    <div class="modal-dialog modal-md" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <div>
-                    <h4 class="modal-title">
-                        Delete page
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">×</span>
-                        </button>
-                    </h4>
-                </div>
-            </div>
-            <div class="modal-body">
-                Do you want to remove this page?
-            </div>
-            <div class="modal-footer">
-                <button type="button" (click)="removePage()" class="btn btn-primary" data-dismiss="modal">Yes
-                </button>
-                <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
-            </div>
-        </div>
-    </div>
-</div>
 
 <!--View Modal-->
 <div class="modal fade" id="view-modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel">
@@ -270,42 +247,3 @@
     </div>
 </div>
 
-<!-- Enter Title Modal -->
-<div id="PageModal" class="modal fade" role="dialog">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Enter page title</h4>
-            </div>
-            <div class="modal-body">
-                <input type="text" class="form-control" #title>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-success" data-dismiss="modal"
-                        (click)="addPage(title.value);">Save
-                </button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Edit Title Modal -->
-<div id="edit-page-modal" class="modal fade" role="dialog">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Edit page title</h4>
-            </div>
-            <div class="modal-body">
-                <input type="text" class="form-control" #titleEdit>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-success" data-dismiss="modal" (click)="editTitlePage(titleEdit.value);">
-                    Save
-                </button>
-            </div>
-        </div>
-    </div>
-</div>
