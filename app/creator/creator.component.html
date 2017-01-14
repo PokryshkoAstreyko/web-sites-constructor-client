@@ -57,14 +57,26 @@
                                 </button>
                             </div>
                             <div *ngFor="let page of listOfPages; let i = index" dnd-sortable
-                                 [sortableIndex]="i" class="panel panel-default" (click)="selectPage(page)">
-                                <div class="panel-head">
-                            <span class="pull-right" style="color: grey; padding-right: 6px;"
-                                  (click)="removePage(i);">x</span>
+                                 [sortableIndex]="i" (click)="selectPage(page)">
+                                <div *ngIf="page==selectedPage" class="panel panel-info">
+                                    <div class="panel-head">
+                                    <span class="pull-right" style="color: grey; padding-right: 6px;"
+                                          (click)="removePage(i);">x</span>
+                                    </div>
+                                    <div class="panel-body">
+                                        {{page.name}}
+                                    </div>
                                 </div>
-                                <div class="panel-body">
-                                    {{page.name}}
+                                <div *ngIf="page!=selectedPage" class="panel panel-default">
+                                    <div class="panel-head">
+                                    <span class="pull-right" style="color: grey; padding-right: 6px;"
+                                          (click)="removePage(i);">x</span>
+                                    </div>
+                                    <div class="panel-body">
+                                        {{page.name}}
+                                    </div>
                                 </div>
+
                             </div>
                         </div>
                     </div>
@@ -109,53 +121,56 @@
                         </div>
                     </nav>
 
+                    <!--<div *ngIf="listOfPages.length==0" class="col-md-12" dnd-droppable-->
+                         <!--(onDropSuccess)="openPageModal()" [dropZones]="['demo1']" style="min-height: 400px;"></div>-->
 
-                    <div *ngFor="let lineContainer of selectedPage.lineContainers"
-                         class="col-md-12 dnd-placeholder list-group-item"
-                         dnd-droppable (onDropSuccess)="addContainer($event,lineContainer)" [dropZones]="['demo1']"
-                         style="border: 1px dotted black; border-radius: 5px;min-height: 50px; padding-top: 0;"
-                         #workSpace>
-                        <div class="col-md-12 work" dnd-sortable-container [dropZones]="['boxers-zone']"
-                             [sortableData]="lineContainer.containers">
-                            <div class="row" style="height: 10px; padding: 0 3px">
-                                <a data-toggle="modal"
-                                   data-target="#delete-modal"
-                                   (click)="SelectLineContainer(lineContainer)"
-                                   style="float: right">
-                                    <span class="fa fa-trash-o" style="color: #515151"></span>
-                                </a>
-                            </div>
-
-
-                            <div *ngFor="let container of lineContainer.containers; let i = index"
-                                 class="work col-md-{{container.size}} list-group-item panel-body" dnd-sortable
-                                 [sortableIndex]="i"
-                                 dnd-draggable [dragEnabled] [dropZones]="['demo1']"
-                                 [dragData]="component"
-                                 style="border: 1px dotted skyblue; margin: 1px 0; border-radius: 6px; min-height: 50px;">
-                                <div style="border-bottom: 1px dotted skyblue; padding: 0 3px">
-                                    <a (click)="DecreaseSize(container,lineContainer)">
-                                        <span class="fa fa-minus"></span>
-                                    </a>
-                                    <a (click)="IncreaseSize(container,lineContainer)">
-                                        <span class="fa fa-plus"></span>
-                                    </a>
-                                    <a data-toggle="modal"
-                                       data-target="#create-modal"
-                                       (click)="EditContainer(container,lineContainer)">
-                                        <span class="fa fa-edit"></span>
-                                    </a>
+                    <div *ngIf="listOfPages.length!=0">
+                        <div *ngFor="let lineContainer of selectedPage.lineContainers"
+                             class="col-md-12 dnd-placeholder list-group-item"
+                             dnd-droppable (onDropSuccess)="addContainer($event,lineContainer)" [dropZones]="['demo1']"
+                             style="border: 1px dotted black; border-radius: 5px;min-height: 50px; padding-top: 0;"
+                             #workSpace>
+                            <div class="col-md-12 work" dnd-sortable-container [dropZones]="['boxers-zone']"
+                                 [sortableData]="lineContainer.containers">
+                                <div class="row" style="height: 10px; padding: 0 3px">
                                     <a data-toggle="modal"
                                        data-target="#delete-modal"
-                                       (click)="Select(container,lineContainer)"
+                                       (click)="SelectLineContainer(lineContainer)"
                                        style="float: right">
-                                        <span class="fa fa-trash-o"></span>
+                                        <span class="fa fa-trash-o" style="color: #515151"></span>
                                     </a>
                                 </div>
-                                <div [innerHTML]="container.postText | escapeHtml" style="padding: 2px"></div>
+
+
+                                <div *ngFor="let container of lineContainer.containers; let i = index"
+                                     class="work col-md-{{container.size}} list-group-item panel-body" dnd-sortable
+                                     [sortableIndex]="i"
+                                     dnd-draggable [dragEnabled] [dropZones]="['demo1']"
+                                     [dragData]="component"
+                                     style="border: 1px dotted skyblue; margin: 1px 0; border-radius: 6px; min-height: 50px;">
+                                    <div style="border-bottom: 1px dotted skyblue; padding: 0 3px">
+                                        <a (click)="DecreaseSize(container,lineContainer)">
+                                            <span class="fa fa-minus"></span>
+                                        </a>
+                                        <a (click)="IncreaseSize(container,lineContainer)">
+                                            <span class="fa fa-plus"></span>
+                                        </a>
+                                        <a data-toggle="modal"
+                                           data-target="#create-modal"
+                                           (click)="EditContainer(container,lineContainer)">
+                                            <span class="fa fa-edit"></span>
+                                        </a>
+                                        <a data-toggle="modal"
+                                           data-target="#delete-modal"
+                                           (click)="Select(container,lineContainer)"
+                                           style="float: right">
+                                            <span class="fa fa-trash-o"></span>
+                                        </a>
+                                    </div>
+                                    <div [innerHTML]="container.postText | escapeHtml" style="padding: 2px"></div>
+                                </div>
                             </div>
                         </div>
-
                     </div>
                 </div>
             </div>

@@ -48,7 +48,10 @@ export class CreatorComponent implements OnInit {
 
     addPage(title: string) {
         // $('#PageModal').title = title;
-         this.listOfPages.push( new Page(title));
+        this.listOfPages.push( new Page(title));
+        if(this.listOfPages.length==1){
+            this.selectedPage=this.listOfPages[0];
+        }
     }
 
     removePage(index: number) {
@@ -62,6 +65,11 @@ export class CreatorComponent implements OnInit {
         }
         this.listOfPages.splice(index, 1);
     }
+    // openPageModal(){
+    //     $('#PageModal').modal('toggle');
+    //     this.selectedPage=new Page("df");
+    //     this.addLineContainer();
+    // }
 
     addContainer(event: any, lineContainer: LineContainer) {
         console.log(event);
