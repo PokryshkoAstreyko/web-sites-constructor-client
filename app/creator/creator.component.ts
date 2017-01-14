@@ -48,11 +48,15 @@ export class CreatorComponent implements OnInit {
     }
 
     addPage(title: string) {
+        console.log(title);
         // $('#PageModal').title = title;
         this.listOfPages.push( new Page(title));
         if(this.listOfPages.length==1){
             this.selectedPage=this.listOfPages[0];
         }
+    }
+    editTitlePage(title:string){
+        this.selectedPage.name=title;
     }
 
     removePage() {

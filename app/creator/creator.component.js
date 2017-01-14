@@ -37,11 +37,15 @@ var CreatorComponent = (function () {
         }
     };
     CreatorComponent.prototype.addPage = function (title) {
+        console.log(title);
         // $('#PageModal').title = title;
         this.listOfPages.push(new page_1.Page(title));
         if (this.listOfPages.length == 1) {
             this.selectedPage = this.listOfPages[0];
         }
+    };
+    CreatorComponent.prototype.editTitlePage = function (title) {
+        this.selectedPage.name = title;
     };
     CreatorComponent.prototype.removePage = function () {
         this.listOfPages.splice(this.deletedPageID, 1);
