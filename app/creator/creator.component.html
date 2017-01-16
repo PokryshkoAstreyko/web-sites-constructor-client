@@ -4,77 +4,44 @@
              style="padding: 0; margin-right: 1px; margin-left: 10px; min-height: 600px;">
             <div class=" panel panel-success " style="min-height: inherit;">
                 <ul class="nav nav-tabs ">
-                    <li class=""><a href="#instruments" data-toggle="tab" aria-expanded="false">Instruments</a></li>
+                    <li class=""><a href="#tools" data-toggle="tab" aria-expanded="false">Tools</a></li>
                     <li class="active"><a href="#pages" data-toggle="tab" aria-expanded="true">Pages</a></li>
                 </ul>
                 <div id="myTabContent" class="tab-content">
-                    <div class="tab-pane fade" id="instruments">
-                        <div dnd-droppable class="panel-body">
-                            <div *ngFor="let component of availableComponents" class="panel panel-default "
-                                 dnd-draggable [dragEnabled] [dropZones]="['demo1']"
-                                 [dragData]="component">
-                                <div class="panel-body">
-                                    {{component}}
+                    <div class="tab-pane fade" id="tools">
+                        <div class="panel-body">
+                            <div style="padding-top: 20px">
+                                <div dnd-draggable [dragEnabled] [dropZones]="['demo1']" [dragData]="component">
+                                    <panelborder [text]=panelToolsComponent[0]></panelborder>
                                 </div>
                             </div>
-                            <div class="panel panel-default" data-toggle="modal" data-target="#view-modal"
+                            <hr class="marginHr">
+
+                            <div class="marginPanel" data-toggle="modal" data-target="#view-modal">
+                                <panelborder [text]=panelToolsComponent[1]></panelborder>
+                            </div>
+
+                            <div class="marginPanel" data-toggle="modal" data-target="#view-code-modal"
                                  (click)="ToHTML()">
-                                <div class="panel-body">
-                                    View
-                                </div>
+                                <panelborder [text]=panelToolsComponent[2]></panelborder>
                             </div>
-                            <div class="panel panel-default">
-                                <div class="panel-body" data-toggle="modal" data-target="#view-code-modal"
-                                     (click)="ToHTML()">
-                                    View code
-                                </div>
+
+                            <hr class="marginHr">
+                            <div class="marginPanel" data-toggle="modal" data-target="#view-code-modal">
+                                <panelborder [text]=panelToolsComponent[3]></panelborder>
                             </div>
+                            <button type="button" class="btn btn-success btn-md "
+                                    style="float: right; margin-top: 60px">
+                                Save WebSite
+                            </button>
+
                         </div>
                     </div>
                     <div class="tab-pane fade active in" id="pages">
-                        <div dnd-sortable-container [sortableData]="listOfPages" class="panel-body">
-                            <div class="text-center" style="margin-bottom: 15px;">
-                                <button type="button" class="btn btn-success btn-sm"
-                                        data-toggle="modal"
-                                        data-target="#PageModal" (click)="title.value='' ">
-                                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-                                    Add Page
-
-                                </button>
-                            </div>
-                            <div *ngFor="let page of listOfPages; let i = index" dnd-sortable
-                                 [sortableIndex]="i" (click)="selectPage(page)">
-                                <div *ngIf="page==selectedPage" class="panel panel-info">
-                                    <div class="panel-head">
-                                        <span class="pull-right fa fa-trash-o"
-                                              style="padding-right: 6px; padding-top: 2px;"
-                                              data-toggle="modal" data-target="#delete-page-modal"
-                                              (click)="selectDeletePageID(i)"></span>
-                                        <span class="fa fa-edit" style="padding-left: 6px;"
-                                              data-toggle="modal" data-target="#edit-page-modal"
-                                              (click)="selectPage(page);titleEdit.value=selectedPage.name"></span>
-                                    </div>
-                                    <div class="panel-body" style="padding-top: 6px; padding-bottom: 12px">
-                                        {{page.name}}
-                                    </div>
-                                </div>
-                                <div *ngIf="page!=selectedPage" class="panel panel-default">
-                                    <div class="panel-head">
-                                        <span class="pull-right fa fa-trash-o"
-                                              style="padding-right: 6px; padding-top: 2px;"
-                                              data-toggle="modal" data-target="#delete-page-modal"
-                                              (click)="selectDeletePageID(i)"></span>
-                                        <span class="fa fa-edit" style="padding-left: 6px;"
-                                              data-toggle="modal" data-target="#edit-page-modal"
-                                              (click)="selectPage(page);titleEdit.value=selectedPage.name"></span>
-                                    </div>
-                                    <div class="panel-body" style="padding-top: 6px; padding-bottom: 12px">
-                                        {{page.name}}
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
+                        <panelToolsPages [listOfPages]=listOfPages [selectedPage]=selectedPage
+                                         (addingPage)="addPage($event)" (selectingPage)="selectPage($event)"
+                                         (removingPage)="removePage($event)" (editingPage)="editTitlePage($event)">
+                        </panelToolsPages>
                     </div>
                 </div>
             </div>
@@ -93,8 +60,7 @@
                      (onDropSuccess)="addLineContainer($event)"
                      [dropZones]="['demo1']" style=" padding-bottom: 80px">
 
-
-                    <nav class="navbar navbar-default">
+                    <nav class="navbar navbar-default" style="background-color: #4bb1cf">
                         <div class="container">
                             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
                                     data-target="#navbar-collapse-1">
@@ -110,7 +76,8 @@
                             </ul>
                             <div class="collapse navbar-collapse" id="navbar-collapse-1">
                                 <ul class="nav navbar-nav navbar-right">
-                                    <li style="padding-left: 0" *ngFor="let page of listOfPages"><a>{{page.name}}</a>
+                                    <li style="padding-left: 0" *ngFor="let page of listOfPages">
+                                        <a>{{page.name}}</a>
                                     </li>
                                 </ul>
                             </div>
@@ -123,7 +90,7 @@
                     <div *ngIf="listOfPages.length!=0">
                         <div *ngFor="let lineContainer of selectedPage.lineContainers"
                              class="col-md-12 dnd-placeholder list-group-item"
-                             dnd-droppable (onDropSuccess)="addContainer($event,lineContainer)" [dropZones]="['demo1']"
+                             dnd-droppable (onDropSuccess)="addContainer(lineContainer)" [dropZones]="['demo1']"
                              style="border: 1px dotted black; border-radius: 5px;min-height: 50px; padding-top: 0;"
                              #workSpace>
                             <div class="col-md-12 work" dnd-sortable-container [dropZones]="['boxers-zone']"
@@ -136,8 +103,6 @@
                                         <span class="fa fa-trash-o" style="color: #515151"></span>
                                     </a>
                                 </div>
-
-
                                 <div *ngFor="let container of lineContainer.containers; let i = index"
                                      class="work col-md-{{container.size}} list-group-item panel-body" dnd-sortable
                                      [sortableIndex]="i"
@@ -171,10 +136,10 @@
                 </div>
             </div>
         </div>
-
     </div>
 </div>
-<!--Summernote Modal-->
+
+<!--Froala Modal-->
 <div class="modal fade" id="create-modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel">
     <div class="modal-dialog modal-lg" style="min-width: 1200px;">
         <div class="modal-content">
@@ -188,9 +153,9 @@
                     </h4>
                 </div>
             </div>
-            <div class="modal-body" style="min-height: 400px;">
+            <div class="modal-body">
                 <div class="form-group">
-                    <div id="froala-editor" [froalaEditor]="options" [(froalaModel)]="editorContent"></div>
+                    <div id="froala-editor" [froalaEditor]="options" [(froalaModel)]="content"></div>
                 </div>
             </div>
             <div class="modal-footer ">
@@ -202,204 +167,17 @@
 
 <!--Delete Container Modal -->
 <div class="modal fade" id="delete-container-modal">
-    <div class="modal-dialog modal-md" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <div>
-                    <h4 class="modal-title">
-                        Delete container
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">×</span>
-                        </button>
-                    </h4>
-                </div>
-            </div>
-            <div class="modal-body">
-                Do you want to remove this container?
-            </div>
-            <div class="modal-footer">
-                <button type="button" (click)="DeleteContainer()" class="btn btn-primary" data-dismiss="modal">Yes
-                </button>
-                <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!--Delete Page Modal-->
-<div class="modal fade" id="delete-page-modal" >
-    <div class="modal-dialog modal-md" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <div>
-                    <h4 class="modal-title">
-                        Delete page
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">×</span>
-                        </button>
-                    </h4>
-                </div>
-            </div>
-            <div class="modal-body">
-                Do you want to remove this page?
-            </div>
-            <div class="modal-footer">
-                <button type="button" (click)="removePage()" class="btn btn-primary" data-dismiss="modal">Yes
-                </button>
-                <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
-            </div>
-        </div>
-    </div>
+    <modalDelete [titleText]=modalText.TitleDeleteContainer [bodyText]=modalText.BodyDeleteContainer
+                 (deleting)="DeleteContainer()"></modalDelete>
 </div>
 
 <!--View Modal-->
-<div class="modal fade" id="view-modal" >
-    <div class="modal-dialog  " style="min-width: 1200px;">
-        <div class="modal-content">
-            <div class="modal-header">
-                <div>
-                    <h4 class="modal-title">
-                        View WebSite
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">×</span>
-                        </button>
-                    </h4>
-                </div>
-            </div>
-            <div class="modal-body" style="min-height: 500px">
-                <div col-md-12 class="panel-body">
-                    <nav class="navbar navbar-default">
-                        <div class="container">
-                            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
-                                    data-target="#navbar-collapse-2">
-                                <span class="sr-only">Toggle navigation</span>
-                                <span class="icon-bar"></span>
-                                <span class="icon-bar"></span>
-                                <span class="icon-bar"></span>
-                            </button>
-                            <a class="navbar-brand" style="margin-right: 20px">Title Site</a>
-                            <ul class="nav navbar-nav navbar-right" style="padding-top: 4px; margin-left: 50px">
-                                <li style="float: left" *ngFor="let page of listOfPages" href=""
-                                    (click)="selectViewPage(page)">
-                                    <a>{{page.name}}</a>
-                                </li>
-                            </ul>
-                            <div class="collapse navbar-collapse" id="navbar-collapse-2">
-                                <ul class="nav navbar-nav navbar-right">
-                                    <li style="padding-left: 0" *ngFor="let page of listOfPages" href=""
-                                        (click)="selectViewPage(page)">
-                                        <a>{{page.name}}</a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </nav>
-                    <div *ngFor="let lineContainer of selectedViewPage.lineContainers" class="row panel-body ">
-                        <div *ngFor="let container of lineContainer.containers"
-                             class="work col-md-{{container.size}} panel-body">
-                            <div [innerHTML]="container.postText | escapeHtml" style="padding: 2px"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Ok</button>
-            </div>
-        </div>
-    </div>
+<div class="modal fade" id="view-modal">
+    <modalViewSite [listOfPages]=listOfPages [selectedViewPage]=selectedPage></modalViewSite>
 </div>
 
 <!--View-Code-Modal-->
-<div class="modal fade" id="view-code-modal" >
-    <div class="modal-dialog  " style="min-width: 1200px">
-        <div class="modal-content">
-            <div class="modal-header">
-                <div>
-                    <h4 class="modal-title">
-                        View Code WebSite
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">×</span>
-                        </button>
-                    </h4>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-md-2" style="padding-right: 0px">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            Pages
-                        </div>
-                        <div class="panel-body">
-                            <div *ngFor="let page of listOfPages; let i = index" (click)="selectViewPage(page)">
-                                <div *ngIf="page==selectedViewPage" class="panel panel-info">
-                                    <div class="panel-body">
-                                        {{page.name}}
-                                    </div>
-                                </div>
-                                <div *ngIf="page!=selectedViewPage" class="panel panel-default">
-                                    <div class="panel-body">
-                                        {{page.name}}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-10">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">Page code</div>
-                        <div class="panel-body">
-                                <textarea class="form-control" type="textarea"
-                                          rows="25" readonly>{{HTMLCode}}</textarea>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Ok</button>
-            </div>
-        </div>
-    </div>
+<div class="modal fade" id="view-code-modal">
+    <modalViewCode [listOfPages]=listOfPages [selectedViewPage]=selectedPage [HTMLCode]=HTMLCode></modalViewCode>
 </div>
 
-<!-- Enter Title Modal -->
-<div id="PageModal" class="modal fade" >
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal"></button>
-                <h4 class="modal-title">Enter page title</h4>
-            </div>
-            <div class="modal-body">
-                <input type="text" class="form-control" #title>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-success" data-dismiss="modal"
-                        (click)="addPage(title.value);">Save
-                </button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Edit Title Modal -->
-<div id="edit-page-modal" class="modal fade">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal"></button>
-                <h4 class="modal-title">Edit page title</h4>
-            </div>
-            <div class="modal-body">
-                <input type="text" class="form-control" #titleEdit>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-success" data-dismiss="modal"
-                        (click)="editTitlePage(titleEdit.value);">
-                    Save
-                </button>
-            </div>
-        </div>
-    </div>
-</div>

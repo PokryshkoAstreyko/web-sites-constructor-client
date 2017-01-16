@@ -801,7 +801,7 @@
 
 }(window.jQuery);
 /* =========================================================
- * bootstrap-modal.js v2.3.2
+ * bootstrap-modal.delete.js v2.3.2
  * http://getbootstrap.com/2.3.2/javascript.html#modals
  * =========================================================
  * Copyright 2013 Twitter, Inc.

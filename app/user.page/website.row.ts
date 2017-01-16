@@ -1,7 +1,7 @@
 /**
  * Created by Dima on 07.01.2017.
  */
-import {UserWebSite} from './user.page';
+import {UserWebSite} from './user.website';
 
 
 export class WebSiteRow {

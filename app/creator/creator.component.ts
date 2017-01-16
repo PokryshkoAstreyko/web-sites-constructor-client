@@ -5,6 +5,8 @@ import {LineContainer} from "./line.container";
 import {Page} from "./page";
 import {PageToHTML} from "./PageToHTML";
 // import { Ng2Summernote } from 'ng2-summernote/ng2-summernote';
+import { IColorPickerConfiguration } from 'ng2-color-picker';
+import {ModalText} from '../modals/modal.text'
 
 declare var $: any;
 
@@ -20,26 +22,48 @@ export class CreatorComponent implements OnInit {
 
     listOfPages: Page[] = [];
     selectedPage: Page;
-    selectedViewPage: Page = new Page("");
-    deletedPageID: number = 0;
+    panelToolsComponent: string[]= ["Container","View","View Code","Settings WebSite"];
 
-
-    lineContainers: LineContainer[] = [];
     selectedContainerID: number = 0;
     selectedLineContainerID: number = 0;
     availableComponents: string[] = [];
     deleteLineContainer: boolean = false;
     HTMLCode: string = '';
-    public editorContent: string = 'My Document\'s Title';
+    public config: IColorPickerConfiguration;
+    public model: any;
+    modalText: ModalText= new ModalText();
+
 
     constructor() {
         this.availableComponents.push("Container");
         this.listOfPages.push(new Page("Main"));
         this.selectedPage = this.listOfPages[0];
+        this.HTMLCode="";
+        this.model = '#cccccc';
+        this.config = {
+            width: 25,
+            height: 25,
+            borderRadius: 4,
+            availableColors: [
+                '#33cccc',
+                '#99cc99',
+                '#cc99cc',
+                '#fabf8f',
+                '#bfbfbf',
+                '#6699ff',
+                '#ff6666',
+                '#ffcc66'
+            ]
+        };
     }
 
     ngOnInit() {
         $("#sticker").sticky({topSpacing: 0});
+        $('#froala-editor').froalaEditor({
+            charCounterCount: false,
+            height: '400'
+        });
+        $('#colorselector').colorselector('setColor', '#ff0000');
 
     }
 
@@ -50,38 +74,26 @@ export class CreatorComponent implements OnInit {
             }
     }
 
-    addPage(title: string) {
+    addPage(title: any) {
         this.listOfPages.push(new Page(title));
-        if (this.listOfPages.length == 1) {
-            this.selectedPage = this.listOfPages[0];
-        }
     }
 
-    editTitlePage(title: string) {
-        this.selectedPage.name = title;
+    removePage(id: number) {
+        this.listOfPages.splice(id, 1);
     }
-
-    removePage() {
-
-        this.listOfPages.splice(this.deletedPageID, 1);
-        this.selectedPage = this.listOfPages[0];
-        if (this.listOfPages.length == 0) {
-            this.selectedPage = new Page("");
-        }
-
+    selectPage(page: Page) {
+        this.selectedPage = page;
     }
-
-    selectDeletePageID(page: number) {
-        this.deletedPageID = page;
+    editTitlePage(title: string){
+        this.selectedPage.name=title;
     }
-
     // openPageModal(){
     //     $('#PageModal').modal('toggle');
     //     this.selectedPage=new Page("df");
     //     this.addLineContainer();
     // }
 
-    addContainer(event: any, lineContainer: LineContainer) {
+    addContainer(lineContainer: LineContainer) {
         lineContainer.containers.push(new Container());
     }
 
@@ -100,11 +112,6 @@ export class CreatorComponent implements OnInit {
     SelectLineContainer(lineContainer: LineContainer) {
         this.selectedLineContainerID = this.selectedPage.lineContainers.indexOf(lineContainer);
         this.deleteLineContainer = true;
-    }
-
-    selectPage(event: any) {
-        console.log(event);
-        this.selectedPage = event;
     }
 
     EditContainer(container: Container, lineContainer: LineContainer) {
@@ -135,12 +142,7 @@ export class CreatorComponent implements OnInit {
 
     ToHTML() {
         this.HTMLCode = PageToHTML.transfer(this.selectedPage);
-        this.selectedViewPage = this.selectedPage;
     }
 
-    selectViewPage(page: Page) {
-        this.HTMLCode = PageToHTML.transfer(page);
-        this.selectedViewPage = page;
-    }
 
 }

@@ -25,6 +25,14 @@ var ng2_dnd_1 = require("ng2-dnd");
 var creator_component_1 = require("./creator/creator.component");
 var user_page_component_1 = require("./user.page/user.page.component");
 var froala_directives_1 = require("./froala.directives");
+var ng2_color_picker_1 = require("ng2-color-picker");
+var modal_delete_1 = require("./modals/modal.delete/modal.delete");
+var modal_edit_title_page_1 = require("./modals/modal.edit.title.page/modal.edit.title.page");
+var modal_view_site_1 = require("./modals/modal.view.site/modal.view.site");
+var modal_view_code_1 = require("./modals/modal.view.code/modal.view.code");
+var panel_tools_pages_1 = require("./creator/panel.tools.pages/panel.tools.pages");
+var panel_1 = require("./creator/panel/panel");
+var ng2_rating_1 = require("ng2-rating");
 var EscapeHtmlPipe = (function () {
     function EscapeHtmlPipe(sanitized) {
         this.sanitized = sanitized;
@@ -57,7 +65,9 @@ AppModule = __decorate([
             forms_1.FormsModule,
             http_1.HttpModule,
             app_routing_1.routing,
-            ng2_dnd_1.DndModule.forRoot()
+            ng2_dnd_1.DndModule.forRoot(),
+            ng2_color_picker_1.ColorPickerModule,
+            ng2_rating_1.RatingModule
         ],
         declarations: [
             app_component_1.AppComponent,
@@ -69,7 +79,13 @@ AppModule = __decorate([
             creator_component_1.CreatorComponent,
             EscapeHtmlPipe,
             user_page_component_1.UserPageComponent,
-            froala_directives_1.FroalaEditorDirective, froala_directives_1.FroalaViewDirective
+            froala_directives_1.FroalaEditorDirective, froala_directives_1.FroalaViewDirective,
+            modal_delete_1.ModalDelete,
+            modal_edit_title_page_1.ModalEditTitle,
+            modal_view_site_1.ModalViewSite,
+            modal_view_code_1.ModalViewCode,
+            panel_tools_pages_1.PanelToolsPages,
+            panel_1.PanelBorder,
         ],
         providers: [
             index_1.AuthGuard,

@@ -1,0 +1,103 @@
+<div class="panel-body" style="padding-top: 30px">
+    <div class="text-center" style="margin-bottom: 15px;">
+        <button type="button" class="btn btn-success btn-sm" data-toggle="modal"
+                data-target="#page-modal" (click)="titleEnter.value=''">
+            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+            Add Page
+        </button>
+    </div>
+    <div dnd-sortable-container [sortableData]="listOfPages">
+        <div *ngFor="let page of listOfPages; let i = index" dnd-sortable
+             [sortableIndex]="i" (click)="selectPage(page)">
+
+            <div *ngIf="page==selectedPage" class="panel panel-info">
+                <div class="panel-head">
+                <span class="pull-right fa fa-trash-o" style="padding-right: 6px; padding-top: 2px;"
+                      data-toggle="modal" data-target="#delete-page-modal"
+                      (click)="selectDeletePageID(i)"></span>
+                    <span class="fa fa-edit" style="padding-left: 6px;"
+                          data-toggle="modal" data-target="#edit-page-modal"
+                          (click)="selectPage(page); titleEdit.value=page.name "></span>
+                </div>
+                <div class="panel-body" style="padding-top: 6px; padding-bottom: 12px">
+                    {{page.name}}
+                </div>
+            </div>
+
+            <div *ngIf="page!=selectedPage" class="panel panel-default">
+                <div class="panel-head">
+                <span class="pull-right fa fa-trash-o" style="padding-right: 6px; padding-top: 2px;"
+                      data-toggle="modal" data-target="#delete-page-modal"
+                      (click)="selectDeletePageID(i)"></span>
+                    <span class="fa fa-edit" style="padding-left: 6px;"
+                          data-toggle="modal" data-target="#edit-page-modal"
+                          (click)="selectPage(page); titleEdit.value=page.name"></span>
+                </div>
+                <div class="panel-body" style="padding-top: 6px; padding-bottom: 12px">
+                    {{page.name}}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Enter Title Modal -->
+<div id="page-modal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div>
+                    <h4 class="modal-title">
+                        Enter page title
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </h4>
+                </div>
+            </div>
+            <div class="modal-body">
+                <input type="text" class=" form-control" #titleEnter>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-success" data-dismiss="modal"
+                        (click)="addPage(titleEnter.value)">
+                    Save
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Edit Title Modal -->
+<div id="edit-page-modal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div>
+                    <h4 class="modal-title">
+                        Edit page title
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </h4>
+                </div>
+            </div>
+            <div class="modal-body">
+                <input id="myInput" type="text" class=" form-control" #titleEdit>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-success" data-dismiss="modal"
+                        (click)="editTitlePage(titleEdit.value)">
+                    Save
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Delete Page Modal-->
+<div class="modal fade" id="delete-page-modal">
+    <modalDelete [titleText]=modalText.TitleDeletePage [bodyText]=modalText.BodyDeletePage
+                 (deleting)="removePage()"></modalDelete>
+</div>
