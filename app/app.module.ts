@@ -17,7 +17,14 @@ import { DndModule } from "ng2-dnd";
 import { CreatorComponent } from "./creator/creator.component";
 import { UserPageComponent } from "./user.page/user.page.component";
 import {FroalaViewDirective, FroalaEditorDirective} from "./froala.directives";
-
+import { ColorPickerModule } from 'ng2-color-picker';
+import {ModalDelete} from './modals/modal.delete/modal.delete'
+import {ModalEditTitle} from "./modals/modal.edit.title.page/modal.edit.title.page";
+import {ModalViewSite} from "./modals/modal.view.site/modal.view.site"
+import {ModalViewCode} from "./modals/modal.view.code/modal.view.code";
+import {PanelToolsPages} from "./creator/panel.tools.pages/panel.tools.pages"
+import {PanelBorder} from "./creator/panel/panel";
+import {RatingModule} from "ng2-rating";
 
 @Pipe({ name: 'escapeHtml', pure: false })
 export class EscapeHtmlPipe implements PipeTransform {
@@ -39,7 +46,9 @@ export class EscapeHtmlPipe implements PipeTransform {
         FormsModule,
         HttpModule,
         routing,
-        DndModule.forRoot()
+        DndModule.forRoot(),
+        ColorPickerModule,
+        RatingModule
     ],
     declarations: [
         AppComponent,
@@ -51,7 +60,15 @@ export class EscapeHtmlPipe implements PipeTransform {
         CreatorComponent,
         EscapeHtmlPipe,
         UserPageComponent,
-        FroalaEditorDirective,FroalaViewDirective
+        FroalaEditorDirective,FroalaViewDirective,
+        ModalDelete,
+        ModalEditTitle,
+        ModalViewSite,
+        ModalViewCode,
+        PanelToolsPages,
+        PanelBorder,
+
+
     ],
     providers: [
         AuthGuard,

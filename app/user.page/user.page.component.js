@@ -12,54 +12,65 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require("@angular/core");
-var user_page_1 = require("./user.page");
-var website_row_1 = require("./website.row");
+var user_website_1 = require("./user.website");
+var modal_text_1 = require("../modals/modal.text");
 var UserPageComponent = (function () {
     function UserPageComponent() {
         this.userMainPage = '/app/user.page/img/MainPage.png';
         this.userBigMainPage = '/app/user.page/img/bigMainPage.png';
+        this.classInputTitle = '';
+        this.modalText = new modal_text_1.ModalText();
         var tags;
         var tag = "tag";
         tags = [];
+        this.newTags = [];
         this.deleteModal = false;
         this.titleError = false;
         this.showCreateModal = true;
-        this.webSitesdata = [];
-        this.selectedWebSite = new user_page_1.UserWebSite("", "", "", []);
-        for (var i = 1; i <= 7; i++) {
+        this.webSites = [];
+        this.selectedWebSite = new user_website_1.UserWebSite("", "", "", []);
+        for (var i = 1; i <= 10; i++) {
             tags.push(tag + i);
-            this.webSitesdata.push(new user_page_1.UserWebSite(this.userMainPage, "WebSite" + i, "blablablablablablablab" + i, tags));
+            this.webSites.push(new user_website_1.UserWebSite(this.userMainPage, "WebSite" + i, "blablablablablablablab" + i, tags));
         }
-        this.toGridSite();
-        console.log(this.webSitesdata);
     }
-    UserPageComponent.prototype.toGridSite = function () {
-        this.userWebSites = [];
-        this.webSiteRows = [];
-        this.newTags = [];
-        this.newTitle = "";
-        this.newDescription = '';
-        for (var i = 0; i < this.webSitesdata.length; i++) {
-            this.userWebSites.push(this.webSitesdata[i]);
-            if ((i + 1) % 4 == 0) {
-                this.webSiteRows.push(new website_row_1.WebSiteRow(this.userWebSites));
-                this.userWebSites = [];
-            }
-        }
-        if (this.userWebSites)
-            this.webSiteRows.push(new website_row_1.WebSiteRow(this.userWebSites));
+    UserPageComponent.prototype.ngOnInit = function () {
+        $('#colorselector').colorselector('setColor', '#6699ff');
+        this.model = '#6699ff';
+        this.config = {
+            width: 25,
+            height: 25,
+            borderRadius: 4,
+            availableColors: [
+                '#33cccc',
+                '#99cc99',
+                '#cc99cc',
+                '#fabf8f',
+                '#bfbfbf',
+                '#6699ff',
+                '#ff6666',
+                '#ffcc66'
+            ]
+        };
+    };
+    UserPageComponent.prototype.change = function (val) {
+        console.log(val);
     };
     UserPageComponent.prototype.toAddTeg = function (event) {
-        if (event) {
-            this.newTags.push(event);
+        if (!this.newTags.includes(event)) {
+            if (event) {
+                this.newTags.push(event);
+            }
         }
     };
-    UserPageComponent.prototype.toFormCreateWebSite = function (event) {
+    UserPageComponent.prototype.toFormCreateWebSite = function () {
         this.newTags = [];
-        this.newTitle = '';
-        this.newDescription = '';
-        this.titleError = false;
-        this.showCreateModal = true;
+        $('#inputTitle').val('');
+        $('#inputDescription').val('');
+        $('#inputTag').val('');
+        $('#selectTypeMenu').val(1);
+        this.model = '#6699ff';
+        this.classInputTitle = "";
     };
     UserPageComponent.prototype.toDeleteTeg = function (event) {
         this.newTags.splice(this.newTags.indexOf(event), 1);
@@ -68,50 +79,23 @@ var UserPageComponent = (function () {
         this.selectedWebSite = event;
         this.deleteModal = false;
     };
-    UserPageComponent.prototype.toSelectTD = function (event) {
-        //event.colorTD = "#9999CC";
-        event.colorTD = "#CCCCFF";
-    };
-    UserPageComponent.prototype.toUnSelectTD = function (event) {
-        event.colorTD = "#ecf0f1";
-    };
-    UserPageComponent.prototype.toDeleteWebSite = function () {
-        this.webSitesdata.splice(this.webSitesdata.indexOf(this.selectedWebSite), 1);
-        this.toGridSite();
+    UserPageComponent.prototype.DeleteWebSite = function () {
+        this.webSites.splice(this.webSites.indexOf(this.selectedWebSite), 1);
     };
     UserPageComponent.prototype.viewDeleteModal = function () {
         this.deleteModal = true;
     };
     UserPageComponent.prototype.toSubmitForm = function () {
-        if (this.newTitle) {
-            this.titleError = false;
-            this.webSitesdata.push(new user_page_1.UserWebSite(this.userMainPage, this.newTitle, this.newDescription, this.newTags));
-            this.toGridSite();
+        if ($('#inputTitle').val()) {
+            this.webSites.push(new user_website_1.UserWebSite(this.userMainPage, $('#inputTitle').val(), $('#inputDescription').val(), this.newTags));
+            $('#create-modal').modal('toggle');
         }
         else {
-            this.titleError = true;
+            this.classInputTitle = "has-error";
         }
     };
     UserPageComponent.prototype.toggleTitleError = function () {
-        this.titleError = false;
-    };
-    UserPageComponent.prototype.tosaveNewTitle = function (event) {
-        if (event) {
-            this.showCreateModal = false;
-        }
-        else {
-            this.showCreateModal = true;
-        }
-        this.newTitle = event;
-    };
-    UserPageComponent.prototype.tosaveNewDescription = function (event) {
-        this.newDescription = event;
-    };
-    UserPageComponent.prototype.tosaveNewMenu = function (event) {
-        console.log(event);
-    };
-    UserPageComponent.prototype.toConsole = function (event) {
-        console.log(event);
+        this.classInputTitle = "";
     };
     return UserPageComponent;
 }());

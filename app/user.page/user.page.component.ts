@@ -2,81 +2,95 @@
  * Created by Dima on 06.01.2017.
  */
 
-import {Component, ViewChild, ViewChildren, NgModule} from "@angular/core";
+import {Component, ViewChild, ViewChildren, NgModule, OnInit} from "@angular/core";
 
-import {IUserWebSite} from './user.page';
-import {UserWebSite} from './user.page';
+import {UserWebSite} from './user.website';
 import {WebSiteRow} from './website.row';
 import {el} from "@angular/platform-browser/testing/browser_util";
+import {IColorPickerConfiguration} from "ng2-color-picker";
+import {ModalText} from "../modals/modal.text";
 
+
+declare var $: any;
 @Component({
     moduleId: module.id,
     templateUrl: 'user.page.component.html',
     styleUrls: ['user.page.component.css'],
 
 })
-export class UserPageComponent {
+export class UserPageComponent implements OnInit{
     userMainPage = '/app/user.page/img/MainPage.png'
     userBigMainPage = '/app/user.page/img/bigMainPage.png'
-    userWebSites: UserWebSite[];
-    webSiteRows: WebSiteRow[];
-    webSitesdata: UserWebSite[];
+
+    webSites: UserWebSite[];
     newTags: string[];
-    newTitle: string;
-    emptyString: "";
-    newDescription: string;
+
     selectedWebSite: UserWebSite;
     deleteModal: boolean
     titleError: boolean;
     showCreateModal: boolean;
+    classInputTitle: string='';
+    modalText: ModalText= new ModalText();
+
+    public config: IColorPickerConfiguration;
+    public model: any;
+
 
     constructor() {
         let tags: string[]
         let tag = "tag";
         tags = [];
+        this.newTags = [];
         this.deleteModal = false;
         this.titleError = false;
-        this.showCreateModal=true;
-        this.webSitesdata = [];
+        this.showCreateModal = true;
+        this.webSites = [];
         this.selectedWebSite = new UserWebSite("", "", "", []);
-        for (let i = 1; i <=7; i++) {
+        for (let i = 1; i <= 10; i++) {
             tags.push(tag + i);
-            this.webSitesdata.push(new UserWebSite(this.userMainPage, "WebSite" + i, "blablablablablablablab" + i, tags));
+            this.webSites.push(new UserWebSite(this.userMainPage, "WebSite" + i, "blablablablablablablab" + i, tags));
         }
-        this.toGridSite();
-        console.log(this.webSitesdata);
     }
 
-    toGridSite() {
-        this.userWebSites = [];
-        this.webSiteRows = [];
-        this.newTags = [];
-        this.newTitle="";
-        this.newDescription='';
-
-        for (let i = 0; i < this.webSitesdata.length; i++) {
-            this.userWebSites.push(this.webSitesdata[i]);
-            if ((i + 1) % 4 == 0) {
-                this.webSiteRows.push(new WebSiteRow(this.userWebSites));
-                this.userWebSites = [];
-            }
-        }
-        if (this.userWebSites)
-            this.webSiteRows.push(new WebSiteRow(this.userWebSites));
+    ngOnInit() {
+        $('#colorselector').colorselector('setColor', '#6699ff');
+        this.model = '#6699ff';
+        this.config = {
+            width: 25,
+            height: 25,
+            borderRadius: 4,
+            availableColors: [
+                '#33cccc',
+                '#99cc99',
+                '#cc99cc',
+                '#fabf8f',
+                '#bfbfbf',
+                '#6699ff',
+                '#ff6666',
+                '#ffcc66'
+            ]
+        };
+    }
+    public change(val: any) {
+        console.log(val);
     }
 
     toAddTeg(event: any) {
-        if (event) {
-            this.newTags.push(event);
+        if(!this.newTags.includes(event)){
+            if(event){
+                this.newTags.push(event);
+            }
         }
     }
 
-    toFormCreateWebSite(event: any) {
+    toFormCreateWebSite() {
         this.newTags = [];
-        this.newTitle='';
-        this.newDescription='';
-        this.titleError=false;
-        this.showCreateModal=true;
+        $('#inputTitle').val('');
+        $('#inputDescription').val('');
+        $('#inputTag').val('');
+        $('#selectTypeMenu').val(1);
+        this.model = '#6699ff';
+        this.classInputTitle="";
     }
 
     toDeleteTeg(event: any) {
@@ -88,56 +102,27 @@ export class UserPageComponent {
         this.deleteModal = false;
     }
 
-    toSelectTD(event: any) {
-        //event.colorTD = "#9999CC";
-        event.colorTD = "#CCCCFF";
 
+    DeleteWebSite() {
+        this.webSites.splice(this.webSites.indexOf(this.selectedWebSite), 1);
     }
 
-    toUnSelectTD(event: any) {
-        event.colorTD = "#ecf0f1";
-    }
-
-    toDeleteWebSite() {
-        this.webSitesdata.splice(this.webSitesdata.indexOf(this.selectedWebSite), 1);
-
-        this.toGridSite();
-    }
     viewDeleteModal() {
         this.deleteModal = true;
     }
-    toSubmitForm(){
-        if(this.newTitle){
-            this.titleError=false;
-            this.webSitesdata.push(new UserWebSite(this.userMainPage, this.newTitle,this.newDescription,this.newTags));
-            this.toGridSite();
-        }
-        else{
-            this.titleError=true;
-        }
 
-    }
-    toggleTitleError(){
-        this.titleError=false;
-    }
-    tosaveNewTitle(event: any){
-        if(event){
-            this.showCreateModal=false;
+    toSubmitForm() {
+        if ($('#inputTitle').val()) {
+            this.webSites.push(new UserWebSite(this.userMainPage,$('#inputTitle').val(), $('#inputDescription').val(), this.newTags));
+            $('#create-modal').modal('toggle');
         }
         else {
-            this.showCreateModal=true;
+            this.classInputTitle="has-error"
         }
-        this.newTitle=event;
-    }
-    tosaveNewDescription(event: any){
-        this.newDescription=event;
-    }
-    tosaveNewMenu(event:any){
-        console.log(event);
-    }
-    toConsole(event: any){
-        console.log(event);
 
+    }
+    toggleTitleError() {
+        this.classInputTitle="";
     }
 }
 

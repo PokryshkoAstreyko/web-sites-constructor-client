@@ -13,24 +13,45 @@ var container_1 = require("./container");
 var line_container_1 = require("./line.container");
 var page_1 = require("./page");
 var PageToHTML_1 = require("./PageToHTML");
+var modal_text_1 = require("../modals/modal.text");
 var CreatorComponent = (function () {
     function CreatorComponent() {
         this.listOfPages = [];
-        this.selectedViewPage = new page_1.Page("");
-        this.deletedPageID = 0;
-        this.lineContainers = [];
+        this.panelToolsComponent = ["Container", "View", "View Code", "Settings WebSite"];
         this.selectedContainerID = 0;
         this.selectedLineContainerID = 0;
         this.availableComponents = [];
         this.deleteLineContainer = false;
         this.HTMLCode = '';
-        this.editorContent = 'My Document\'s Title';
+        this.modalText = new modal_text_1.ModalText();
         this.availableComponents.push("Container");
         this.listOfPages.push(new page_1.Page("Main"));
         this.selectedPage = this.listOfPages[0];
+        this.HTMLCode = "";
+        this.model = '#cccccc';
+        this.config = {
+            width: 25,
+            height: 25,
+            borderRadius: 4,
+            availableColors: [
+                '#33cccc',
+                '#99cc99',
+                '#cc99cc',
+                '#fabf8f',
+                '#bfbfbf',
+                '#6699ff',
+                '#ff6666',
+                '#ffcc66'
+            ]
+        };
     }
     CreatorComponent.prototype.ngOnInit = function () {
         $("#sticker").sticky({ topSpacing: 0 });
+        $('#froala-editor').froalaEditor({
+            charCounterCount: false,
+            height: '400'
+        });
+        $('#colorselector').colorselector('setColor', '#ff0000');
     };
     CreatorComponent.prototype.savePost = function () {
         var text = $('#froala-editor').froalaEditor('html.get');
@@ -40,29 +61,22 @@ var CreatorComponent = (function () {
     };
     CreatorComponent.prototype.addPage = function (title) {
         this.listOfPages.push(new page_1.Page(title));
-        if (this.listOfPages.length == 1) {
-            this.selectedPage = this.listOfPages[0];
-        }
+    };
+    CreatorComponent.prototype.removePage = function (id) {
+        this.listOfPages.splice(id, 1);
+    };
+    CreatorComponent.prototype.selectPage = function (page) {
+        this.selectedPage = page;
     };
     CreatorComponent.prototype.editTitlePage = function (title) {
         this.selectedPage.name = title;
-    };
-    CreatorComponent.prototype.removePage = function () {
-        this.listOfPages.splice(this.deletedPageID, 1);
-        this.selectedPage = this.listOfPages[0];
-        if (this.listOfPages.length == 0) {
-            this.selectedPage = new page_1.Page("");
-        }
-    };
-    CreatorComponent.prototype.selectDeletePageID = function (page) {
-        this.deletedPageID = page;
     };
     // openPageModal(){
     //     $('#PageModal').modal('toggle');
     //     this.selectedPage=new Page("df");
     //     this.addLineContainer();
     // }
-    CreatorComponent.prototype.addContainer = function (event, lineContainer) {
+    CreatorComponent.prototype.addContainer = function (lineContainer) {
         lineContainer.containers.push(new container_1.Container());
     };
     CreatorComponent.prototype.addLineContainer = function () {
@@ -78,10 +92,6 @@ var CreatorComponent = (function () {
     CreatorComponent.prototype.SelectLineContainer = function (lineContainer) {
         this.selectedLineContainerID = this.selectedPage.lineContainers.indexOf(lineContainer);
         this.deleteLineContainer = true;
-    };
-    CreatorComponent.prototype.selectPage = function (event) {
-        console.log(event);
-        this.selectedPage = event;
     };
     CreatorComponent.prototype.EditContainer = function (container, lineContainer) {
         this.Select(container, lineContainer);
@@ -105,11 +115,6 @@ var CreatorComponent = (function () {
     };
     CreatorComponent.prototype.ToHTML = function () {
         this.HTMLCode = PageToHTML_1.PageToHTML.transfer(this.selectedPage);
-        this.selectedViewPage = this.selectedPage;
-    };
-    CreatorComponent.prototype.selectViewPage = function (page) {
-        this.HTMLCode = PageToHTML_1.PageToHTML.transfer(page);
-        this.selectedViewPage = page;
     };
     return CreatorComponent;
 }());

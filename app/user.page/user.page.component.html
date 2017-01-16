@@ -1,7 +1,6 @@
 <div class="container col-md-12">
-
     <div class="row">
-        <div class="col-md-2 col-md-offset-3">
+        <div class="col-md-2 col-md-offset-2">
             <button class="btn btn-info" data-toggle="modal" data-target="#create-modal"
                     (click)="toFormCreateWebSite()">Create new WebSite
             </button>
@@ -22,28 +21,53 @@
         </div>
 
     </div>
-    <div class="container">
-        <table class="table table-hover col-md-offset-1 text-center">
-            <tbody>
-            <tr *ngFor="let webSiteRow of webSiteRows">
-                <td *ngFor="let userSite of webSiteRow.userWebSites" data-toggle="modal"
-                    data-target="#preview-modal" (click)="toSelectWebSite(userSite)"
-                    (mouseover)="toSelectTD(userSite)" (mouseout)="toUnSelectTD(userSite)"
-                    [style.background-color]="userSite.colorTD">
-                    <div class="text-center padding-top-15">
-                        <img [src]="userSite.userMainPage">
-                    </div>
-                    <div class="text-center">
-                        <h4>{{userSite.title}}</h4>
-                    </div>
-                </td>
-            </tr>
-            </tbody>
-        </table>
+    <div class="container class coll-md-2">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class="row ">
+                    <div class="col-md-6" style="padding-left: 50px">Title</div>
+                    <div class="col-md-3 text-center">Rating</div>
+                </div>
+
+            </div>
+            <table class="table table-hover">
+
+                <thead>
+                <tr>
+                    <th class="col-md-6"></th>
+                    <th class="col-md-3"></th>
+                    <th class="col-md-3"></th>
+                </tr>
+                </thead>
+                <tbody class="panel-body">
+                <tr *ngFor="let webSite of webSites" data-toggle="modal"
+                    data-target="#preview-modal">
+                    <td>{{webSite.title}}</td>
+                    <td class="text-center">
+                        <rating [(ngModel)]="webSite.rating"
+                                [max]="5"
+                                [readonly]="false"
+                                [disabled]="false"
+                                [required]="true"
+                                [float]="true"
+                                [titles]="['one', 'two', 'three', 'four', 'five']">
+                        </rating>
+                    </td>
+                    <td><a data-toggle="modal"
+                           data-target="#delete-webSite-modal"
+                           style="float: right">
+                         <!--<span class="pull-right fa fa-trash-o" style="padding-right: 6px; padding-top: 2px;"-->
+                               <!--data-toggle="modal" data-target="#delete-page-modal"> </span>-->
+                        <img src="https://cdn3.iconfinder.com/data/icons/linecons-free-vector-icons-pack/32/trash-128.png" style="width: 40px; height: 40px;">
+                    </a></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
 
-
+<!--Create-Modal-->
 <div class="modal fade" id="create-modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -54,109 +78,80 @@
                             <span aria-hidden="true">×</span>
                         </button>
                     </h4>
-
                 </div>
-
             </div>
             <div class="modal-body">
                 <div class="form-area">
-                    <form role="form">
-                        <div *ngIf="titleError" class="form-group has-error">
-                            <label class="control-label">Title</label>
-                            <input type="text" class="form-control"  name="name"
-                                   placeholder="Enter title" (mouseover)="toggleTitleError()">
-                        </div>
-                        <div *ngIf="!titleError" class="form-group">
-                            <label class="control-label">Title</label>
-                            <input type="text" class="form-control"  name="name"
-                                   placeholder="Enter title" (keyup)="tosaveNewTitle(title.value)"  #title value={{newTitle}}>
-                        </div>
-                        <div class="form-group ">
-                            <label class="control-label">Description</label>
-                            <textarea class="form-control" type="textarea" id="message"
-                                      placeholder="Enter description"
-                                      maxlength="140" rows="6" (keyup)="tosaveNewDescription(description.value)"  #description value={{newDescription}}></textarea>
-                        </div>
-                        <div class="form-group">
-                            <table class="table">
-                                <tbody>
-                                <tr>
-                                    <td class="col-md-6" id="col-table">
-                                        <label class="control-label">Tegs</label>
-                                        <div class="input-group">
-                                            <input maxlength="22" type="text" class="form-control"
-                                                   placeholder="Enter teg" name="q"
-                                                   (keyup.enter)="toAddTeg(titleInput.value); titleInput.value = ''"
-                                                   #titleInput >
-                                            <div class="input-group-btn">
-                                                <button class="btn btn-default" type="submit"
-                                                        (click)="toAddTeg(titleInput.value); titleInput.value = ''"
-                                                >Add
-                                                </button>
-                                            </div>
+                    <div class="form-group {{classInputTitle}}">
+                        <label class="control-label">Title</label>
+                        <input id="inputTitle" type="text" class="form-control" name="name" placeholder="Enter title"
+                               (click)="toggleTitleError()">
+                    </div>
+                    <div class="form-group ">
+                        <label class="control-label">Description</label>
+                        <textarea id="inputDescription" class="form-control" type="textarea"
+                                  placeholder="Enter description" maxlength="140" rows="6"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <table class="table">
+                            <tbody>
+                            <tr>
+                                <td class="col-md-6" id="col-table">
+                                    <label class="control-label">Tegs</label>
+                                    <div class="input-group">
+                                        <input id="inputTag" maxlength="22" type="text" class="form-control"
+                                               placeholder="Enter teg" name="q"
+                                               (keyup.enter)="toAddTeg(titleInput.value); titleInput.value = ''"
+                                               #titleInput>
+                                        <div class="input-group-btn">
+                                            <button class="btn btn-default" type="submit"
+                                                    (click)="toAddTeg(titleInput.value); titleInput.value = ''"
+                                            >Add
+                                            </button>
                                         </div>
-
-                                        <label for="select" class="control-label padding-top-15">Select type
-                                            menu</label>
-
-                                        <select class="form-control" id="select" (click)="tosaveNewMenu(select.value)" #select>
-                                            <option>Vertical</option>
-                                            <option>Horizontal</option>
-                                            <option>Magic</option>
-                                        </select>
-                                    </td>
-                                    <td class="col-md-6">
-                                        <ul class="col-sm-offset-1" class="tags">
-                                            <li class="tag" *ngFor="let teg of newTags"><span
-                                                    class="samtag">{{teg}}</span>
-                                                <button id="deleteTeg" class="close"
-                                                        (click)="toDeleteTeg(teg)">
-                                                    <span>×</span>
-                                                </button>
-                                            </li>
-                                        </ul>
-                                    </td>
-                                </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </form>
+                                    </div>
+                                    <label for="select" class="control-label padding-top-15">Select type
+                                        menu</label>
+                                    <select id="selectTypeMenu" class="form-control" id="select">
+                                        <option>Vertical</option>
+                                        <option>Horizontal</option>
+                                    </select>
+                                    <label class="control-label padding-top-15" style="float: left">Select color menu
+                                    </label>
+                                    <div style="padding-top: 14px; float: left; padding-left: 10px">
+                                        <color-picker [(ngModel)]="model" [pickerConfig]="config"
+                                                      (ngModelChange)="change($event)"></color-picker>
+                                    </div>
+                                </td>
+                                <td class="col-md-6">
+                                    <ul class="col-sm-offset-1" class="tags">
+                                        <li class="tag" *ngFor="let teg of newTags"><span
+                                                class="samtag">{{teg}}</span>
+                                            <button class="close"
+                                                    (click)="toDeleteTeg(teg)">
+                                                <span>×</span>
+                                            </button>
+                                        </li>
+                                    </ul>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
             <div class="modal-footer ">
-                <button *ngIf="!showCreateModal" data-dismiss="modal" type="button"  name="submit" class="btn btn-success pull-right " (click)="toSubmitForm()" >Submit Form</button>
-                <button *ngIf="showCreateModal"  type="button"  name="submit" class="btn btn-success pull-right " (click)="toSubmitForm()" >Submit Form</button>
-
+                <button type="button" name="submit" class="btn btn-success pull-right "
+                        (click)="toSubmitForm()">Submit Form
+                </button>
             </div>
         </div>
     </div>
 </div>
 
-
+<!--Preview-Modal-->
 <div class="modal fade bd-example-modal-lg" id="preview-modal" tabindex="-1" role="dialog">
-    <div *ngIf="deleteModal" class="modal-dialog " role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title">Delete WebSite {{selectedWebSite.title}}
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </h4>
-            </div>
-            <div class="modal-body">
-                <div class="form-group">
-                    <label class="control-label">Do you want to remove this website?</label>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" (click)="toDeleteWebSite()" class="btn btn-primary" data-dismiss="modal">Yes
-                </button>
-                <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
-            </div>
-        </div>
-    </div>
-
-    <div *ngIf="!deleteModal" class="modal-dialog modal-lg" role="document">
+    <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <div>
@@ -185,10 +180,7 @@
                                     <span class="samtag">{{tag}}</span>
                                 </li>
                             </div>
-
-
                         </td>
-
                     </tr>
                     </tbody>
                 </table>
@@ -200,14 +192,14 @@
                 <div class="col-md-4 text-center">
                     <button type="button" class="btn btn-info">Edit</button>
                 </div>
-                <div class="col-md-4 text-center">
-                    <button type="button" class="btn btn-info "
-                            data-target="#delete-modal" (click)="viewDeleteModal()">Delete
-                    </button>
-                </div>
             </div>
         </div>
     </div>
 </div>
 
+<!--Delete Container Modal -->
+<div class="modal fade" id="delete-webSite-modal">
+    <modalDelete [titleText]=modalText.TitleDeleteWebSite [bodyText]=modalText.BodyDeleteWebSite
+                 (deleting)="DeleteWebSite()"></modalDelete>
+</div>
 
