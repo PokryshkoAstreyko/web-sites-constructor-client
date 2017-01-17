@@ -93,9 +93,8 @@ export class UserPageComponent implements OnInit{
         this.newTags.splice(this.newTags.indexOf(event), 1);
     }
 
-    toSelectWebSite(event: any) {
+    selectWebSite(event: any) {
         this.selectedWebSite = event;
-        this.deleteModal = false;
     }
 
 

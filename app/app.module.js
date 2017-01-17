@@ -31,6 +31,7 @@ var modal_edit_title_page_1 = require("./modals/modal.edit.title.page/modal.edit
 var modal_view_site_1 = require("./modals/modal.view.site/modal.view.site");
 var modal_view_code_1 = require("./modals/modal.view.code/modal.view.code");
 var panel_tools_pages_1 = require("./creator/panel.tools.pages/panel.tools.pages");
+var angular2_datatable_1 = require("angular2-datatable");
 var ng2_rating_1 = require("ng2-rating");
 var EscapeHtmlPipe = (function () {
     function EscapeHtmlPipe(sanitized) {
@@ -66,7 +67,8 @@ AppModule = __decorate([
             app_routing_1.routing,
             ng2_dnd_1.DndModule.forRoot(),
             ng2_color_picker_1.ColorPickerModule,
-            ng2_rating_1.RatingModule
+            ng2_rating_1.RatingModule,
+            angular2_datatable_1.DataTableModule
         ],
         declarations: [
             app_component_1.AppComponent,

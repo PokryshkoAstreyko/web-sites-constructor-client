@@ -72,9 +72,8 @@ var UserPageComponent = (function () {
     UserPageComponent.prototype.DeleteTeg = function (event) {
         this.newTags.splice(this.newTags.indexOf(event), 1);
     };
-    UserPageComponent.prototype.toSelectWebSite = function (event) {
+    UserPageComponent.prototype.selectWebSite = function (event) {
         this.selectedWebSite = event;
-        this.deleteModal = false;
     };
     UserPageComponent.prototype.DeleteWebSite = function () {
         this.webSites.splice(this.webSites.indexOf(this.selectedWebSite), 1);
