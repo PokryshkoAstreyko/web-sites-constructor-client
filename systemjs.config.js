@@ -29,6 +29,8 @@
             'ng2-color-picker': 'node_modules/ng2-color-picker',
             'ng2-bootstrap': 'node_modules/ng2-bootstrap/bundles/ng2-bootstrap.umd.js',
             "ng2-rating": "node_modules/ng2-rating",
+            'angular2-datatable': 'npm:angular2-datatable',
+            'lodash': 'npm:lodash/lodash.js',
             // other libraries
             'rxjs': 'npm:rxjs'
         },
@@ -41,12 +43,18 @@
             rxjs: {
                 defaultExtension: 'js'
             },
+            'angular2-datatable': {
+                main: 'index.js',
+                defaultExtension: 'js'
+            },
             // 'ng2-dnd':  { defaultExtension: 'js' }
             'ng2-color-picker': { main: 'lib/index.js', defaultExtension: 'js', map: {
                 './lib/src/components': './lib/src/components/index.js',
                 './lib/src/models': './lib/src/models/index.js'
             }},
-            "ng2-rating": { "main": "index.js", "defaultExtension": "js" }
+            "ng2-rating": { "main": "index.js", "defaultExtension": "js" },
+
+
         }
     });
 })(this);

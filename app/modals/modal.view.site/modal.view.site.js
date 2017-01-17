@@ -13,9 +13,13 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require("@angular/core");
 var page_1 = require("../../creator/page");
+var website_1 = require("../../user.page/website");
 var ModalViewSite = (function () {
     function ModalViewSite() {
     }
+    ModalViewSite.prototype.ngOnChanges = function () {
+        $('#nav2').css("background-color", this.colorMenu);
+    };
     ModalViewSite.prototype.selectViewPage = function (page) {
         this.selectedViewPage = page;
     };
@@ -23,16 +27,12 @@ var ModalViewSite = (function () {
 }());
 __decorate([
     core_1.Input(),
-    __metadata("design:type", Array)
-], ModalViewSite.prototype, "listOfPages", void 0);
+    __metadata("design:type", website_1.WebSite)
+], ModalViewSite.prototype, "webSite", void 0);
 __decorate([
     core_1.Input(),
     __metadata("design:type", page_1.Page)
 ], ModalViewSite.prototype, "selectedViewPage", void 0);
-__decorate([
-    core_1.Input(),
-    __metadata("design:type", Boolean)
-], ModalViewSite.prototype, "typeMenu", void 0);
 __decorate([
     core_1.Input(),
     __metadata("design:type", String)

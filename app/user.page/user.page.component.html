@@ -1,50 +1,62 @@
 <div class="container col-md-12">
     <div class="row">
-        <div class="col-md-2 col-md-offset-2">
-            <button class="btn btn-info" data-toggle="modal" data-target="#create-modal"
-                    (click)="toFormCreateWebSite()">Create new WebSite
-            </button>
+        <div class="col-md-4">
+            <img src="app/user.page/img/sarkhad.png" class="img-circle center-block"
+                 style="width:140px;height:140px; center-block; margin-bottom: 10px;"/>
+            <a class="btn btn-default center-block" href="#" role="button">Change</a>
         </div>
-        <div class="col-md-3">
-            <div class="input-group">
-                <input type="text" class="form-control" placeholder="Search" name="q">
-                <div class="input-group-btn">
-                    <button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+        <div class="col-md-8">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Achievements
+                </div>
+                <div class="panel-body">
+                    <img src="app/user.page/img/First.png"
+                         class="cursor-pointer" style=" margin-left:10px;">
+                    <img src="app/user.page/img/FivePage.png" class="cursor-pointer"
+                         style="margin-left:10px;">
+                    <img src="app/user.page/img/Tag.png"
+                         class="cursor-pointer" style=" margin-left:10px;">
                 </div>
             </div>
         </div>
-        <div class="btn-group">
-            <a class="btn btn-default">S1</a>
-        </div>
-        <div class="btn-group">
-            <a class="btn btn-default">S2</a>
-        </div>
-
+    </div>
+    <div class=" row col-md-offset-2">
+        <button class="btn btn-info" data-toggle="modal" data-target="#create-modal"
+                (click)="toFormCreateWebSite()">Create new WebSite
+        </button>
     </div>
     <div class="container class coll-md-2">
         <div class="panel panel-default">
-            <div class="panel-heading">
-                <div class="row ">
-                    <div class="col-md-6" style="padding-left: 50px">Title</div>
-                    <div class="col-md-3 text-center">Rating</div>
-                </div>
+            <div class="panel-heading">My WebSites</div>
 
-            </div>
-            <table class="table table-hover">
-
+            <table class="table table-hover" [mfData]="webSites" #mf="mfDataTable">
                 <thead>
                 <tr>
-                    <th class="col-md-6"></th>
-                    <th class="col-md-3"></th>
-                    <th class="col-md-3"></th>
+                    <th style="width: 30%">
+                        <mfDefaultSorter by="title">Title</mfDefaultSorter>
+                    </th>
+
+                    <th class="text-center" style="width: 30%">
+                    <mfDefaultSorter by="rating">Rating</mfDefaultSorter>
+                    </th>
+                    <th class="text-center" style="width: 10%">
+                    <mfDefaultSorter by="date">Date</mfDefaultSorter>
+                    </th>
+                    <th style="width: 30%"></th>
+                </tr>
+                <tr>
+                    <th colspan="5">
+                        Filter by name:
+                        <input class="form-control" [(ngModel)]=title>
+                    </th>
                 </tr>
                 </thead>
-                <tbody class="panel-body">
-                <tr *ngFor="let webSite of webSites" data-toggle="modal"
-                    data-target="#preview-modal">
-                    <td>{{webSite.title}}</td>
+                <tbody>
+                <tr *ngFor="let item of mf.data">
+                    <td style="padding-top: 21px">{{item.title}}</td>
                     <td class="text-center">
-                        <rating [(ngModel)]="webSite.rating"
+                        <rating [(ngModel)]="item.rating"
                                 [max]="5"
                                 [readonly]="false"
                                 [disabled]="false"
@@ -53,13 +65,16 @@
                                 [titles]="['one', 'two', 'three', 'four', 'five']">
                         </rating>
                     </td>
-                    <td><a data-toggle="modal"
-                           data-target="#delete-webSite-modal"
-                           style="float: right">
-                         <!--<span class="pull-right fa fa-trash-o" style="padding-right: 6px; padding-top: 2px;"-->
-                               <!--data-toggle="modal" data-target="#delete-page-modal"> </span>-->
-                        <img src="https://cdn3.iconfinder.com/data/icons/linecons-free-vector-icons-pack/32/trash-128.png" style="width: 40px; height: 40px;">
-                    </a></td>
+                    <td class="text-center" style="padding-top: 21px">{{item.dateView}}</td>
+
+                    <td style="float: right; padding-top: 10px" (click)="selectWebSite(item)">
+                        <img src="app/user.page/img/View.png" data-toggle="modal" data-target="#view-modal"
+                             class="cursor-pointer" style=" margin-left:10px; height: 35px;width: 35px">
+                        <img src="app/user.page/img/Edit.png" class="cursor-pointer"
+                             style="margin-left:10px; height: 35px;width: 35px">
+                        <img src="app/user.page/img/Trash.png" data-toggle="modal" data-target="#delete-webSite-modal"
+                             class="cursor-pointer" style=" margin-left:10px;height: 35px;width: 35px">
+                    </td>
                 </tr>
                 </tbody>
             </table>
@@ -85,7 +100,7 @@
                     <div class="form-group {{classInputTitle}}">
                         <label class="control-label">Title</label>
                         <input id="inputTitle" type="text" class="form-control" name="name" placeholder="Enter title"
-                               (click)="toggleTitleError()">
+                               (click)="classInputTitle=''">
                     </div>
                     <div class="form-group ">
                         <label class="control-label">Description</label>
@@ -113,8 +128,8 @@
                                     <label for="select" class="control-label padding-top-15">Select type
                                         menu</label>
                                     <select id="selectTypeMenu" class="form-control" id="select">
-                                        <option>Vertical</option>
-                                        <option>Horizontal</option>
+                                        <option value="1">Horizontal</option>
+                                        <option value="2">Dropdown</option>
                                     </select>
                                     <label class="control-label padding-top-15" style="float: left">Select color menu
                                     </label>
@@ -128,7 +143,7 @@
                                         <li class="tag" *ngFor="let teg of newTags"><span
                                                 class="samtag">{{teg}}</span>
                                             <button class="close"
-                                                    (click)="toDeleteTeg(teg)">
+                                                    (click)="DeleteTeg(teg)">
                                                 <span>×</span>
                                             </button>
                                         </li>
@@ -149,55 +164,12 @@
     </div>
 </div>
 
-<!--Preview-Modal-->
-<div class="modal fade bd-example-modal-lg" id="preview-modal" tabindex="-1" role="dialog">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <div>
-                    <h4 class="modal-title">Preview WebSite {{selectedWebSite.title}}
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">×</span>
-                        </button>
-                    </h4>
-                </div>
-            </div>
-            <div class="modal-body">
-                <table class="table">
-                    <tbody>
-                    <tr>
-                        <td class="col-md-7">
-                            <img src={{userBigMainPage}}>
-                        </td>
-                        <td class="col-md-5">
-                            <div class="form-group">
-                                <label class="control-label">Description</label>
-                                <textarea class="form-control" type="textarea" rows="6" readonly>{{selectedWebSite.description}}</textarea>
-                            </div>
-                            <label class="control-label">Tegs</label>
-                            <div class="form-group">
-                                <li class="tag" *ngFor="let tag of selectedWebSite.tags">
-                                    <span class="samtag">{{tag}}</span>
-                                </li>
-                            </div>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div class="modal-footer ">
-                <div class="col-md-4 text-center">
-                    <button type="button" class="btn btn-info">View</button>
-                </div>
-                <div class="col-md-4 text-center">
-                    <button type="button" class="btn btn-info">Edit</button>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+<!--View Modal-->
+<!--<div class="modal fade" id="view-modal">-->
+<!--<modalViewSite [webSite]=selectedWebSite [selectedViewPage]=selectedWebSite.pages[0] [colorMenu]=selectedWebSite.colorMenu></modalViewSite>-->
+<!--</div>-->
 
-<!--Delete Container Modal -->
+<!--Delete WebSite Modal -->
 <div class="modal fade" id="delete-webSite-modal">
     <modalDelete [titleText]=modalText.TitleDeleteWebSite [bodyText]=modalText.BodyDeleteWebSite
                  (deleting)="DeleteWebSite()"></modalDelete>

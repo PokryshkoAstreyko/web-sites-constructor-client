@@ -2,22 +2,26 @@
  * Created by Dima on 15.01.2017.
  */
 
-import {Component, Input, Output, EventEmitter} from "@angular/core";
+import {Component, Input, Output, EventEmitter, OnChanges} from "@angular/core";
 
 
 import {Page} from "../../creator/page";
-
+import {WebSite} from "../../user.page/website";
+declare var $: any;
 @Component({
     templateUrl: 'app/modals/modal.view.site/modal.view.site.html',
     selector: 'modalViewSite',
     styleUrls: ['app/modals/modal.view.site/modal.view.site.css']
 })
 
-export class ModalViewSite {
-    @Input() listOfPages: Page[];
+export class ModalViewSite implements OnChanges{
+    @Input() webSite: WebSite;
     @Input() selectedViewPage: Page;
-    @Input() typeMenu: boolean;
     @Input() colorMenu: string;
+
+    ngOnChanges(){
+        $('#nav2').css("background-color",this.colorMenu);
+    }
 
     selectViewPage(page: Page) {
         this.selectedViewPage = page;

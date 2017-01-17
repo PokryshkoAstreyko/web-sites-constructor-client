@@ -8,6 +8,9 @@ import {Container} from "../../creator/container";
 import {LineContainer} from "../../creator/line.container";
 import {Page} from "../../creator/page";
 import {ModalText} from '../../modals/modal.text';
+import any = jasmine.any;
+
+declare var $: any;
 
 @Component({
     templateUrl: 'app/creator/panel.tools.pages/panel.tools.pages.html',
@@ -24,16 +27,32 @@ export class PanelToolsPages {
 
     deletedPageID: number;
     modalText: ModalText= new ModalText();
+    classInputTitle: string="";
     constructor(){
     }
     addPage(title: string){
-        this.addingPage.emit(title);
-        if (this.listOfPages.length == 1) {
-            this.selectPage(this.listOfPages[0]);
+        if(title){
+            this.addingPage.emit(title);
+            $('#page-modal').modal('toggle');
+            if (this.listOfPages.length == 1) {
+                this.selectPage(this.listOfPages[0]);
+            }
         }
+        else{
+            this.classInputTitle = "has-error"
+        }
+
     }
     editTitlePage(title: string) {
-        this.editingPage.emit(title);
+        if(title){
+            this.editingPage.emit(title);
+            $('#edit-page-modal').modal('toggle');
+        }
+        else{
+            this.classInputTitle = "has-error"
+        }
+
+
     }
 
     removePage() {
