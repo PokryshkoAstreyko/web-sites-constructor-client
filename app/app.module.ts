@@ -23,7 +23,6 @@ import {ModalEditTitle} from "./modals/modal.edit.title.page/modal.edit.title.pa
 import {ModalViewSite} from "./modals/modal.view.site/modal.view.site"
 import {ModalViewCode} from "./modals/modal.view.code/modal.view.code";
 import {PanelToolsPages} from "./creator/panel.tools.pages/panel.tools.pages"
-import {PanelBorder} from "./creator/panel/panel";
 import {RatingModule} from "ng2-rating";
 
 @Pipe({ name: 'escapeHtml', pure: false })
@@ -66,7 +65,6 @@ export class EscapeHtmlPipe implements PipeTransform {
         ModalViewSite,
         ModalViewCode,
         PanelToolsPages,
-        PanelBorder,
 
 
     ],

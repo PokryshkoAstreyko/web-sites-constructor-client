@@ -4,9 +4,7 @@
 
 import {Component, ViewChild, ViewChildren, NgModule, OnInit} from "@angular/core";
 
-import {UserWebSite} from './user.website';
-import {WebSiteRow} from './website.row';
-import {el} from "@angular/platform-browser/testing/browser_util";
+import {WebSite} from './website';
 import {IColorPickerConfiguration} from "ng2-color-picker";
 import {ModalText} from "../modals/modal.text";
 
@@ -19,14 +17,11 @@ declare var $: any;
 
 })
 export class UserPageComponent implements OnInit{
-    userMainPage = '/app/user.page/img/MainPage.png'
-    userBigMainPage = '/app/user.page/img/bigMainPage.png'
-
-    webSites: UserWebSite[];
+    webSites: WebSite[];
     newTags: string[];
 
-    selectedWebSite: UserWebSite;
-    deleteModal: boolean
+    selectedWebSite: WebSite;
+    deleteModal: boolean;
     titleError: boolean;
     showCreateModal: boolean;
     classInputTitle: string='';
@@ -45,15 +40,11 @@ export class UserPageComponent implements OnInit{
         this.titleError = false;
         this.showCreateModal = true;
         this.webSites = [];
-        this.selectedWebSite = new UserWebSite("", "", "", []);
+        this.selectedWebSite = new WebSite("", "",[], 3,1,"#6699ff");
         for (let i = 1; i <= 10; i++) {
             tags.push(tag + i);
-            this.webSites.push(new UserWebSite(this.userMainPage, "WebSite" + i, "blablablablablablablab" + i, tags));
+            this.webSites.push(new WebSite("WebSite" + i, "blablablablablablablab" + i, tags,3,1,"#6699ff"));
         }
-    }
-
-    ngOnInit() {
-        $('#colorselector').colorselector('setColor', '#6699ff');
         this.model = '#6699ff';
         this.config = {
             width: 25,
@@ -70,7 +61,12 @@ export class UserPageComponent implements OnInit{
                 '#ffcc66'
             ]
         };
+
     }
+
+    ngOnInit() {
+    }
+
     public change(val: any) {
         console.log(val);
     }
@@ -93,7 +89,7 @@ export class UserPageComponent implements OnInit{
         this.classInputTitle="";
     }
 
-    toDeleteTeg(event: any) {
+    DeleteTeg(event: any) {
         this.newTags.splice(this.newTags.indexOf(event), 1);
     }
 
@@ -112,17 +108,14 @@ export class UserPageComponent implements OnInit{
     }
 
     toSubmitForm() {
+
         if ($('#inputTitle').val()) {
-            this.webSites.push(new UserWebSite(this.userMainPage,$('#inputTitle').val(), $('#inputDescription').val(), this.newTags));
+            this.webSites.push(new WebSite($('#inputTitle').val(), $('#inputDescription').val(), this.newTags,2,$('#inputDescription').val(),"#6699ff"));
             $('#create-modal').modal('toggle');
         }
         else {
             this.classInputTitle="has-error"
         }
-
-    }
-    toggleTitleError() {
-        this.classInputTitle="";
     }
 }
 

@@ -11,38 +11,34 @@
             </div>
         </div>
         <div class="modal-body" style="min-height: 500px">
-            <div class="panel-body">
-                <nav class="navbar navbar-default">
-                    <div class="container">
-                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
-                                data-target="#navbar-collapse-2">
-                            <span class="sr-only">Toggle navigation</span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                        </button>
-                        <a class="navbar-brand" style="margin-right: 20px">Title Site</a>
-                        <ul class="nav navbar-nav navbar-right" style="padding-top: 4px; margin-left: 50px">
-                            <li style="float: left" *ngFor="let page of listOfPages" href=""
-                                (click)="selectViewPage(page)">
-                                <a>{{page.name}}</a>
+            <nav class="navbar navbar-inverse" id="nav2">
+                <div class="container-fluid">
+                    <div class="navbar-header">
+                        <div class="navbar-brand cursor-default" style="margin-left: 20px">{{webSite.title}}</div>
+                    </div>
+                    <div *ngIf="webSite.typeMenu==1">
+                        <ul class="nav navbar-nav" *ngFor="let page of webSite.pages">
+                            <li class="cursor-pointer" (click)="selectViewPage(page)" style="float: left"><a>{{page.name}}</a>
                             </li>
                         </ul>
-                        <div class="collapse navbar-collapse" id="navbar-collapse-2">
-                            <ul class="nav navbar-nav navbar-right">
-                                <li style="padding-left: 0" *ngFor="let page of listOfPages" href=""
-                                    (click)="selectViewPage(page)">
-                                    <a>{{page.name}}</a>
+                    </div>
+                    <ul *ngIf="webSite.typeMenu==2" class="nav navbar-nav navbar-right" style="margin-right: 10px">
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                               aria-expanded="false">Menu<span class="caret"></span></a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li class="cursor-pointer" *ngFor="let page of webSite.pages"
+                                    (click)="selectViewPage(page)"><a>{{page.name}}</a>
                                 </li>
                             </ul>
-                        </div>
-                    </div>
-                </nav>
-                <div *ngFor="let lineContainer of selectedViewPage.lineContainers" class="row panel-body ">
-                    <div *ngFor="let container of lineContainer.containers"
-                         class="work col-md-{{container.size}} panel-body">
-                        <div [innerHTML]="container.postText | escapeHtml" style="padding: 2px"></div>
-                    </div>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+            <div *ngFor="let lineContainer of selectedViewPage.lineContainers" class="row panel-body ">
+                <div *ngFor="let container of lineContainer.containers"
+                     class="work col-md-{{container.size}} panel-body">
+                    <div [innerHTML]="container.postText | escapeHtml" style="padding: 2px"></div>
                 </div>
             </div>
         </div>

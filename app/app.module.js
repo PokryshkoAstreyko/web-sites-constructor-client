@@ -31,7 +31,6 @@ var modal_edit_title_page_1 = require("./modals/modal.edit.title.page/modal.edit
 var modal_view_site_1 = require("./modals/modal.view.site/modal.view.site");
 var modal_view_code_1 = require("./modals/modal.view.code/modal.view.code");
 var panel_tools_pages_1 = require("./creator/panel.tools.pages/panel.tools.pages");
-var panel_1 = require("./creator/panel/panel");
 var ng2_rating_1 = require("ng2-rating");
 var EscapeHtmlPipe = (function () {
     function EscapeHtmlPipe(sanitized) {
@@ -85,7 +84,6 @@ AppModule = __decorate([
             modal_view_site_1.ModalViewSite,
             modal_view_code_1.ModalViewCode,
             panel_tools_pages_1.PanelToolsPages,
-            panel_1.PanelBorder,
         ],
         providers: [
             index_1.AuthGuard,

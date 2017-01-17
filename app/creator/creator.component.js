@@ -14,19 +14,16 @@ var line_container_1 = require("./line.container");
 var page_1 = require("./page");
 var PageToHTML_1 = require("./PageToHTML");
 var modal_text_1 = require("../modals/modal.text");
+var website_1 = require("../user.page/website");
 var CreatorComponent = (function () {
     function CreatorComponent() {
-        this.listOfPages = [];
-        this.panelToolsComponent = ["Container", "View", "View Code", "Settings WebSite"];
         this.selectedContainerID = 0;
         this.selectedLineContainerID = 0;
-        this.availableComponents = [];
         this.deleteLineContainer = false;
         this.HTMLCode = '';
+        this.classInputTitle = "";
+        this.newTags = [];
         this.modalText = new modal_text_1.ModalText();
-        this.availableComponents.push("Container");
-        this.listOfPages.push(new page_1.Page("Main"));
-        this.selectedPage = this.listOfPages[0];
         this.HTMLCode = "";
         this.model = '#cccccc';
         this.config = {
@@ -51,7 +48,10 @@ var CreatorComponent = (function () {
             charCounterCount: false,
             height: '400'
         });
-        $('#colorselector').colorselector('setColor', '#ff0000');
+        this.webSite = new website_1.WebSite("Mi First Site", "tralalallala", [], 2, 1, '#6699ff');
+        this.webSite.pages.push(new page_1.Page("Main"));
+        this.selectedPage = this.webSite.pages[0];
+        $('.menu').css("background-color", this.webSite.colorMenu);
     };
     CreatorComponent.prototype.savePost = function () {
         var text = $('#froala-editor').froalaEditor('html.get');
@@ -60,10 +60,10 @@ var CreatorComponent = (function () {
         }
     };
     CreatorComponent.prototype.addPage = function (title) {
-        this.listOfPages.push(new page_1.Page(title));
+        this.webSite.pages.push(new page_1.Page(title));
     };
     CreatorComponent.prototype.removePage = function (id) {
-        this.listOfPages.splice(id, 1);
+        this.webSite.pages.splice(id, 1);
     };
     CreatorComponent.prototype.selectPage = function (page) {
         this.selectedPage = page;
@@ -71,11 +71,6 @@ var CreatorComponent = (function () {
     CreatorComponent.prototype.editTitlePage = function (title) {
         this.selectedPage.name = title;
     };
-    // openPageModal(){
-    //     $('#PageModal').modal('toggle');
-    //     this.selectedPage=new Page("df");
-    //     this.addLineContainer();
-    // }
     CreatorComponent.prototype.addContainer = function (lineContainer) {
         lineContainer.containers.push(new container_1.Container());
     };
@@ -113,8 +108,41 @@ var CreatorComponent = (function () {
             this.selectedPage.lineContainers[this.selectedLineContainerID].containers.splice(this.selectedContainerID, 1);
         }
     };
-    CreatorComponent.prototype.ToHTML = function () {
+    CreatorComponent.prototype.toHTML = function () {
         this.HTMLCode = PageToHTML_1.PageToHTML.transfer(this.selectedPage);
+    };
+    CreatorComponent.prototype.editSettingsWebSite = function () {
+        $('#inputTitle').val(this.webSite.title);
+        $('#inputDescription').val(this.webSite.description);
+        $('#inputTag').val('');
+        $('#selectTypeMenu').val(this.webSite.typeMenu);
+        this.model = this.webSite.colorMenu;
+        this.classInputTitle = "";
+        this.newTags = Array.from(this.webSite.tags);
+    };
+    CreatorComponent.prototype.AddTeg = function (event) {
+        if (!this.newTags.includes(event)) {
+            if (event) {
+                this.newTags.push(event);
+            }
+        }
+    };
+    CreatorComponent.prototype.DeleteTag = function (tag) {
+        this.newTags.splice(this.newTags.indexOf(tag), 1);
+    };
+    CreatorComponent.prototype.SafeChange = function () {
+        if ($('#inputTitle').val()) {
+            this.webSite.title = $('#inputTitle').val();
+            this.webSite.typeMenu = $('#selectTypeMenu').val();
+            this.webSite.colorMenu = this.model;
+            this.webSite.description = $('#inputDescription').val();
+            this.webSite.tags = this.newTags;
+            $('.menu').css("background-color", this.webSite.colorMenu);
+            $('#settings-modal').modal('toggle');
+        }
+        else {
+            this.classInputTitle = "has-error";
+        }
     };
     return CreatorComponent;
 }());

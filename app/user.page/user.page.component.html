@@ -85,7 +85,7 @@
                     <div class="form-group {{classInputTitle}}">
                         <label class="control-label">Title</label>
                         <input id="inputTitle" type="text" class="form-control" name="name" placeholder="Enter title"
-                               (click)="toggleTitleError()">
+                               (click)="classInputTitle=''">
                     </div>
                     <div class="form-group ">
                         <label class="control-label">Description</label>
@@ -113,8 +113,8 @@
                                     <label for="select" class="control-label padding-top-15">Select type
                                         menu</label>
                                     <select id="selectTypeMenu" class="form-control" id="select">
-                                        <option>Vertical</option>
-                                        <option>Horizontal</option>
+                                        <option value="1">Horizontal</option>
+                                        <option value="2">Vertical</option>
                                     </select>
                                     <label class="control-label padding-top-15" style="float: left">Select color menu
                                     </label>
@@ -128,7 +128,7 @@
                                         <li class="tag" *ngFor="let teg of newTags"><span
                                                 class="samtag">{{teg}}</span>
                                             <button class="close"
-                                                    (click)="toDeleteTeg(teg)">
+                                                    (click)="DeleteTeg(teg)">
                                                 <span>×</span>
                                             </button>
                                         </li>
@@ -197,7 +197,7 @@
     </div>
 </div>
 
-<!--Delete Container Modal -->
+<!--Delete WebSite Modal -->
 <div class="modal fade" id="delete-webSite-modal">
     <modalDelete [titleText]=modalText.TitleDeleteWebSite [bodyText]=modalText.BodyDeleteWebSite
                  (deleting)="DeleteWebSite()"></modalDelete>

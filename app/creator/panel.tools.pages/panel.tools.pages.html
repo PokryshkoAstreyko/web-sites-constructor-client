@@ -1,7 +1,7 @@
 <div class="panel-body" style="padding-top: 30px">
     <div class="text-center" style="margin-bottom: 15px;">
         <button type="button" class="btn btn-success btn-sm" data-toggle="modal"
-                data-target="#page-modal" (click)="titleEnter.value=''">
+                data-target="#page-modal" (click)="titleEnter.value=''; classInputTitle=''">
             <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
             Add Page
         </button>
@@ -17,7 +17,7 @@
                       (click)="selectDeletePageID(i)"></span>
                     <span class="fa fa-edit" style="padding-left: 6px;"
                           data-toggle="modal" data-target="#edit-page-modal"
-                          (click)="selectPage(page); titleEdit.value=page.name "></span>
+                          (click)="selectPage(page); titleEdit.value=page.name; classInputTitle=''"></span>
                 </div>
                 <div class="panel-body" style="padding-top: 6px; padding-bottom: 12px">
                     {{page.name}}
@@ -31,7 +31,7 @@
                       (click)="selectDeletePageID(i)"></span>
                     <span class="fa fa-edit" style="padding-left: 6px;"
                           data-toggle="modal" data-target="#edit-page-modal"
-                          (click)="selectPage(page); titleEdit.value=page.name"></span>
+                          (click)="selectPage(page); titleEdit.value=page.name; classInputTitle=''"></span>
                 </div>
                 <div class="panel-body" style="padding-top: 6px; padding-bottom: 12px">
                     {{page.name}}
@@ -56,12 +56,12 @@
                     </h4>
                 </div>
             </div>
-            <div class="modal-body">
-                <input type="text" class=" form-control" #titleEnter>
+            <div class="modal-body {{classInputTitle}}">
+                <input type="text" class=" form-control" #titleEnter (click)="classInputTitle=''"
+                       (keyup.enter)="addPage(titleEnter.value)">
             </div>
             <div class="modal-footer">
-                <button class="btn btn-success" data-dismiss="modal"
-                        (click)="addPage(titleEnter.value)">
+                <button class="btn btn-success" (click)="addPage(titleEnter.value)">
                     Save
                 </button>
             </div>
@@ -83,11 +83,12 @@
                     </h4>
                 </div>
             </div>
-            <div class="modal-body">
-                <input id="myInput" type="text" class=" form-control" #titleEdit>
+            <div class="modal-body {{classInputTitle}}">
+                <input id="myInput" type="text" class=" form-control" #titleEdit (click)="classInputTitle=''"
+                       (keyup.enter)="editTitlePage(titleEdit.value)">
             </div>
             <div class="modal-footer">
-                <button class="btn btn-success" data-dismiss="modal"
+                <button class="btn btn-success"
                         (click)="editTitlePage(titleEdit.value)">
                     Save
                 </button>

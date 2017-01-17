@@ -21,15 +21,28 @@ var PanelToolsPages = (function () {
         this.addingPage = new core_1.EventEmitter();
         this.editingPage = new core_1.EventEmitter();
         this.modalText = new modal_text_1.ModalText();
+        this.classInputTitle = "";
     }
     PanelToolsPages.prototype.addPage = function (title) {
-        this.addingPage.emit(title);
-        if (this.listOfPages.length == 1) {
-            this.selectPage(this.listOfPages[0]);
+        if (title) {
+            this.addingPage.emit(title);
+            $('#page-modal').modal('toggle');
+            if (this.listOfPages.length == 1) {
+                this.selectPage(this.listOfPages[0]);
+            }
+        }
+        else {
+            this.classInputTitle = "has-error";
         }
     };
     PanelToolsPages.prototype.editTitlePage = function (title) {
-        this.editingPage.emit(title);
+        if (title) {
+            this.editingPage.emit(title);
+            $('#edit-page-modal').modal('toggle');
+        }
+        else {
+            this.classInputTitle = "has-error";
+        }
     };
     PanelToolsPages.prototype.removePage = function () {
         this.removingPage.emit(this.deletedPageID);

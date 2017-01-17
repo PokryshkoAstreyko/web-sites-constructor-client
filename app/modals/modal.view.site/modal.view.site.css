@@ -1,61 +1,6 @@
-.navbar-brand { position: relative; z-index: 2; }
-
-.navbar-nav.navbar-right .btn { position: relative; z-index: 2; padding: 4px 20px; margin: 10px auto; }
-
-.navbar .navbar-collapse { position: relative; }
-.navbar .navbar-collapse .navbar-right > li:last-child { padding-left: 22px; }
-
-.navbar .nav-collapse { position: absolute; z-index: 1; top: 0; left: 0; right: 0; bottom: 0; margin: 0; padding-right: 120px; padding-left: 80px; width: 100%; }
-.navbar.navbar-default .nav-collapse { background-color: #f8f8f8; }
-.navbar.navbar-inverse .nav-collapse { background-color: #222; }
-.navbar .nav-collapse .navbar-form { border-width: 0; box-shadow: none; }
-.nav-collapse>li { float: right; }
-
-.btn.pixel-circle { border-radius: 50px; }
-.btn.pixel-outline { background-color: red; }
-
-@media screen and (max-width: 1000px) {
-    .navbar .navbar-collapse .navbar-right > li:last-child { padding-left: 15px; padding-right: 15px; }
-
-    .navbar .nav-collapse { margin: 7.5px auto; padding: 0; }
-    .navbar .nav-collapse .navbar-form { margin: 0; }
-    .nav-collapse>li { float: none; }
+.cursor-pointer{
+    cursor: pointer;
 }
-
-/* to make the button collapse earlier */
-@media (max-width: 1850px) {
-    .navbar-header {
-        float: none;
-    }
-    .navbar-left,.navbar-right {
-        float: none !important;
-    }
-    .navbar-toggle {
-        display: block;
-    }
-    .navbar-collapse {
-        border-top: 1px solid transparent;
-        box-shadow: inset 0 1px 0 rgba(255,255,255,0.1);
-    }
-    .navbar-fixed-top {
-        top: 0;
-        border-width: 0 0 1px;
-    }
-    .navbar-collapse.collapse {
-        display: none!important;
-    }
-    .navbar-nav {
-        float: none!important;
-        margin-top: 7.5px;
-    }
-    .navbar-nav>li {
-        float: none;
-    }
-    .navbar-nav>li>a {
-        padding-top: 10px;
-        padding-bottom: 10px;
-    }
-    .collapse.in{
-        display:block !important;
-    }
+.cursor-default{
+    cursor: default;
 }
