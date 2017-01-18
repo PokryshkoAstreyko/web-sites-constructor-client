@@ -1,0 +1,88 @@
+<div class="container col-md-12">
+    <div class="row text-center" style="margin-top: 15px" >
+        <h1>WebSitesConstructor</h1>
+        <h3>Better than LEGO</h3>
+    </div>
+    <div class="row" style="margin-top: 15px">
+        <div class="col-md-5" style="padding-right: 0px">
+            <img src="http://www.websitebuilderexpert.com/wp-content/uploads/2017/01/website-builders-comparison-chart-5.png">
+            <img src="http://www.websitebuilderexpert.com/wp-content/uploads/2015/04/Website-Builder-Expert-Quiz.jpg">
+            <div class="panel panel-info" style="margin-bottom: 5px">
+                <div class="panel-heading">
+                    Most popular WebSites
+                </div>
+                <div class="panel-body">
+                    <table class="table table-striped" [mfData]="webSites" #mf="mfDataTable">
+                        <tbody>
+                        <tr *ngFor="let item of mf.data" (click)="selectWebSite(item)">
+                            <td style="padding-top: 21px">
+                                <div class="cursor-pointer" data-toggle="modal" data-target="#view-description-modal">{{item.title}}
+                                </div>
+                            </td>
+                            <td class="text-center">
+                                <rating [(ngModel)]="item.rating"
+                                        [max]="5"
+                                        [readonly]="true"
+                                        [disabled]="false"
+                                        [required]="true"
+                                        [float]="true"
+                                        [titles]="['one', 'two', 'three', 'four', 'five']">
+                                </rating>
+                            </td>
+                            <td class="text-center" style="padding-top: 21px">{{item.dateView}}</td>
+                            <td class="text-center cursor-pointer" style="padding-top: 21px">Username</td>
+                            <td style="float: right; padding-top: 19px">
+                                <img src="app/user.page/img/View.png" data-toggle="modal" data-target="#view-modal"
+                                     class="cursor-pointer tool">
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4" style="padding-left: 2px">
+            <div class="panel panel-info" style="margin-bottom: 5px">
+                <div class="panel-heading">
+                    Most popular tags
+                </div>
+                <div class="panel-body">
+                    <angular-tag-cloud
+                            [width]="'400'"
+                            [height]="'300'"
+                            [data]="tags"
+                            [removeOverflow]="'true'">
+                    </angular-tag-cloud>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row" style="padding: 0 15px">
+        <div class=" col-md-12 panel panel-success" style="padding: 0">
+            <div class="panel-heading">
+                WebSites
+            </div>
+            <div class="panel-body">
+                <angular-tag-cloud
+                        [width]="'400'"
+                        [height]="'300'"
+                        [data]="cloudData"
+                        [removeOverflow]="'true'">
+                </angular-tag-cloud>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!--View-description-Modal-->
+<div class="modal fade" id="view-description-modal">
+    <modalViewDescription [title]=selectedWebSite.title [tags]=selectedWebSite.tags
+                          [description]=selectedWebSite.description></modalViewDescription>
+</div>
+
+<!--View-Modal-->
+<div class="modal fade" id="view-modal">
+    <modalViewSite [webSite]=selectedWebSite [selectedViewPage]=selectedWebSite.pages[0]
+                   [colorMenu]=selectedWebSite.colorMenu></modalViewSite>
+</div>

@@ -16,6 +16,7 @@ import { ProfileComponent } from "./profile/profile.component";
 import { DndModule } from "ng2-dnd";
 import { CreatorComponent } from "./creator/creator.component";
 import { UserPageComponent } from "./user.page/user.page.component";
+import {Main} from "./main/main"
 import {FroalaViewDirective, FroalaEditorDirective} from "./froala.directives";
 import { ColorPickerModule } from 'ng2-color-picker';
 import {ModalDelete} from './modals/modal.delete/modal.delete'
@@ -25,6 +26,8 @@ import {ModalViewCode} from "./modals/modal.view.code/modal.view.code";
 import {PanelToolsPages} from "./creator/panel.tools.pages/panel.tools.pages"
 import {DataTableModule} from "angular2-datatable";
 import {RatingModule} from "ng2-rating";
+import { TagCloudModule } from 'angular-tag-cloud-module';
+import {ModalViewDescription} from "./modals/modal.view.description/modal.view.description";
 
 @Pipe({ name: 'escapeHtml', pure: false })
 export class EscapeHtmlPipe implements PipeTransform {
@@ -49,7 +52,8 @@ export class EscapeHtmlPipe implements PipeTransform {
         DndModule.forRoot(),
         ColorPickerModule,
         RatingModule,
-        DataTableModule
+        DataTableModule,
+        TagCloudModule
     ],
     declarations: [
         AppComponent,
@@ -57,6 +61,7 @@ export class EscapeHtmlPipe implements PipeTransform {
         HomeComponent,
         RegisterComponent,
         NavbarComponent,
+        Main,
         ProfileComponent,
         CreatorComponent,
         EscapeHtmlPipe,
@@ -67,6 +72,7 @@ export class EscapeHtmlPipe implements PipeTransform {
         ModalViewSite,
         ModalViewCode,
         PanelToolsPages,
+        ModalViewDescription,
 
 
     ],

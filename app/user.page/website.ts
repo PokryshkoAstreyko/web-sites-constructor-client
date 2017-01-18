@@ -20,10 +20,11 @@ export class WebSite{
         this.title=title;
         this.description=description;
         this.tags=tags;
-        this.rating=3.5;
+        this.rating=rating;
         this.typeMenu=typeMenu;
         this.colorMenu=colorMenu;
         this.pages=[];
+        this.pages.push(new  Page("Main"));
         var today = new Date();
         this.date= Date.now();
         this.dateView+=('0' + today.getDate()).slice(-2)+'-'+('0' + (today.getMonth() + 1)).slice(-2)+'-' + today.getFullYear();

@@ -1,0 +1,28 @@
+<div class="modal-dialog modal-md" role="document">
+    <div class="modal-content ">
+        <div class="modal-header">
+            <div>
+                <h4 class="modal-title">WebSite {{title}}
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </h4>
+            </div>
+        </div>
+        <div class="modal-body">
+            <div class="form-group">
+                <label class="control-label">Description</label>
+                <textarea class="form-control" type="textarea" rows="6" readonly style="resize: none">{{description}}</textarea>
+            </div>
+            <label class="control-label">Tags</label>
+            <div class="form-group">
+                <li class="tag" *ngFor="let tag of tags">
+                    <span class="samtag">{{tag}}</span>
+                </li>
+            </div>
+        </div>
+        <div class="modal-footer ">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Ok</button>
+        </div>
+    </div>
+</div>

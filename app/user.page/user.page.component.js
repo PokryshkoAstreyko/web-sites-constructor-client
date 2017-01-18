@@ -16,61 +16,19 @@ var website_1 = require("./website");
 var modal_text_1 = require("../modals/modal.text");
 var UserPageComponent = (function () {
     function UserPageComponent() {
-        this.classInputTitle = '';
+        this.achievementsClass = "gray";
         this.modalText = new modal_text_1.ModalText();
-        var tags;
+        var tags = [];
         var tag = "tag";
-        tags = [];
-        this.newTags = [];
-        this.deleteModal = false;
-        this.titleError = false;
-        this.showCreateModal = true;
         this.webSites = [];
         this.selectedWebSite = new website_1.WebSite("", "", [], 3, 1, "#6699ff");
         for (var i = 1; i <= 10; i++) {
             tags.push(tag + i);
             this.webSites.push(new website_1.WebSite("WebSite" + i, "blablablablablablablab" + i, tags, 3, 1, "#6699ff"));
         }
-        this.model = '#6699ff';
-        this.config = {
-            width: 25,
-            height: 25,
-            borderRadius: 4,
-            availableColors: [
-                '#33cccc',
-                '#99cc99',
-                '#cc99cc',
-                '#fabf8f',
-                '#bfbfbf',
-                '#6699ff',
-                '#ff6666',
-                '#ffcc66'
-            ]
-        };
     }
     UserPageComponent.prototype.ngOnInit = function () {
-    };
-    UserPageComponent.prototype.change = function (val) {
-        console.log(val);
-    };
-    UserPageComponent.prototype.toAddTeg = function (event) {
-        if (!this.newTags.includes(event)) {
-            if (event) {
-                this.newTags.push(event);
-            }
-        }
-    };
-    UserPageComponent.prototype.toFormCreateWebSite = function () {
-        this.newTags = [];
-        $('#inputTitle').val('');
-        $('#inputDescription').val('');
-        $('#inputTag').val('');
-        $('#selectTypeMenu').val(1);
-        this.model = '#6699ff';
-        this.classInputTitle = "";
-    };
-    UserPageComponent.prototype.DeleteTeg = function (event) {
-        this.newTags.splice(this.newTags.indexOf(event), 1);
+        $('[data-toggle="tooltip"]').tooltip();
     };
     UserPageComponent.prototype.selectWebSite = function (event) {
         this.selectedWebSite = event;
@@ -78,17 +36,8 @@ var UserPageComponent = (function () {
     UserPageComponent.prototype.DeleteWebSite = function () {
         this.webSites.splice(this.webSites.indexOf(this.selectedWebSite), 1);
     };
-    UserPageComponent.prototype.viewDeleteModal = function () {
-        this.deleteModal = true;
-    };
-    UserPageComponent.prototype.toSubmitForm = function () {
-        if ($('#inputTitle').val()) {
-            this.webSites.push(new website_1.WebSite($('#inputTitle').val(), $('#inputDescription').val(), this.newTags, 2, $('#inputDescription').val(), "#6699ff"));
-            $('#create-modal').modal('toggle');
-        }
-        else {
-            this.classInputTitle = "has-error";
-        }
+    UserPageComponent.prototype.gray = function () {
+        this.achievementsClass = "";
     };
     return UserPageComponent;
 }());

@@ -11,7 +11,6 @@ declare var $: any;
 @Component({
     templateUrl: 'app/modals/modal.view.site/modal.view.site.html',
     selector: 'modalViewSite',
-    styleUrls: ['app/modals/modal.view.site/modal.view.site.css']
 })
 
 export class ModalViewSite implements OnChanges{
@@ -21,6 +20,7 @@ export class ModalViewSite implements OnChanges{
 
     ngOnChanges(){
         $('#nav2').css("background-color",this.colorMenu);
+        console.log(this.webSite);
     }
 
     selectViewPage(page: Page) {

@@ -6,9 +6,6 @@
     width:100%;
     -webkit-transition:width 0.5s ease-in-out;
 }
-.padding-top-15{
-    padding-top: 15px;
-}
 .container{
     padding-top: 2%;
 }
@@ -43,4 +40,20 @@
 
 .tag:hover:after {
     border-color: transparent transparent transparent #739fe4;
+}
+.tool{
+    margin-left:10px;
+    height: 25px;
+    width: 25px
+}
+.achievement{
+    margin-left:10px;
+    height: 70px;
+    width: 70px
+}
+.gray {
+    -webkit-filter: grayscale(100%);
+    -moz-filter: grayscale(100%);
+    -o-filter: grayscale(100%);
+    filter: grayscale(100%);
 }

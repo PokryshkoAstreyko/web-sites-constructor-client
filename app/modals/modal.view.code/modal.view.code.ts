@@ -18,7 +18,6 @@ export class ModalViewCode {
     @Input() selectedViewPage: Page;
     @Input() HTMLCode: string;
 
-
     selectViewPage(page: Page) {
         this.selectedViewPage = page;
         this.HTMLCode = PageToHTML.transfer(page);

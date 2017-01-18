@@ -19,6 +19,7 @@ var ModalViewSite = (function () {
     }
     ModalViewSite.prototype.ngOnChanges = function () {
         $('#nav2').css("background-color", this.colorMenu);
+        console.log(this.webSite);
     };
     ModalViewSite.prototype.selectViewPage = function (page) {
         this.selectedViewPage = page;
@@ -41,7 +42,6 @@ ModalViewSite = __decorate([
     core_1.Component({
         templateUrl: 'app/modals/modal.view.site/modal.view.site.html',
         selector: 'modalViewSite',
-        styleUrls: ['app/modals/modal.view.site/modal.view.site.css']
     })
 ], ModalViewSite);
 exports.ModalViewSite = ModalViewSite;
