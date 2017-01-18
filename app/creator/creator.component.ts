@@ -61,9 +61,8 @@ export class CreatorComponent implements OnInit {
         });
 
         this.webSite = new WebSite("Mi First Site", "tralalallala", [], 2, 1, '#6699ff');
-        this.webSite.pages.push(new Page("Main"));
         this.selectedPage = this.webSite.pages[0];
-        $('.menu').css("background-color",this.webSite.colorMenu);
+        $('.menu').css("background-color", this.webSite.colorMenu);
 
     }
 
@@ -79,7 +78,16 @@ export class CreatorComponent implements OnInit {
     }
 
     removePage(id: number) {
+        console.log(this.webSite.pages[id].name);
         this.webSite.pages.splice(id, 1);
+        if (this.webSite.pages.length == 0) {
+            this.selectedPage = new Page("");
+        }
+        else {
+            this.selectedPage = this.webSite.pages[0];
+        }
+
+
     }
 
     selectPage(page: Page) {
@@ -141,10 +149,10 @@ export class CreatorComponent implements OnInit {
     }
 
     editSettingsWebSite() {
-        $('#inputTitle').val(this.webSite.title);
-        $('#inputDescription').val(this.webSite.description);
-        $('#inputTag').val('');
-        $('#selectTypeMenu').val(this.webSite.typeMenu);
+        $('#editTitle').val(this.webSite.title);
+        $('#editDescription').val(this.webSite.description);
+        $('#editTag').val('');
+        $('#editTypeMenu').val(this.webSite.typeMenu);
         this.model = this.webSite.colorMenu;
         this.classInputTitle = "";
         this.newTags = Array.from(this.webSite.tags);
@@ -164,13 +172,13 @@ export class CreatorComponent implements OnInit {
     }
 
     SafeChange() {
-        if ($('#inputTitle').val()) {
-            this.webSite.title = $('#inputTitle').val();
-            this.webSite.typeMenu = $('#selectTypeMenu').val();
+        if ($('#editTitle').val()) {
+            this.webSite.title = $('#editTitle').val();
+            this.webSite.typeMenu = $('#editTypeMenu').val();
             this.webSite.colorMenu = this.model;
-            this.webSite.description = $('#inputDescription').val();
+            this.webSite.description = $('#editDescription').val();
             this.webSite.tags = this.newTags;
-            $('.menu').css("background-color",this.webSite.colorMenu);
+            $('.menu').css("background-color", this.webSite.colorMenu);
             $('#settings-modal').modal('toggle');
         }
         else {

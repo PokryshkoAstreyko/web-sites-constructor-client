@@ -49,7 +49,9 @@ var PanelToolsPages = (function () {
         if (this.listOfPages.length == 0) {
             this.selectedPage = new page_1.Page("");
         }
-        this.selectedPage = this.listOfPages[0];
+        else {
+            this.selectedPage = this.listOfPages[0];
+        }
     };
     PanelToolsPages.prototype.selectDeletePageID = function (page) {
         this.deletedPageID = page;

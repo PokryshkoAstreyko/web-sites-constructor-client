@@ -1,8 +1,7 @@
-<div class="row" style="margin-top: 4px">
+<div style="padding: 5px;">
     <div class="col-md-2" style="padding: 0">
         <div id="sticker" class="col-md-12"
-             style="padding: 0; margin-right: 1px; margin-left: 10px; min-height: 600px;">
-
+             style="padding: 0 ;min-height: 600px;    padding-right: 3px; ">
             <div class=" panel panel-success " style="min-height: inherit;">
                 <ul class="nav nav-tabs ">
                     <li class=""><a href="#tools" data-toggle="tab" aria-expanded="false">Tools</a></li>
@@ -57,98 +56,93 @@
             </div>
         </div>
     </div>
-    <div class="col-md-10" style="padding: 0">
-        <div class="col-md-12" style="min-height: 600px;">
-            <div class="panel panel-success" style="min-height: inherit;">
-                <div class="panel-heading">
-                    <h3 class="panel-title" style="display: inline">
-                        Workspace:
-                    </h3>
-                    <div *ngIf="webSite.pages.length!=0" style="display: inline">
-                        current page  {{selectedPage.name}}
-                    </div>
-
+    <div class="col-md-10" style="padding: 0;min-height: 600px;">
+        <div class="panel panel-success" style="min-height: inherit;">
+            <div class="panel-heading">
+                <h3 class="panel-title" style="display: inline">
+                    Workspace:
+                </h3>
+                <div *ngIf="webSite.pages.length!=0" style="display: inline">
+                    current page {{selectedPage.name}}
                 </div>
+            </div>
 
-                <div class="panel-body dnd-placeholder" dnd-droppable
-                     (onDropSuccess)="addLineContainer($event)"
-                     [dropZones]="['demo1']" style=" padding-bottom: 80px">
+            <div class="panel-body dnd-placeholder" dnd-droppable
+                 (onDropSuccess)="addLineContainer($event)"
+                 [dropZones]="['demo1']" style=" padding-bottom: 80px">
 
-
-                    <nav class="navbar navbar-inverse menu">
-                        <div class="container-fluid">
-                            <div class="navbar-header">
-                                <div class="navbar-brand cursor-default" style="margin-left: 20px">{{webSite.title}}
-                                </div>
+                <nav class="navbar navbar-inverse menu">
+                    <div class="container-fluid">
+                        <div class="navbar-header">
+                            <div class="navbar-brand cursor-default" style="margin-left: 20px">{{webSite.title}}
                             </div>
-                            <div *ngIf="webSite.typeMenu==1">
-                                <ul class="nav navbar-nav" *ngFor="let page of webSite.pages">
-                                    <li class="cursor-pointer" style="float: left" (click)="selectPage(page)"><a>{{page.name}}</a>
-                                    </li>
-                                </ul>
-                            </div>
-                            <ul *ngIf="webSite.typeMenu==2" class="nav navbar-nav navbar-right"
-                                style="margin-right: 10px">
-                                <li class="dropdown">
-                                    <a href="#" class="dropdown-toggle " data-toggle="dropdown" role="button"
-                                       aria-expanded="false">Menu<span class="caret"></span></a>
-                                    <ul class="dropdown-menu" role="menu">
-                                        <li class="cursor-pointer" *ngFor="let page of webSite.pages"
-                                            (click)="selectPage(page)"><a>{{page.name}}</a>
-                                        </li>
-                                    </ul>
+                        </div>
+                        <div *ngIf="webSite.typeMenu==1">
+                            <ul class="nav navbar-nav" *ngFor="let page of webSite.pages">
+                                <li class="cursor-pointer" style="float: left" (click)="selectPage(page)"><a>{{page.name}}</a>
                                 </li>
                             </ul>
                         </div>
-                    </nav>
+                        <ul *ngIf="webSite.typeMenu==2" class="nav navbar-nav navbar-right"
+                            style="margin-right: 10px">
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle " data-toggle="dropdown" role="button"
+                                   aria-expanded="false">Menu<span class="caret"></span></a>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li class="cursor-pointer" *ngFor="let page of webSite.pages"
+                                        (click)="selectPage(page)"><a>{{page.name}}</a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
 
+                <!--<div *ngIf="listOfPages.length==0" class="col-md-12" dnd-droppable-->
+                <!--(onDropSuccess)="openPageModal()" [dropZones]="['demo1']" style="min-height: 400px;"></div>-->
 
-                    <!--<div *ngIf="listOfPages.length==0" class="col-md-12" dnd-droppable-->
-                    <!--(onDropSuccess)="openPageModal()" [dropZones]="['demo1']" style="min-height: 400px;"></div>-->
-
-                    <div *ngIf="webSite.pages.length!=0">
-                        <div *ngFor="let lineContainer of selectedPage.lineContainers"
-                             class="col-md-12 dnd-placeholder list-group-item"
-                             dnd-droppable (onDropSuccess)="addContainer(lineContainer)" [dropZones]="['demo1']"
-                             style="border: 1px dotted black; border-radius: 5px;min-height: 50px; padding-top: 0;"
-                             #workSpace>
-                            <div class="col-md-12 work" dnd-sortable-container [dropZones]="['boxers-zone']"
-                                 [sortableData]="lineContainer.containers">
-                                <div class="row" style="height: 10px; padding: 0 3px">
+                <div *ngIf="webSite.pages.length!=0">
+                    <div *ngFor="let lineContainer of selectedPage.lineContainers"
+                         class="col-md-12 dnd-placeholder list-group-item"
+                         dnd-droppable (onDropSuccess)="addContainer(lineContainer)" [dropZones]="['demo1']"
+                         style="border: 1px dotted black; border-radius: 5px;min-height: 50px; padding-top: 0;"
+                         #workSpace>
+                        <div class="col-md-12 work" dnd-sortable-container [dropZones]="['boxers-zone']"
+                             [sortableData]="lineContainer.containers">
+                            <div class="row" style="height: 10px; padding: 0 3px">
+                                <a data-toggle="modal"
+                                   data-target="#delete-container-modal"
+                                   (click)="SelectLineContainer(lineContainer)"
+                                   style="float: right">
+                                    <span class="fa fa-trash-o cursor-pointer" style="color: #515151"></span>
+                                </a>
+                            </div>
+                            <div *ngFor="let container of lineContainer.containers; let i = index"
+                                 class="work col-md-{{container.size}} list-group-item panel-body" dnd-sortable
+                                 [sortableIndex]="i"
+                                 dnd-draggable [dragEnabled] [dropZones]="['demo1']"
+                                 [dragData]="component"
+                                 style="border: 1px dotted skyblue; margin: 1px 0; border-radius: 6px; min-height: 50px;">
+                                <div style="border-bottom: 1px dotted skyblue; padding: 0 3px">
+                                    <a (click)="DecreaseSize(container,lineContainer)">
+                                        <span class="fa fa-minus cursor-pointer"></span>
+                                    </a>
+                                    <a (click)="IncreaseSize(container,lineContainer)">
+                                        <span class="fa fa-plus cursor-pointer"></span>
+                                    </a>
+                                    <a data-toggle="modal"
+                                       data-target="#edit-modal"
+                                       (click)="EditContainer(container,lineContainer)">
+                                        <span class="fa fa-edit cursor-pointer"></span>
+                                    </a>
                                     <a data-toggle="modal"
                                        data-target="#delete-container-modal"
-                                       (click)="SelectLineContainer(lineContainer)"
+                                       (click)="Select(container,lineContainer)"
                                        style="float: right">
-                                        <span class="fa fa-trash-o" style="color: #515151"></span>
+                                        <span class="fa fa-trash-o cursor-pointer"></span>
                                     </a>
                                 </div>
-                                <div *ngFor="let container of lineContainer.containers; let i = index"
-                                     class="work col-md-{{container.size}} list-group-item panel-body" dnd-sortable
-                                     [sortableIndex]="i"
-                                     dnd-draggable [dragEnabled] [dropZones]="['demo1']"
-                                     [dragData]="component"
-                                     style="border: 1px dotted skyblue; margin: 1px 0; border-radius: 6px; min-height: 50px;">
-                                    <div style="border-bottom: 1px dotted skyblue; padding: 0 3px">
-                                        <a (click)="DecreaseSize(container,lineContainer)">
-                                            <span class="fa fa-minus"></span>
-                                        </a>
-                                        <a (click)="IncreaseSize(container,lineContainer)">
-                                            <span class="fa fa-plus"></span>
-                                        </a>
-                                        <a data-toggle="modal"
-                                           data-target="#create-modal"
-                                           (click)="EditContainer(container,lineContainer)">
-                                            <span class="fa fa-edit"></span>
-                                        </a>
-                                        <a data-toggle="modal"
-                                           data-target="#delete-container-modal"
-                                           (click)="Select(container,lineContainer)"
-                                           style="float: right">
-                                            <span class="fa fa-trash-o"></span>
-                                        </a>
-                                    </div>
-                                    <div [innerHTML]="container.postText | escapeHtml" style="padding: 2px"></div>
-                                </div>
+                                <div [innerHTML]="container.postText | escapeHtml" style="padding: 2px"></div>
                             </div>
                         </div>
                     </div>
@@ -158,8 +152,9 @@
     </div>
 </div>
 
+
 <!--Froala Modal-->
-<div class="modal fade" id="create-modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel">
+<div class="modal fade" id="edit-modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel">
     <div class="modal-dialog modal-lg" style="min-width: 1200px;">
         <div class="modal-content">
             <div class="modal-header">
@@ -217,12 +212,12 @@
                 <div class="form-area">
                     <div class="form-group {{classInputTitle}}">
                         <label class="control-label">Title</label>
-                        <input id="inputTitle" type="text" class="form-control" name="name" placeholder="Enter title"
+                        <input id="editTitle" type="text" class="form-control" name="name" placeholder="Enter title"
                                (click)="classInputTitle=''">
                     </div>
                     <div class="form-group ">
                         <label class="control-label">Description</label>
-                        <textarea id="inputDescription" class="form-control" type="textarea"
+                        <textarea id="editDescription" class="form-control" type="textarea"
                                   placeholder="Enter description" maxlength="140" rows="6"></textarea>
                     </div>
                     <div class="form-group">
@@ -232,7 +227,7 @@
                                 <td class="col-md-6" id="col-table">
                                     <label class="control-label">Tegs</label>
                                     <div class="input-group">
-                                        <input id="inputTag" maxlength="22" type="text" class="form-control"
+                                        <input id="editTag" maxlength="22" type="text" class="form-control"
                                                placeholder="Enter teg" name="q"
                                                (keyup.enter)="AddTeg(titleInput.value); titleInput.value = ''"
                                                #titleInput>
@@ -245,11 +240,12 @@
                                     </div>
                                     <label class="control-label padding-top-15">Select type
                                         menu</label>
-                                    <select id="selectTypeMenu" class="form-control">
+                                    <select id="editTypeMenu" class="form-control">
                                         <option value="1">Horizontal</option>
                                         <option value="2">Dropdown</option>
                                     </select>
-                                    <label class="control-label padding-top-15" style="float: left">Select color menu
+                                    <label class="control-label padding-top-15" style="float: left">Select color
+                                        menu
                                     </label>
                                     <div style="padding-top: 14px; float: left; padding-left: 10px">
                                         <color-picker [(ngModel)]="model" [pickerConfig]="config"></color-picker>
