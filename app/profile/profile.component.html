@@ -1,6 +1,6 @@
 <div class="row">
     <div class="col-md-4">
-        <img [src]="userImgUrl" class="img-circle center-block" style="width:140px;height:140px; center-block; margin-bottom: 10px;" />
+        <img src="app/user.page/img/sarkhad.png" class="img-circle center-block" style="width:140px;height:140px; center-block; margin-bottom: 10px;" />
         <a class="btn btn-default center-block" href="#" role="button">Change</a>
     </div>
     <div class="col-md-8">
@@ -19,6 +19,12 @@
             </tbody>
         </table>
     </div>
+    <angular-tag-cloud
+            [width]="'800'"
+            [height]="'400'"
+            [data]="cloudData"
+            [removeOverflow]="'true'">
+    </angular-tag-cloud>
 </div>
 
 

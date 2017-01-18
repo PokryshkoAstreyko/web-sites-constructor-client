@@ -24,6 +24,7 @@ var profile_component_1 = require("./profile/profile.component");
 var ng2_dnd_1 = require("ng2-dnd");
 var creator_component_1 = require("./creator/creator.component");
 var user_page_component_1 = require("./user.page/user.page.component");
+var main_1 = require("./main/main");
 var froala_directives_1 = require("./froala.directives");
 var ng2_color_picker_1 = require("ng2-color-picker");
 var modal_delete_1 = require("./modals/modal.delete/modal.delete");
@@ -33,6 +34,8 @@ var modal_view_code_1 = require("./modals/modal.view.code/modal.view.code");
 var panel_tools_pages_1 = require("./creator/panel.tools.pages/panel.tools.pages");
 var angular2_datatable_1 = require("angular2-datatable");
 var ng2_rating_1 = require("ng2-rating");
+var angular_tag_cloud_module_1 = require("angular-tag-cloud-module");
+var modal_view_description_1 = require("./modals/modal.view.description/modal.view.description");
 var EscapeHtmlPipe = (function () {
     function EscapeHtmlPipe(sanitized) {
         this.sanitized = sanitized;
@@ -68,7 +71,8 @@ AppModule = __decorate([
             ng2_dnd_1.DndModule.forRoot(),
             ng2_color_picker_1.ColorPickerModule,
             ng2_rating_1.RatingModule,
-            angular2_datatable_1.DataTableModule
+            angular2_datatable_1.DataTableModule,
+            angular_tag_cloud_module_1.TagCloudModule
         ],
         declarations: [
             app_component_1.AppComponent,
@@ -76,6 +80,7 @@ AppModule = __decorate([
             index_4.HomeComponent,
             index_5.RegisterComponent,
             navbar_component_1.NavbarComponent,
+            main_1.Main,
             profile_component_1.ProfileComponent,
             creator_component_1.CreatorComponent,
             EscapeHtmlPipe,
@@ -86,6 +91,7 @@ AppModule = __decorate([
             modal_view_site_1.ModalViewSite,
             modal_view_code_1.ModalViewCode,
             panel_tools_pages_1.PanelToolsPages,
+            modal_view_description_1.ModalViewDescription,
         ],
         providers: [
             index_1.AuthGuard,

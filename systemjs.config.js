@@ -31,8 +31,10 @@
             "ng2-rating": "node_modules/ng2-rating",
             'angular2-datatable': 'npm:angular2-datatable',
             'lodash': 'npm:lodash/lodash.js',
+            'angular-tag-cloud-module': 'npm:angular-tag-cloud-module',
+
             // other libraries
-            'rxjs': 'npm:rxjs'
+            'rxjs': 'npm:rxjs',
         },
         // packages tells the System loader how to load when no filename and/or no extension
         packages: {
@@ -44,6 +46,10 @@
                 defaultExtension: 'js'
             },
             'angular2-datatable': {
+                main: 'index.js',
+                defaultExtension: 'js'
+            },
+            'angular-tag-cloud-module': {
                 main: 'index.js',
                 defaultExtension: 'js'
             },

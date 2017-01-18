@@ -7,6 +7,7 @@ import {RegisterComponent} from "./register/index";
 import {ProfileComponent} from "./profile/profile.component";
 import {CreatorComponent} from "./creator/creator.component";
 import {UserPageComponent} from "./user.page/user.page.component";
+import {Main} from "./main/main";
 
 const appRoutes: Routes = [
     { path: 'login', component: LoginComponent },
@@ -15,6 +16,7 @@ const appRoutes: Routes = [
     { path: 'profile', component: ProfileComponent},
     { path: 'creator', component: CreatorComponent},
     { path: 'userpage', component: UserPageComponent},
+    { path: 'main', component: Main},
 
     // otherwise redirect to home
     { path: '**', redirectTo: '' }
