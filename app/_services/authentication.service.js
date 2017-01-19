@@ -43,6 +43,30 @@ var AuthenticationService = (function () {
             }
         });
     };
+    // register(username : string, password : string): Observable<boolean> {
+    //     let body = JSON.stringify({ username: username, password: password });
+    //     let headers = new Headers( {'Content-Type': 'application/json;charset=utf-8', 'Accept' : 'application/json;charset=utf-8'});
+    //     let options = new RequestOptions({ headers: headers });
+    //
+    //     return this.http.post(this.registerUrl, body, options)
+    //         .map((response : Response) => {
+    //             let errorMessage = response.json() && response.json().errorMessage;
+    //             if(errorMessage){
+    //
+    //             }
+    //             let token = response.json() && response.json().jwtToken;
+    //
+    //
+    //             if(token) {
+    //                 this.token = token;
+    //                 localStorage.setItem('currentUser', JSON.stringify({username: username, token: token}));
+    //                 return true;
+    //
+    //             } else {
+    //                 return false;
+    //             }
+    //         });
+    // }
     AuthenticationService.prototype.register = function (username, password) {
         var _this = this;
         var body = JSON.stringify({ username: username, password: password });
@@ -50,14 +74,16 @@ var AuthenticationService = (function () {
         var options = new http_1.RequestOptions({ headers: headers });
         return this.http.post(this.registerUrl, body, options)
             .map(function (response) {
+            debugger;
+            var errorMessage = response.json() && response.json().errorMessage;
             var token = response.json() && response.json().jwtToken;
+            if (errorMessage) {
+                return errorMessage;
+            }
             if (token) {
                 _this.token = token;
                 localStorage.setItem('currentUser', JSON.stringify({ username: username, token: token }));
-                return true;
-            }
-            else {
-                return false;
+                return 'token';
             }
         });
     };

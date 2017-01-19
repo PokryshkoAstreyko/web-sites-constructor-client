@@ -23,13 +23,18 @@ var RegisterComponent = (function () {
         // reset login status
         this.authenticationService.logout();
     };
+    //TODO массив ошибок для разных ситуаций и возвращать массив в ngFor на страницу
     RegisterComponent.prototype.register = function () {
         var _this = this;
         this.loading = true;
         this.authenticationService.register(this.model.username, this.model.password)
             .subscribe(function (result) {
-            if (result === true) {
+            if (result == "token") {
                 _this.router.navigate(['/']);
+            }
+            else if (result == 'That username is already taken!') {
+                _this.error = 'That username is already taken!';
+                _this.loading = false;
             }
             else {
                 _this.error = 'Username or password is incorrect';

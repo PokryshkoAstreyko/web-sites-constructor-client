@@ -23,12 +23,17 @@ export class RegisterComponent implements OnInit {
         this.authenticationService.logout();
     }
 
+
+    //TODO массив ошибок для разных ситуаций и возвращать массив в ngFor на страницу
     register() {
         this.loading = true;
         this.authenticationService.register(this.model.username, this.model.password)
             .subscribe(result => {
-                if(result === true){
+                if(result == "token"){
                     this.router.navigate(['/']);
+                } else if (result == 'That username is already taken!'){
+                    this.error = 'That username is already taken!';
+                    this.loading = false;
                 } else {
                     this.error = 'Username or password is incorrect';
                     this.loading = false;

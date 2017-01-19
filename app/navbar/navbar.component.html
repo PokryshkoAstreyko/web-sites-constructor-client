@@ -7,16 +7,27 @@
 
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-            <div class="container col-md-8">
-                <div class="row">
-                    <div class="searchInput">
-                        <input type="text" class="searchField" placeholder="Search something">
-                        <label class="glyphicon glyphicon-search" rel="tooltip" title="search"></label>
-                    </div>
+            <!--<div class="container col-md-8">-->
+                <!--<div class="row">-->
+                    <!--<div class="searchInput form-group">-->
+                        <!--<input type="text" class="searchField form-control" placeholder="Search something">-->
+                    <!--</div>-->
+                    <!--<button class="btn btn-default" rel="tooltip" title="search">-->
+                        <!--<span class="glyphicon glyphicon-search"></span>-->
+                    <!--</button>-->
+                <!--</div>-->
+            <!--</div>-->
+            <form class="navbar-form navbar-left" role="search">
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="Search" style="min-width: 500px;">
                 </div>
-            </div>
-            <ul class="nav navbar-nav navbar-right">
-                <li class="cursor-pointer" data-toggle="tooltip" title="Create new website" data-placement="bottom" ><a  data-toggle="modal" data-target="#create-modal" (click)="toFormCreateWebSite()">
+                <button type="submit" class="btn btn-default" rel="tooltip" title="search">
+                    <span class="glyphicon glyphicon-search"></span>
+                </button>
+            </form>
+            <ul *ngIf="isUserInfoShowed" class="nav navbar-nav navbar-right">
+                <li class="cursor-pointer" data-toggle="tooltip" title="Create new website" data-placement="bottom" >
+                    <a data-toggle="modal" data-target="#create-modal" (click)="clearCreationWebSiteForm()">
                     <span class="glyphicon glyphicon-plus"></span></a>
                 </li>
                 <li class="dropdown">
@@ -32,6 +43,11 @@
                     </ul>
                 </li>
             </ul>
+            <!--<ul *ngIf="!isUserInfoShowed" class="nav navbar-nav navbar-right">-->
+                <!--<li class="cursor-pointer">-->
+                    <!--<span class="glyphicon glyphicon-log-in"></span>-->
+                <!--</li>-->
+            <!--</ul>-->
         </div><!-- /.navbar-collapse -->
     </div><!-- /.container-fluid -->
 </nav>

@@ -1,6 +1,3 @@
-/**
- * Created by Dima on 15.01.2017.
- */
 "use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -11,36 +8,33 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+/**
+ * Created by Dima on 18.01.2017.
+ */
 var core_1 = require("@angular/core");
-var page_1 = require("../../creator/page");
-var PageToHTML_1 = require("../../creator/PageToHTML");
-var ModalViewCode = (function () {
-    function ModalViewCode() {
+var ModalViewDescription = (function () {
+    function ModalViewDescription() {
     }
-    ModalViewCode.prototype.selectViewPage = function (page) {
-        this.selectedViewPage = page;
-        this.HTMLCode = PageToHTML_1.PageToHTML.transfer(page);
-    };
-    return ModalViewCode;
+    return ModalViewDescription;
 }());
 __decorate([
     core_1.Input(),
-    __metadata("design:type", Array)
-], ModalViewCode.prototype, "listOfPages", void 0);
+    __metadata("design:type", String)
+], ModalViewDescription.prototype, "description", void 0);
 __decorate([
     core_1.Input(),
-    __metadata("design:type", page_1.Page)
-], ModalViewCode.prototype, "selectedViewPage", void 0);
+    __metadata("design:type", Array)
+], ModalViewDescription.prototype, "tags", void 0);
 __decorate([
     core_1.Input(),
     __metadata("design:type", String)
-], ModalViewCode.prototype, "HTMLCode", void 0);
-ModalViewCode = __decorate([
+], ModalViewDescription.prototype, "title", void 0);
+ModalViewDescription = __decorate([
     core_1.Component({
-        templateUrl: 'app/modals/modal.view.code/modal.view.code.html',
-        selector: 'modalViewCode',
+        templateUrl: 'app/modals/modal.view.description/modal.view.description.html',
+        selector: 'modalViewDescription',
     }),
     __metadata("design:paramtypes", [])
-], ModalViewCode);
-exports.ModalViewCode = ModalViewCode;
-//# sourceMappingURL=modal.view.code.js.map
+], ModalViewDescription);
+exports.ModalViewDescription = ModalViewDescription;
+//# sourceMappingURL=modal.view.description.js.map

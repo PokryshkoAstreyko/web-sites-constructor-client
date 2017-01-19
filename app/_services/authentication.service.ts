@@ -41,26 +41,51 @@ export class AuthenticationService {
             });
     }
 
-    register(username : string, password : string): Observable<boolean> {
+    // register(username : string, password : string): Observable<boolean> {
+    //     let body = JSON.stringify({ username: username, password: password });
+    //     let headers = new Headers( {'Content-Type': 'application/json;charset=utf-8', 'Accept' : 'application/json;charset=utf-8'});
+    //     let options = new RequestOptions({ headers: headers });
+    //
+    //     return this.http.post(this.registerUrl, body, options)
+    //         .map((response : Response) => {
+    //             let errorMessage = response.json() && response.json().errorMessage;
+    //             if(errorMessage){
+    //
+    //             }
+    //             let token = response.json() && response.json().jwtToken;
+    //
+    //
+    //             if(token) {
+    //                 this.token = token;
+    //                 localStorage.setItem('currentUser', JSON.stringify({username: username, token: token}));
+    //                 return true;
+    //
+    //             } else {
+    //                 return false;
+    //             }
+    //         });
+    // }
+
+    register(username : string, password : string): Observable<string> {
         let body = JSON.stringify({ username: username, password: password });
         let headers = new Headers( {'Content-Type': 'application/json;charset=utf-8', 'Accept' : 'application/json;charset=utf-8'});
         let options = new RequestOptions({ headers: headers });
 
         return this.http.post(this.registerUrl, body, options)
-            .map((response : Response) => {
+            .map((response : Response) => { debugger;
+                let errorMessage = response.json() && response.json().errorMessage;
                 let token = response.json() && response.json().jwtToken;
+
+                if(errorMessage){
+                    return errorMessage;
+                }
                 if(token) {
                     this.token = token;
                     localStorage.setItem('currentUser', JSON.stringify({username: username, token: token}));
-
-                    return true;
-
-                } else {
-                    return false;
+                    return 'token';
                 }
             });
     }
-
     logout(): void {
         // clear token remove user from local storage to log user out
         this.token = null;

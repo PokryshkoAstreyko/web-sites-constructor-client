@@ -6,15 +6,25 @@ import {Data} from "@angular/router";
  */
 
 export class WebSite{
+
     title: string;
+
     description: string;
+
     tags: string[];
+
     rating: number;
+
     typeMenu: number;
+
     colorMenu: string;
+
     pages: Page[];
+
     date: number;
+
     dateView: string='';
+
 
     constructor(title:string,description: string,tags:string[],rating:number,typeMenu: number, colorMenu:string){
         this.title=title;

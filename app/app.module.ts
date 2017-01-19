@@ -28,6 +28,7 @@ import {DataTableModule} from "angular2-datatable";
 import {RatingModule} from "ng2-rating";
 import { TagCloudModule } from 'angular-tag-cloud-module';
 import {ModalViewDescription} from "./modals/modal.view.description/modal.view.description";
+import {SiteCreationService} from "./_services/site.creation.service";
 
 @Pipe({ name: 'escapeHtml', pure: false })
 export class EscapeHtmlPipe implements PipeTransform {
@@ -80,6 +81,7 @@ export class EscapeHtmlPipe implements PipeTransform {
         AuthGuard,
         AuthenticationService,
         UserService,
+        SiteCreationService,
 
         FormBuilder,
         ControlContainer

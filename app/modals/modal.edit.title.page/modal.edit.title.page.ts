@@ -14,6 +14,7 @@ declare var $: any;
 })
 
 export class ModalEditTitle{
+
     @Input() titleText: string;
     @Input() currentTitle: string;
     @Output() change: EventEmitter<string> = new EventEmitter<string>();

@@ -4,6 +4,8 @@ import {AuthenticationService} from "../_services/authentication.service";
 import {Router} from "@angular/router";
 import {WebSite} from "../user.page/website";
 import {IColorPickerConfiguration} from "ng2-color-picker/lib";
+import {SiteCreationService} from "../_services/site.creation.service";
+import {isUndefined} from "util";
 
 declare var $: any;
 @Component({
@@ -14,13 +16,28 @@ declare var $: any;
 })
 export class NavbarComponent implements OnInit{
 
+    isUserInfoShowed: boolean;
+
+    saveSite(site : WebSite){
+        this.siteCreationService.createSite(site).
+            subscribe(siteIdFromServer => {
+                if(siteIdFromServer){
+                    this.siteCreationService.currentSiteId = +siteIdFromServer;
+                    this.router.navigate(['/creator']);
+                }
+        })
+    }
+
     newTags: string[]=[];
     classInputTitle: string='';
     public config: IColorPickerConfiguration;
-    public model: any;
 
+    public model: any;
     constructor(private router: Router,
-                private authenticationService: AuthenticationService ){
+                private authenticationService: AuthenticationService,
+                private siteCreationService: SiteCreationService ){
+
+        this.isUserInfoShowed = !!localStorage.getItem('currentUser');
 
         this.model = '#6699ff';
         this.config = {
@@ -40,6 +57,7 @@ export class NavbarComponent implements OnInit{
         };
 
     }
+
     ngOnInit(){
         $('[data-toggle="tooltip"]').tooltip();
     }
@@ -48,7 +66,7 @@ export class NavbarComponent implements OnInit{
         this.router.navigate(['/login']);
     }
 
-    toFormCreateWebSite() {
+    clearCreationWebSiteForm() {
         this.newTags = [];
         $('#inputTitle').val('');
         $('#inputDescription').val('');
@@ -59,9 +77,17 @@ export class NavbarComponent implements OnInit{
     }
 
     toSubmitForm() {
+
+
         if ($('#inputTitle').val()) {
-           // this.webSites.push(new WebSite($('#inputTitle').val(), $('#inputDescription').val(), this.newTags,0,$("#selectTypeMenu").val(),this.model));
+
             $('#create-modal').modal('toggle');
+
+            this.saveSite(new WebSite($('#inputTitle').val(),
+                $('#inputDescription').val(),
+                this.newTags,
+                0,$("#selectTypeMenu").val(),
+                this.model));
         }
         else {
             this.classInputTitle="has-error"
