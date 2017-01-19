@@ -60,7 +60,11 @@ export class PanelToolsPages {
         if (this.listOfPages.length == 0) {
             this.selectedPage = new Page("");
         }
-        this.selectedPage = this.listOfPages[0];
+        else {
+            this.selectedPage = this.listOfPages[0];
+        }
+
+
     }
     selectDeletePageID(page: number) {
         this.deletedPageID = page;
