@@ -15,6 +15,7 @@ var page_1 = require("./page");
 var PageToHTML_1 = require("./PageToHTML");
 var modal_text_1 = require("../modals/modal.text");
 var website_1 = require("../user.page/website");
+var tag_1 = require("../user.page/tag");
 var CreatorComponent = (function () {
     function CreatorComponent() {
         this.selectedContainerID = 0;
@@ -124,7 +125,11 @@ var CreatorComponent = (function () {
         $('#editTypeMenu').val(this.webSite.typeMenu);
         this.model = this.webSite.colorMenu;
         this.classInputTitle = "";
-        this.newTags = Array.from(this.webSite.tags);
+        this.newTags = [];
+        for (var _i = 0, _a = this.webSite.tags; _i < _a.length; _i++) {
+            var tag = _a[_i];
+            this.newTags.push(tag.tag);
+        }
     };
     CreatorComponent.prototype.AddTeg = function (event) {
         if (!this.newTags.includes(event)) {
@@ -138,17 +143,22 @@ var CreatorComponent = (function () {
     };
     CreatorComponent.prototype.SafeChange = function () {
         if ($('#editTitle').val()) {
+            var tag = [];
+            for (var i = 0; i < this.newTags.length; i++) {
+                tag.push(new tag_1.Tag(this.newTags[i]));
+            }
             this.webSite.title = $('#editTitle').val();
             this.webSite.typeMenu = $('#editTypeMenu').val();
             this.webSite.colorMenu = this.model;
             this.webSite.description = $('#editDescription').val();
-            this.webSite.tags = this.newTags;
+            this.webSite.tags = tag;
             $('.menu').css("background-color", this.webSite.colorMenu);
             $('#settings-modal').modal('toggle');
         }
         else {
             this.classInputTitle = "has-error";
         }
+        console.log(this.webSite);
     };
     return CreatorComponent;
 }());

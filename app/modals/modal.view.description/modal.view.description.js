@@ -33,8 +33,7 @@ ModalViewDescription = __decorate([
     core_1.Component({
         templateUrl: 'app/modals/modal.view.description/modal.view.description.html',
         selector: 'modalViewDescription',
-    }),
-    __metadata("design:paramtypes", [])
+    })
 ], ModalViewDescription);
 exports.ModalViewDescription = ModalViewDescription;
 //# sourceMappingURL=modal.view.description.js.map

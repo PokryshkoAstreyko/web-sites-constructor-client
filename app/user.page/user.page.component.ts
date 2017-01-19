@@ -5,6 +5,7 @@
 import {Component, ViewChild, ViewChildren, NgModule, OnInit} from "@angular/core";
 import {WebSite} from './website';
 import {ModalText} from '../modals/modal.text'
+import {Tag} from "./tag";
 
 declare var $: any;
 @Component({
@@ -14,18 +15,20 @@ declare var $: any;
 
 })
 export class UserPageComponent implements OnInit{
-    webSites: WebSite[];
-    selectedWebSite: WebSite;
+    webSites: WebSite[]=[];
+    selectedWebSite: WebSite = new WebSite("", "", [], 5, 1, "");
     achievementsClass="gray";
     modalText: ModalText=new ModalText();
+
     constructor() {
-        let tags: string[]=[];
-        let tag = "tag";
-        this.webSites = [];
-        this.selectedWebSite = new WebSite("", "",[], 3,1,"#6699ff");
+        let tags: string[] = [];
+        let tag: Tag[]=[];
         for (let i = 1; i <= 10; i++) {
-            tags.push(tag + i);
-            this.webSites.push(new WebSite("WebSite" + i, "blablablablablablablab" + i, tags,3,1,"#6699ff"));
+            tags.push("tag" + i);
+        }
+        for(let i=0;i<tags.length;i++){
+            tag.push(new Tag(tags[i]));
+            this.webSites.push(new WebSite("WebSite" + i, "blablablablablablablab" + i, tag, 5, 1, "#6699ff"));
         }
     }
 

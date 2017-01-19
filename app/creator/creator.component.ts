@@ -7,6 +7,7 @@ import {PageToHTML} from "./PageToHTML";
 import {IColorPickerConfiguration} from 'ng2-color-picker';
 import {ModalText} from '../modals/modal.text'
 import {WebSite} from "../user.page/website";
+import {Tag} from "../user.page/tag";
 
 declare var $: any;
 
@@ -155,7 +156,10 @@ export class CreatorComponent implements OnInit {
         $('#editTypeMenu').val(this.webSite.typeMenu);
         this.model = this.webSite.colorMenu;
         this.classInputTitle = "";
-        this.newTags = Array.from(this.webSite.tags);
+        this.newTags=[];
+        for(let tag of this.webSite.tags){
+            this.newTags.push(tag.tag);
+        }
     }
 
 
@@ -172,17 +176,24 @@ export class CreatorComponent implements OnInit {
     }
 
     SafeChange() {
+
         if ($('#editTitle').val()) {
+
+            let tag: Tag[]=[];
+            for(let i=0;i<this.newTags.length;i++){
+                tag.push(new Tag(this.newTags[i]));
+            }
             this.webSite.title = $('#editTitle').val();
             this.webSite.typeMenu = $('#editTypeMenu').val();
             this.webSite.colorMenu = this.model;
             this.webSite.description = $('#editDescription').val();
-            this.webSite.tags = this.newTags;
+            this.webSite.tags = tag;
             $('.menu').css("background-color", this.webSite.colorMenu);
             $('#settings-modal').modal('toggle');
         }
         else {
             this.classInputTitle = "has-error"
         }
+        console.log(this.webSite);
     }
 }

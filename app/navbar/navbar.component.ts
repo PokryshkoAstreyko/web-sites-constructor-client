@@ -6,6 +6,7 @@ import {WebSite} from "../user.page/website";
 import {IColorPickerConfiguration} from "ng2-color-picker/lib";
 import {SiteCreationService} from "../_services/site.creation.service";
 import {isUndefined} from "util";
+import {Tag} from "../user.page/tag";
 
 declare var $: any;
 @Component({
@@ -19,15 +20,15 @@ export class NavbarComponent implements OnInit{
     isUserInfoShowed: boolean;
 
     saveSite(site : WebSite){
-        this.siteCreationService.createSite(site).
-            subscribe(siteIdFromServer => {
-                if(siteIdFromServer){
-                    this.siteCreationService.currentSiteId = +siteIdFromServer;
-                    this.router.navigate(['/creator']);
-                }
-        })
+        console.log(site);
+        // this.siteCreationService.createSite(site).
+        //     subscribe(siteIdFromServer => {
+        //         if(siteIdFromServer){
+        //             this.siteCreationService.currentSiteId = +siteIdFromServer;
+        //             this.router.navigate(['/creator']);
+        //         }
+        // })
     }
-
     newTags: string[]=[];
     classInputTitle: string='';
     public config: IColorPickerConfiguration;
@@ -77,15 +78,16 @@ export class NavbarComponent implements OnInit{
     }
 
     toSubmitForm() {
-
-
         if ($('#inputTitle').val()) {
 
             $('#create-modal').modal('toggle');
-
+            let tag: Tag[]=[];
+            for(let i=0;i<this.newTags.length;i++){
+                tag.push(new Tag(this.newTags[i]));
+            }
             this.saveSite(new WebSite($('#inputTitle').val(),
                 $('#inputDescription').val(),
-                this.newTags,
+                tag,
                 0,$("#selectTypeMenu").val(),
                 this.model));
         }
@@ -105,6 +107,4 @@ export class NavbarComponent implements OnInit{
     DeleteTeg(event: any) {
         this.newTags.splice(this.newTags.indexOf(event), 1);
     }
-
-
 }

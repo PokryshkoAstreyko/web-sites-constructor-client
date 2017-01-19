@@ -14,53 +14,24 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require("@angular/core");
 var website_1 = require("../user.page/website");
 var http_1 = require("@angular/http");
+var tag_1 = require("../user.page/tag");
 var Main = (function () {
     function Main(http) {
-        var _this = this;
         this.http = http;
         this.img = "";
-        this.tags = [{ text: "tag", weight: 9 },
-            { text: "tag" },
-            { text: "tag" },
-            { text: "tag" },
-            { text: "tag" },
-            { text: "tag" },
-            { text: "tag" },
-            { text: "tag" },
-            { text: "tag" },
-            { text: "tag2" },
-            { text: "tag2" },
-            { text: "tag2" },
-            { text: "tag2" },
-            { text: "tag2" },
-            { text: "tag2" },
-            { text: "tag2" },
-            { text: "tag2" },
-            { text: "tag3" },
-            { text: "tag3" },
-            { text: "tag3" },
-            { text: "tag3" },
-            { text: "tag3" },
-        ];
         this.webSites = [];
         this.selectedWebSite = new website_1.WebSite("", "", [], 5, 1, "");
         var tags = [];
+        var tag = [];
         for (var i = 1; i <= 10; i++) {
             tags.push("tag" + i);
-            this.webSites.push(new website_1.WebSite("WebSite" + i, "blablablablablablablab" + i, tags, 5, 1, "#6699ff"));
         }
-        console.log(this.tags);
-        this.http.get("app/main/tags.json")
-            .subscribe(function (tags) {
-            _this.tags = tags.json();
-        });
+        for (var i = 0; i < tags.length; i++) {
+            tag.push(new tag_1.Tag(tags[i]));
+            this.webSites.push(new website_1.WebSite("WebSite" + i, "blablablablablablablab" + i, tag, 5, 1, "#6699ff"));
+        }
     }
     Main.prototype.ngOnInit = function () {
-        var _this = this;
-        this.http.get("app/main/tags.json")
-            .subscribe(function (tags) {
-            _this.tags = tags.json();
-        });
     };
     Main.prototype.selectWebSite = function (event) {
         this.selectedWebSite = event;

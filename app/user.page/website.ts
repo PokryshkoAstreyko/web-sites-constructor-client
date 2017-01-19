@@ -1,5 +1,6 @@
 import {Page} from "../creator/page";
 import {Data} from "@angular/router";
+import {Tag} from "./tag";
 
 /**
  * Created by Dima on 07.01.2017.
@@ -11,7 +12,7 @@ export class WebSite{
 
     description: string;
 
-    tags: string[];
+    tags: Tag[];
 
     rating: number;
 
@@ -26,7 +27,7 @@ export class WebSite{
     dateView: string='';
 
 
-    constructor(title:string,description: string,tags:string[],rating:number,typeMenu: number, colorMenu:string){
+    constructor(title:string,description: string,tags: Tag[],rating:number,typeMenu: number, colorMenu:string){
         this.title=title;
         this.description=description;
         this.tags=tags;

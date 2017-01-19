@@ -13,6 +13,7 @@ var authentication_service_1 = require("../_services/authentication.service");
 var router_1 = require("@angular/router");
 var website_1 = require("../user.page/website");
 var site_creation_service_1 = require("../_services/site.creation.service");
+var tag_1 = require("../user.page/tag");
 var NavbarComponent = (function () {
     function NavbarComponent(router, authenticationService, siteCreationService) {
         this.router = router;
@@ -39,14 +40,14 @@ var NavbarComponent = (function () {
         };
     }
     NavbarComponent.prototype.saveSite = function (site) {
-        var _this = this;
-        this.siteCreationService.createSite(site).
-            subscribe(function (siteIdFromServer) {
-            if (siteIdFromServer) {
-                _this.siteCreationService.currentSiteId = +siteIdFromServer;
-                _this.router.navigate(['/creator']);
-            }
-        });
+        console.log(site);
+        // this.siteCreationService.createSite(site).
+        //     subscribe(siteIdFromServer => {
+        //         if(siteIdFromServer){
+        //             this.siteCreationService.currentSiteId = +siteIdFromServer;
+        //             this.router.navigate(['/creator']);
+        //         }
+        // })
     };
     NavbarComponent.prototype.ngOnInit = function () {
         $('[data-toggle="tooltip"]').tooltip();
@@ -66,7 +67,11 @@ var NavbarComponent = (function () {
     NavbarComponent.prototype.toSubmitForm = function () {
         if ($('#inputTitle').val()) {
             $('#create-modal').modal('toggle');
-            this.saveSite(new website_1.WebSite($('#inputTitle').val(), $('#inputDescription').val(), this.newTags, 0, $("#selectTypeMenu").val(), this.model));
+            var tag = [];
+            for (var i = 0; i < this.newTags.length; i++) {
+                tag.push(new tag_1.Tag(this.newTags[i]));
+            }
+            this.saveSite(new website_1.WebSite($('#inputTitle').val(), $('#inputDescription').val(), tag, 0, $("#selectTypeMenu").val(), this.model));
         }
         else {
             this.classInputTitle = "has-error";

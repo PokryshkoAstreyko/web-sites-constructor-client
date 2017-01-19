@@ -14,17 +14,21 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require("@angular/core");
 var website_1 = require("./website");
 var modal_text_1 = require("../modals/modal.text");
+var tag_1 = require("./tag");
 var UserPageComponent = (function () {
     function UserPageComponent() {
+        this.webSites = [];
+        this.selectedWebSite = new website_1.WebSite("", "", [], 5, 1, "");
         this.achievementsClass = "gray";
         this.modalText = new modal_text_1.ModalText();
         var tags = [];
-        var tag = "tag";
-        this.webSites = [];
-        this.selectedWebSite = new website_1.WebSite("", "", [], 3, 1, "#6699ff");
+        var tag = [];
         for (var i = 1; i <= 10; i++) {
-            tags.push(tag + i);
-            this.webSites.push(new website_1.WebSite("WebSite" + i, "blablablablablablablab" + i, tags, 3, 1, "#6699ff"));
+            tags.push("tag" + i);
+        }
+        for (var i = 0; i < tags.length; i++) {
+            tag.push(new tag_1.Tag(tags[i]));
+            this.webSites.push(new website_1.WebSite("WebSite" + i, "blablablablablablablab" + i, tag, 5, 1, "#6699ff"));
         }
     }
     UserPageComponent.prototype.ngOnInit = function () {

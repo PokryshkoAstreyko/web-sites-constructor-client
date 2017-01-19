@@ -45,8 +45,7 @@ ModalEditTitle = __decorate([
     core_1.Component({
         templateUrl: 'app/modals/modal.edit.title.page/modal.edit.title.page.html',
         selector: 'modalEditTitlePage'
-    }),
-    __metadata("design:paramtypes", [])
+    })
 ], ModalEditTitle);
 exports.ModalEditTitle = ModalEditTitle;
 //# sourceMappingURL=modal.edit.title.page.js.map
