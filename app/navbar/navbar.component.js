@@ -14,15 +14,17 @@ var router_1 = require("@angular/router");
 var website_1 = require("../user.page/website");
 var site_creation_service_1 = require("../_services/site.creation.service");
 var tag_1 = require("../user.page/tag");
+var shared_service_1 = require("../_services/shared.service");
 var NavbarComponent = (function () {
-    function NavbarComponent(router, authenticationService, siteCreationService) {
+    function NavbarComponent(router, authenticationService, siteCreationService, sharedService) {
         this.router = router;
         this.authenticationService = authenticationService;
         this.siteCreationService = siteCreationService;
+        this.sharedService = sharedService;
         this.newTags = [];
-        this.classInputTitle = '';
+        this.titleInputClass = '';
         this.isUserInfoShowed = !!localStorage.getItem('currentUser');
-        this.model = '#6699ff';
+        this.menuColor = '#6699ff';
         this.config = {
             width: 25,
             height: 25,
@@ -39,16 +41,6 @@ var NavbarComponent = (function () {
             ]
         };
     }
-    NavbarComponent.prototype.saveSite = function (site) {
-        console.log(site);
-        // this.siteCreationService.createSite(site).
-        //     subscribe(siteIdFromServer => {
-        //         if(siteIdFromServer){
-        //             this.siteCreationService.currentSiteId = +siteIdFromServer;
-        //             this.router.navigate(['/creator']);
-        //         }
-        // })
-    };
     NavbarComponent.prototype.ngOnInit = function () {
         $('[data-toggle="tooltip"]').tooltip();
     };
@@ -57,35 +49,46 @@ var NavbarComponent = (function () {
     };
     NavbarComponent.prototype.clearCreationWebSiteForm = function () {
         this.newTags = [];
-        $('#inputTitle').val('');
-        $('#inputDescription').val('');
-        $('#inputTag').val('');
-        $('#selectTypeMenu').val(1);
-        this.model = '#6699ff';
-        this.classInputTitle = "";
+        $('#titleInput').val('');
+        $('#descriptionInput').val('');
+        $('#tagInput').val('');
+        $('#menuType').val(1);
+        this.menuColor = '#6699ff';
+        this.titleInputClass = "";
     };
-    NavbarComponent.prototype.toSubmitForm = function () {
-        if ($('#inputTitle').val()) {
+    NavbarComponent.prototype.submitSiteSettingsForm = function () {
+        if ($('#titleInput').val()) {
             $('#create-modal').modal('toggle');
-            var tag = [];
+            var tags = [];
             for (var i = 0; i < this.newTags.length; i++) {
-                tag.push(new tag_1.Tag(this.newTags[i]));
+                tags.push(new tag_1.Tag(this.newTags[i]));
             }
-            this.saveSite(new website_1.WebSite($('#inputTitle').val(), $('#inputDescription').val(), tag, 0, $("#selectTypeMenu").val(), this.model));
+            this.saveSite(new website_1.WebSite($('#titleInput').val(), $('#descriptionInput').val(), tags, 0, $("#menuType").val(), this.menuColor));
         }
         else {
-            this.classInputTitle = "has-error";
+            this.titleInputClass = "has-error";
         }
     };
-    NavbarComponent.prototype.toAddTeg = function (event) {
+    NavbarComponent.prototype.addTag = function (event) {
         if (!this.newTags.includes(event)) {
             if (event) {
                 this.newTags.push(event);
             }
         }
     };
-    NavbarComponent.prototype.DeleteTeg = function (event) {
+    NavbarComponent.prototype.deleteTag = function (event) {
         this.newTags.splice(this.newTags.indexOf(event), 1);
+    };
+    NavbarComponent.prototype.saveSite = function (site) {
+        var _this = this;
+        console.log(site);
+        this.siteCreationService.createSite(site).
+            subscribe(function (siteIdFromServer) {
+            if (siteIdFromServer) {
+                _this.sharedService.currentSiteId = siteIdFromServer;
+                _this.router.navigate(['/creator']);
+            }
+        });
     };
     return NavbarComponent;
 }());
@@ -97,7 +100,8 @@ NavbarComponent = __decorate([
     }),
     __metadata("design:paramtypes", [router_1.Router,
         authentication_service_1.AuthenticationService,
-        site_creation_service_1.SiteCreationService])
+        site_creation_service_1.SiteCreationService,
+        shared_service_1.SharedService])
 ], NavbarComponent);
 exports.NavbarComponent = NavbarComponent;
 //# sourceMappingURL=navbar.component.js.map

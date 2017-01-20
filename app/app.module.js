@@ -37,6 +37,7 @@ var ng2_rating_1 = require("ng2-rating");
 var angular_tag_cloud_module_1 = require("angular-tag-cloud-module");
 var modal_view_description_1 = require("./modals/modal.view.description/modal.view.description");
 var site_creation_service_1 = require("./_services/site.creation.service");
+var shared_service_1 = require("./_services/shared.service");
 var EscapeHtmlPipe = (function () {
     function EscapeHtmlPipe(sanitized) {
         this.sanitized = sanitized;
@@ -99,11 +100,13 @@ AppModule = __decorate([
             index_2.AuthenticationService,
             index_2.UserService,
             site_creation_service_1.SiteCreationService,
+            shared_service_1.SharedService,
             forms_1.FormBuilder,
             forms_1.ControlContainer
         ],
         bootstrap: [app_component_1.AppComponent]
-    })
+    }),
+    __metadata("design:paramtypes", [])
 ], AppModule);
 exports.AppModule = AppModule;
 //# sourceMappingURL=app.module.js.map

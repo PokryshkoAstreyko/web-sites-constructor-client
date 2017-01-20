@@ -60,7 +60,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <div>
-                    <h4 class="modal-title">Form creation WebSite
+                    <h4 class="modal-title">Select the initial parameters of your website
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">×</span>
                         </button>
@@ -69,52 +69,51 @@
             </div>
             <div class="modal-body">
                 <div class="form-area">
-                    <div class="form-group {{classInputTitle}}">
+                    <div class="form-group {{titleInputClass}}">
                         <label class="control-label">Title</label>
-                        <input id="inputTitle" type="text" class="form-control" name="name" placeholder="Enter title"
-                               (click)="classInputTitle=''">
+                        <input id="titleInput" type="text" class="form-control" name="name" placeholder="Enter title"
+                               (click)="titleInputClass=''">
                     </div>
                     <div class="form-group ">
                         <label class="control-label">Description</label>
-                        <textarea id="inputDescription" class="form-control" type="textarea"
-                                  placeholder="Enter description" maxlength="140" rows="6"></textarea>
+                        <textarea id="descriptionInput" class="form-control" type="textarea"
+                                  placeholder="Enter description" maxlength="140" rows="6" style="resize: vertical;"></textarea>
                     </div>
                     <div class="form-group">
                         <table class="table">
                             <tbody>
                             <tr>
                                 <td class="col-md-6" id="col-table">
-                                    <label class="control-label">Tegs</label>
+                                    <label class="control-label">Tags</label>
                                     <div class="input-group">
-                                        <input id="inputTag" maxlength="22" type="text" class="form-control"
+                                        <input id="tagInput" maxlength="22" type="text" class="form-control"
                                                placeholder="Enter teg" name="q"
-                                               (keyup.enter)="toAddTeg(titleInput.value); titleInput.value = ''"
+                                               (keyup.enter)="addTag(titleInput.value); titleInput.value = ''"
                                                #titleInput>
                                         <div class="input-group-btn">
                                             <button class="btn btn-default" type="submit"
-                                                    (click)="toAddTeg(titleInput.value); titleInput.value = ''"
-                                            >Add
+                                                    (click)="addTag(titleInput.value); titleInput.value = ''">Add
                                             </button>
                                         </div>
                                     </div>
-                                    <label class="control-label padding-top-15">Select type
+                                    <label class="control-label padding-top-15">Select type of
                                         menu</label>
-                                    <select id="selectTypeMenu" class="form-control">
+                                    <select id="menuType" class="form-control">
                                         <option value="1">Horizontal</option>
                                         <option value="2">Dropdown</option>
                                     </select>
-                                    <label class="control-label padding-top-15" style="float: left">Select color menu
+                                    <label class="control-label padding-top-15" style="float: left">Select color of menu
                                     </label>
                                     <div style="padding-top: 14px; float: left; padding-left: 10px">
-                                        <color-picker [(ngModel)]="model" [pickerConfig]="config"></color-picker>
+                                        <color-picker [(ngModel)]="menuColor" [pickerConfig]="config"></color-picker>
                                     </div>
                                 </td>
                                 <td class="col-md-6">
-                                    <ul class="col-sm-offset-1" class="tags">
-                                        <li class="tag" *ngFor="let teg of newTags"><span
-                                                class="samtag">{{teg}}</span>
+                                    <ul class="col-sm-offset-1 tags">
+                                        <li class="tag" *ngFor="let tag of newTags">
+                                            <span class="samtag">{{tag}}</span>
                                             <button class="close"
-                                                    (click)="DeleteTeg(teg)">
+                                                    (click)="deleteTag(tag)">
                                                 <span>×</span>
                                             </button>
                                         </li>
@@ -128,7 +127,7 @@
             </div>
             <div class="modal-footer ">
                 <button type="button" name="submit" class="btn btn-success pull-right "
-                        (click)="toSubmitForm()">Submit Form
+                        (click)="submitSiteSettingsForm()">Submit
                 </button>
             </div>
         </div>

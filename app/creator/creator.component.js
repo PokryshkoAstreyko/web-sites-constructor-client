@@ -51,7 +51,7 @@ var CreatorComponent = (function () {
         });
         this.webSite = new website_1.WebSite("Mi First Site", "tralalallala", [], 2, 1, '#6699ff');
         this.selectedPage = this.webSite.pages[0];
-        $('.menu').css("background-color", this.webSite.colorMenu);
+        $('.menu').css("background-color", this.webSite.menuColor);
     };
     CreatorComponent.prototype.savePost = function () {
         var text = $('#froala-editor').froalaEditor('html.get');
@@ -122,8 +122,8 @@ var CreatorComponent = (function () {
         $('#editTitle').val(this.webSite.title);
         $('#editDescription').val(this.webSite.description);
         $('#editTag').val('');
-        $('#editTypeMenu').val(this.webSite.typeMenu);
-        this.model = this.webSite.colorMenu;
+        $('#editTypeMenu').val(this.webSite.menuType);
+        this.model = this.webSite.menuType;
         this.classInputTitle = "";
         this.newTags = [];
         for (var _i = 0, _a = this.webSite.tags; _i < _a.length; _i++) {
@@ -148,11 +148,11 @@ var CreatorComponent = (function () {
                 tag.push(new tag_1.Tag(this.newTags[i]));
             }
             this.webSite.title = $('#editTitle').val();
-            this.webSite.typeMenu = $('#editTypeMenu').val();
-            this.webSite.colorMenu = this.model;
+            this.webSite.menuType = $('#editTypeMenu').val();
+            this.webSite.menuColor = this.model;
             this.webSite.description = $('#editDescription').val();
             this.webSite.tags = tag;
-            $('.menu').css("background-color", this.webSite.colorMenu);
+            $('.menu').css("background-color", this.webSite.menuColor);
             $('#settings-modal').modal('toggle');
         }
         else {

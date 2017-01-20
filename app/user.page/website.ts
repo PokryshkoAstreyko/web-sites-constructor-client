@@ -9,31 +9,24 @@ import {Tag} from "./tag";
 export class WebSite{
 
     title: string;
-
     description: string;
-
     tags: Tag[];
-
-    rating: number;
-
-    typeMenu: number;
-
-    colorMenu: string;
-
+    menuType: number;
+    menuColor: string;
     pages: Page[];
 
+    rating: number;
     date: number;
-
     dateView: string='';
 
 
-    constructor(title:string,description: string,tags: Tag[],rating:number,typeMenu: number, colorMenu:string){
+    constructor(title:string,description: string,tags: Tag[],rating:number,menuType: number, menuColor:string){
         this.title=title;
         this.description=description;
         this.tags=tags;
         this.rating=rating;
-        this.typeMenu=typeMenu;
-        this.colorMenu=colorMenu;
+        this.menuType=menuType;
+        this.menuColor=menuColor;
         this.pages=[];
         this.pages.push(new  Page("Main"));
         var today = new Date();

@@ -29,6 +29,7 @@ import {RatingModule} from "ng2-rating";
 import { TagCloudModule } from 'angular-tag-cloud-module';
 import {ModalViewDescription} from "./modals/modal.view.description/modal.view.description";
 import {SiteCreationService} from "./_services/site.creation.service";
+import {SharedService} from "./_services/shared.service";
 
 @Pipe({ name: 'escapeHtml', pure: false })
 export class EscapeHtmlPipe implements PipeTransform {
@@ -74,14 +75,13 @@ export class EscapeHtmlPipe implements PipeTransform {
         ModalViewCode,
         PanelToolsPages,
         ModalViewDescription,
-
-
     ],
     providers: [
         AuthGuard,
         AuthenticationService,
         UserService,
         SiteCreationService,
+        SharedService,
 
         FormBuilder,
         ControlContainer

@@ -7,6 +7,7 @@ import {IColorPickerConfiguration} from "ng2-color-picker/lib";
 import {SiteCreationService} from "../_services/site.creation.service";
 import {isUndefined} from "util";
 import {Tag} from "../user.page/tag";
+import {SharedService} from "../_services/shared.service";
 
 declare var $: any;
 @Component({
@@ -19,28 +20,21 @@ export class NavbarComponent implements OnInit{
 
     isUserInfoShowed: boolean;
 
-    saveSite(site : WebSite){
-        console.log(site);
-        // this.siteCreationService.createSite(site).
-        //     subscribe(siteIdFromServer => {
-        //         if(siteIdFromServer){
-        //             this.siteCreationService.currentSiteId = +siteIdFromServer;
-        //             this.router.navigate(['/creator']);
-        //         }
-        // })
-    }
     newTags: string[]=[];
-    classInputTitle: string='';
-    public config: IColorPickerConfiguration;
+    titleInputClass: string='';
 
-    public model: any;
+    public config: IColorPickerConfiguration;
+    public menuColor: any;
+
+
     constructor(private router: Router,
                 private authenticationService: AuthenticationService,
-                private siteCreationService: SiteCreationService ){
+                private siteCreationService: SiteCreationService,
+                private sharedService : SharedService){
 
         this.isUserInfoShowed = !!localStorage.getItem('currentUser');
 
-        this.model = '#6699ff';
+        this.menuColor = '#6699ff';
         this.config = {
             width: 25,
             height: 25,
@@ -58,7 +52,6 @@ export class NavbarComponent implements OnInit{
         };
 
     }
-
     ngOnInit(){
         $('[data-toggle="tooltip"]').tooltip();
     }
@@ -69,34 +62,40 @@ export class NavbarComponent implements OnInit{
 
     clearCreationWebSiteForm() {
         this.newTags = [];
-        $('#inputTitle').val('');
-        $('#inputDescription').val('');
-        $('#inputTag').val('');
-        $('#selectTypeMenu').val(1);
-        this.model = '#6699ff';
-        this.classInputTitle="";
+        $('#titleInput').val('');
+        $('#descriptionInput').val('');
+        $('#tagInput').val('');
+        $('#menuType').val(1);
+        this.menuColor = '#6699ff';
+        this.titleInputClass="";
     }
 
-    toSubmitForm() {
-        if ($('#inputTitle').val()) {
+    submitSiteSettingsForm() {
+        if ($('#titleInput').val()) {
 
             $('#create-modal').modal('toggle');
-            let tag: Tag[]=[];
-            for(let i=0;i<this.newTags.length;i++){
-                tag.push(new Tag(this.newTags[i]));
+            let tags: Tag[]=[];
+
+            for(let i=0; i<this.newTags.length; i++){
+                tags.push(new Tag(this.newTags[i]));
             }
-            this.saveSite(new WebSite($('#inputTitle').val(),
-                $('#inputDescription').val(),
-                tag,
-                0,$("#selectTypeMenu").val(),
-                this.model));
+            this.saveSite(
+                new WebSite(
+                        $('#titleInput').val(),
+                        $('#descriptionInput').val(),
+                        tags,
+                        0,
+                        $("#menuType").val(),
+                        this.menuColor
+                    )
+                );
         }
         else {
-            this.classInputTitle="has-error"
+            this.titleInputClass="has-error"
         }
     }
 
-    toAddTeg(event: any) {
+    addTag(event: any) {
         if(!this.newTags.includes(event)){
             if(event){
                 this.newTags.push(event);
@@ -104,7 +103,18 @@ export class NavbarComponent implements OnInit{
         }
     }
 
-    DeleteTeg(event: any) {
+    deleteTag(event: any) {
         this.newTags.splice(this.newTags.indexOf(event), 1);
+    }
+
+    saveSite(site : WebSite){
+        console.log(site);
+        this.siteCreationService.createSite(site).
+            subscribe(siteIdFromServer => {
+                if(siteIdFromServer){
+                   this.sharedService.currentSiteId = siteIdFromServer;
+                    this.router.navigate(['/creator']);
+                }
+        })
     }
 }

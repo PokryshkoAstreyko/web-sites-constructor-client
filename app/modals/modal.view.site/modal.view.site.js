@@ -42,7 +42,8 @@ ModalViewSite = __decorate([
     core_1.Component({
         templateUrl: 'app/modals/modal.view.site/modal.view.site.html',
         selector: 'modalViewSite',
-    })
+    }),
+    __metadata("design:paramtypes", [])
 ], ModalViewSite);
 exports.ModalViewSite = ModalViewSite;
 //# sourceMappingURL=modal.view.site.js.map

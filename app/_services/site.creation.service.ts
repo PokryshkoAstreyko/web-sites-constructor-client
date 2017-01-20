@@ -8,17 +8,15 @@ import {WebSite} from "../user.page/website";
 @Injectable()
 export class SiteCreationService {
 
-    currentSiteId: number;
 
     public token: string;
     private creationUrl = 'http://localhost:8080/createsite';
 
     constructor(private http: Http) {
         // set token if saved in local storage
-
-
     }
-    createSite(site : WebSite){ debugger;
+
+    createSite(site : WebSite) : Observable<string>{ debugger;
          let currentUser  = localStorage.getItem('currentUser');
 
          this.token = JSON.parse(currentUser).token;
@@ -33,7 +31,7 @@ export class SiteCreationService {
 
          return this.http.post(this.creationUrl, body, options)
              .map((response: Response)=> {
-                let siteId = response.json() && response.json().siteId;
+                return response.json() && response.json().id;
              })
     }
 

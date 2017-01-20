@@ -39,7 +39,8 @@ ModalViewCode = __decorate([
     core_1.Component({
         templateUrl: 'app/modals/modal.view.code/modal.view.code.html',
         selector: 'modalViewCode',
-    })
+    }),
+    __metadata("design:paramtypes", [])
 ], ModalViewCode);
 exports.ModalViewCode = ModalViewCode;
 //# sourceMappingURL=modal.view.code.js.map

@@ -53,7 +53,6 @@ export class CreatorComponent implements OnInit {
             ]
         };
     }
-
     ngOnInit() {
         $("#sticker").sticky({topSpacing: 0});
         $('#froala-editor').froalaEditor({
@@ -63,7 +62,7 @@ export class CreatorComponent implements OnInit {
 
         this.webSite = new WebSite("Mi First Site", "tralalallala", [], 2, 1, '#6699ff');
         this.selectedPage = this.webSite.pages[0];
-        $('.menu').css("background-color", this.webSite.colorMenu);
+        $('.menu').css("background-color", this.webSite.menuColor);
 
     }
 
@@ -153,8 +152,8 @@ export class CreatorComponent implements OnInit {
         $('#editTitle').val(this.webSite.title);
         $('#editDescription').val(this.webSite.description);
         $('#editTag').val('');
-        $('#editTypeMenu').val(this.webSite.typeMenu);
-        this.model = this.webSite.colorMenu;
+        $('#editTypeMenu').val(this.webSite.menuType);
+        this.model = this.webSite.menuType;
         this.classInputTitle = "";
         this.newTags=[];
         for(let tag of this.webSite.tags){
@@ -184,11 +183,11 @@ export class CreatorComponent implements OnInit {
                 tag.push(new Tag(this.newTags[i]));
             }
             this.webSite.title = $('#editTitle').val();
-            this.webSite.typeMenu = $('#editTypeMenu').val();
-            this.webSite.colorMenu = this.model;
+            this.webSite.menuType = $('#editTypeMenu').val();
+            this.webSite.menuColor = this.model;
             this.webSite.description = $('#editDescription').val();
             this.webSite.tags = tag;
-            $('.menu').css("background-color", this.webSite.colorMenu);
+            $('.menu').css("background-color", this.webSite.menuColor);
             $('#settings-modal').modal('toggle');
         }
         else {

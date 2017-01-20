@@ -13,9 +13,9 @@ var http_1 = require("@angular/http");
 require("rxjs/add/operator/map");
 var SiteCreationService = (function () {
     function SiteCreationService(http) {
-        // set token if saved in local storage
         this.http = http;
         this.creationUrl = 'http://localhost:8080/createsite';
+        // set token if saved in local storage
     }
     SiteCreationService.prototype.createSite = function (site) {
         debugger;
@@ -29,7 +29,7 @@ var SiteCreationService = (function () {
         var body = JSON.stringify(site);
         return this.http.post(this.creationUrl, body, options)
             .map(function (response) {
-            var siteId = response.json() && response.json().siteId;
+            return response.json() && response.json().id;
         });
     };
     return SiteCreationService;
