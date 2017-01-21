@@ -45,6 +45,7 @@ var NavbarComponent = (function () {
         $('[data-toggle="tooltip"]').tooltip();
     };
     NavbarComponent.prototype.goLoginPage = function () {
+        //TODO тут надо удалять из локал стореджа юзера
         this.router.navigate(['/login']);
     };
     NavbarComponent.prototype.clearCreationWebSiteForm = function () {
@@ -81,13 +82,16 @@ var NavbarComponent = (function () {
     };
     NavbarComponent.prototype.saveSite = function (site) {
         var _this = this;
+        debugger;
         console.log(site);
         this.siteCreationService.createSite(site).
-            subscribe(function (siteIdFromServer) {
-            if (siteIdFromServer) {
-                _this.sharedService.currentSiteId = siteIdFromServer;
-                _this.router.navigate(['/creator']);
-            }
+            subscribe(function (siteFromServer) {
+            console.log(siteFromServer + ": siteFromServer");
+            if (siteFromServer) {
+                _this.sharedService.currentSite = siteFromServer;
+                _this.router.navigate(['/creator', siteFromServer.id]);
+            } //TODO возможно сделать обработку ошибки,
+            // если сайт на серваке уже будет с таким именем
         });
     };
     return NavbarComponent;

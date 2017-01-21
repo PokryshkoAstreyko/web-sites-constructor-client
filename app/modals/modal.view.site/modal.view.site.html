@@ -16,13 +16,13 @@
                     <div class="navbar-header">
                         <div class="navbar-brand cursor-default" style="margin-left: 20px">{{webSite.title}}</div>
                     </div>
-                    <div *ngIf="webSite.typeMenu==1">
+                    <div *ngIf="webSite.menuType==1">
                         <ul class="nav navbar-nav" *ngFor="let page of webSite.pages">
                             <li class="cursor-pointer" (click)="selectViewPage(page)" style="float: left"><a>{{page.name}}</a>
                             </li>
                         </ul>
                     </div>
-                    <ul *ngIf="webSite.typeMenu==2" class="nav navbar-nav navbar-right" style="margin-right: 10px">
+                    <ul *ngIf="webSite.menuType==2" class="nav navbar-nav navbar-right" style="margin-right: 10px">
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
                                aria-expanded="false">Menu<span class="caret"></span></a>

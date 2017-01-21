@@ -5,6 +5,7 @@ var page_1 = require("../creator/page");
  */
 var WebSite = (function () {
     function WebSite(title, description, tags, rating, menuType, menuColor) {
+        this.pages = [];
         this.dateView = '';
         this.title = title;
         this.description = description;
@@ -12,7 +13,6 @@ var WebSite = (function () {
         this.rating = rating;
         this.menuType = menuType;
         this.menuColor = menuColor;
-        this.pages = [];
         this.pages.push(new page_1.Page("Main"));
         var today = new Date();
         this.date = Date.now();

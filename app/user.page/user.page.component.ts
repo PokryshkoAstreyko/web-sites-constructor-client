@@ -1,11 +1,10 @@
-/**
- * Created by Dima on 06.01.2017.
- */
-
 import {Component, ViewChild, ViewChildren, NgModule, OnInit} from "@angular/core";
 import {WebSite} from './website';
 import {ModalText} from '../modals/modal.text'
 import {Tag} from "./tag";
+import {SiteCreationService} from "../_services/site.creation.service";
+import {JsonParse} from "../_services/json.parse.service";
+
 
 declare var $: any;
 @Component({
@@ -15,25 +14,18 @@ declare var $: any;
 
 })
 export class UserPageComponent implements OnInit{
-    webSites: WebSite[]=[];
+    webSites: WebSite[] = [];
     selectedWebSite: WebSite = new WebSite("", "", [], 5, 1, "");
-    achievementsClass="gray";
-    modalText: ModalText=new ModalText();
+    achievementsClass = "gray";
+    modalText: ModalText = new ModalText();
 
-    constructor() {
-        let tags: string[] = [];
-        let tag: Tag[]=[];
-        for (let i = 1; i <= 10; i++) {
-            tags.push("tag" + i);
-        }
-        for(let i=0;i<tags.length;i++){
-            tag.push(new Tag(tags[i]));
-            this.webSites.push(new WebSite("WebSite" + i, "blablablablablablablab" + i, tag, 5, 1, "#6699ff"));
-        }
+    constructor(private siteCreationService : SiteCreationService) {
+
     }
 
     ngOnInit() {
         $('[data-toggle="tooltip"]').tooltip();
+        this.loadAllUserSites();
     }
 
     selectWebSite(event: any) {
@@ -45,6 +37,25 @@ export class UserPageComponent implements OnInit{
 
     gray(){
         this.achievementsClass="";
+    }
+
+    loadAllUserSites(){
+        //TODO изменить юзер id(ищет по юзеру, который делает запрос)
+        this.siteCreationService.loadAllUserSites()
+            .subscribe(
+                data =>{
+                         this.webSites = data;
+                         this.getPagesFromString()
+                        },
+                error => alert(error),
+                () => console.log("Getting WebSites FINISHED"))
+    }
+
+    getPagesFromString(){
+        for (let site of this.webSites){
+            site.pages = JsonParse.ourParseJSON(site.pagesString);
+        }
+        console.log(this.webSites);
     }
 }
 

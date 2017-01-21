@@ -57,6 +57,7 @@ export class NavbarComponent implements OnInit{
     }
 
     goLoginPage(){
+        //TODO тут надо удалять из локал стореджа юзера
         this.router.navigate(['/login']);
     }
 
@@ -107,14 +108,16 @@ export class NavbarComponent implements OnInit{
         this.newTags.splice(this.newTags.indexOf(event), 1);
     }
 
-    saveSite(site : WebSite){
+    saveSite(site : WebSite){ debugger;
         console.log(site);
         this.siteCreationService.createSite(site).
-            subscribe(siteIdFromServer => {
-                if(siteIdFromServer){
-                   this.sharedService.currentSiteId = siteIdFromServer;
-                    this.router.navigate(['/creator']);
-                }
+            subscribe(siteFromServer => {
+                console.log(siteFromServer + ": siteFromServer");
+                if(siteFromServer){
+                    this.sharedService.currentSite = siteFromServer;
+                    this.router.navigate( ['/creator', siteFromServer.id] );
+                } //TODO возможно сделать обработку ошибки,
+                    // если сайт на серваке уже будет с таким именем
         })
     }
 }

@@ -1,6 +1,3 @@
-/**
- * Created by Dima on 06.01.2017.
- */
 "use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -14,25 +11,19 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require("@angular/core");
 var website_1 = require("./website");
 var modal_text_1 = require("../modals/modal.text");
-var tag_1 = require("./tag");
+var site_creation_service_1 = require("../_services/site.creation.service");
+var json_parse_service_1 = require("../_services/json.parse.service");
 var UserPageComponent = (function () {
-    function UserPageComponent() {
+    function UserPageComponent(siteCreationService) {
+        this.siteCreationService = siteCreationService;
         this.webSites = [];
         this.selectedWebSite = new website_1.WebSite("", "", [], 5, 1, "");
         this.achievementsClass = "gray";
         this.modalText = new modal_text_1.ModalText();
-        var tags = [];
-        var tag = [];
-        for (var i = 1; i <= 10; i++) {
-            tags.push("tag" + i);
-        }
-        for (var i = 0; i < tags.length; i++) {
-            tag.push(new tag_1.Tag(tags[i]));
-            this.webSites.push(new website_1.WebSite("WebSite" + i, "blablablablablablablab" + i, tag, 5, 1, "#6699ff"));
-        }
     }
     UserPageComponent.prototype.ngOnInit = function () {
         $('[data-toggle="tooltip"]').tooltip();
+        this.loadAllUserSites();
     };
     UserPageComponent.prototype.selectWebSite = function (event) {
         this.selectedWebSite = event;
@@ -43,6 +34,22 @@ var UserPageComponent = (function () {
     UserPageComponent.prototype.gray = function () {
         this.achievementsClass = "";
     };
+    UserPageComponent.prototype.loadAllUserSites = function () {
+        var _this = this;
+        //TODO изменить юзер id(ищет по юзеру, который делает запрос)
+        this.siteCreationService.loadAllUserSites()
+            .subscribe(function (data) {
+            _this.webSites = data;
+            _this.getPagesFromString();
+        }, function (error) { return alert(error); }, function () { return console.log("Getting WebSites FINISHED"); });
+    };
+    UserPageComponent.prototype.getPagesFromString = function () {
+        for (var _i = 0, _a = this.webSites; _i < _a.length; _i++) {
+            var site = _a[_i];
+            site.pages = json_parse_service_1.JsonParse.ourParseJSON(site.pagesString);
+        }
+        console.log(this.webSites);
+    };
     return UserPageComponent;
 }());
 UserPageComponent = __decorate([
@@ -51,7 +58,7 @@ UserPageComponent = __decorate([
         templateUrl: 'user.page.component.html',
         styleUrls: ['user.page.component.css'],
     }),
-    __metadata("design:paramtypes", [])
+    __metadata("design:paramtypes", [site_creation_service_1.SiteCreationService])
 ], UserPageComponent);
 exports.UserPageComponent = UserPageComponent;
 //# sourceMappingURL=user.page.component.js.map

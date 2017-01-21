@@ -16,8 +16,15 @@ var PageToHTML_1 = require("./PageToHTML");
 var modal_text_1 = require("../modals/modal.text");
 var website_1 = require("../user.page/website");
 var tag_1 = require("../user.page/tag");
+var router_1 = require("@angular/router");
+var shared_service_1 = require("../_services/shared.service");
+var site_creation_service_1 = require("../_services/site.creation.service");
 var CreatorComponent = (function () {
-    function CreatorComponent() {
+    function CreatorComponent(activatedRoute, sharedService, router, siteCreationService) {
+        this.activatedRoute = activatedRoute;
+        this.sharedService = sharedService;
+        this.router = router;
+        this.siteCreationService = siteCreationService;
         this.selectedContainerID = 0;
         this.selectedLineContainerID = 0;
         this.deleteLineContainer = false;
@@ -49,9 +56,49 @@ var CreatorComponent = (function () {
             charCounterCount: false,
             height: '400'
         });
-        this.webSite = new website_1.WebSite("Mi First Site", "tralalallala", [], 2, 1, '#6699ff');
+        this.webSite = this.createCurrentSite();
         this.selectedPage = this.webSite.pages[0];
         $('.menu').css("background-color", this.webSite.menuColor);
+        this.getRouteParams();
+    };
+    CreatorComponent.prototype.ngOnDestroy = function () {
+        this.subParams.unsubscribe();
+    };
+    CreatorComponent.prototype.createCurrentSite = function () {
+        //TODO pagesString добавить сюда
+        var currentSite = this.sharedService.currentSite;
+        var curSiteId = currentSite.id;
+        var curSiteTitle = currentSite.title;
+        var curSiteDescr = currentSite.description;
+        var curSiteTags = currentSite.tags;
+        var curSiteMenuType = currentSite.menuType;
+        var curSiteMenuColor = currentSite.menuColor;
+        var webSitee = new website_1.WebSite(curSiteTitle, curSiteDescr, curSiteTags, 2, curSiteMenuType, curSiteMenuColor);
+        webSitee.id = curSiteId;
+        console.log(webSitee);
+        return webSitee;
+    };
+    CreatorComponent.prototype.saveSiteToServer = function () {
+        var _this = this;
+        this.webSite.pagesString = JSON.stringify(this.webSite.pages);
+        console.log("Pagesstring: " + this.webSite.pages);
+        this.siteCreationService.saveOrUpdateSite(this.webSite)
+            .subscribe(function (siteFromServer) {
+            console.log(siteFromServer);
+            if (siteFromServer) {
+                _this.router.navigate(['']);
+            }
+            else
+                console.log('EBANII SAIT NE SOZDALSYA NAHUI');
+        });
+    };
+    CreatorComponent.prototype.getRouteParams = function () {
+        var _this = this;
+        //to get params from route
+        this.subParams = this.activatedRoute.params.subscribe(function (params) {
+            _this.editedSiteId = +params['id']; // (+) converts string 'id' to a number
+            // In a real app: dispatch action to load the details here.
+        });
     };
     CreatorComponent.prototype.savePost = function () {
         var text = $('#froala-editor').froalaEditor('html.get');
@@ -168,7 +215,10 @@ CreatorComponent = __decorate([
         templateUrl: 'creator.component.html',
         styleUrls: ['./creator.component.css']
     }),
-    __metadata("design:paramtypes", [])
+    __metadata("design:paramtypes", [router_1.ActivatedRoute,
+        shared_service_1.SharedService,
+        router_1.Router,
+        site_creation_service_1.SiteCreationService])
 ], CreatorComponent);
 exports.CreatorComponent = CreatorComponent;
 //# sourceMappingURL=creator.component.js.map

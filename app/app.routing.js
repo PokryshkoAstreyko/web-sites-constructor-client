@@ -13,7 +13,7 @@ var appRoutes = [
     { path: '', component: index_2.HomeComponent, canActivate: [index_3.AuthGuard] },
     { path: 'register', component: index_4.RegisterComponent },
     { path: 'profile', component: profile_component_1.ProfileComponent },
-    { path: 'creator', component: creator_component_1.CreatorComponent },
+    { path: 'creator/:id', component: creator_component_1.CreatorComponent },
     { path: 'userpage', component: user_page_component_1.UserPageComponent },
     { path: 'main', component: main_1.Main },
     // otherwise redirect to home

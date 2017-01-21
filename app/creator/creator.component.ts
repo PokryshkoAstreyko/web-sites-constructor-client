@@ -8,6 +8,9 @@ import {IColorPickerConfiguration} from 'ng2-color-picker';
 import {ModalText} from '../modals/modal.text'
 import {WebSite} from "../user.page/website";
 import {Tag} from "../user.page/tag";
+import {ActivatedRoute, Router} from '@angular/router';
+import {SharedService} from "../_services/shared.service";
+import {SiteCreationService} from "../_services/site.creation.service";
 
 declare var $: any;
 
@@ -19,6 +22,8 @@ declare var $: any;
 })
 
 export class CreatorComponent implements OnInit {
+
+
     selectedPage: Page;
     selectedContainerID: number = 0;
     selectedLineContainerID: number = 0;
@@ -32,8 +37,13 @@ export class CreatorComponent implements OnInit {
     modalText: ModalText = new ModalText();
     webSite: WebSite;
 
+    editedSiteId : number;
+    private subParams: any;
 
-    constructor() {
+    constructor(private activatedRoute : ActivatedRoute,
+                private sharedService : SharedService,
+                private router: Router,
+                private siteCreationService : SiteCreationService) {
 
         this.HTMLCode = "";
         this.model = '#cccccc';
@@ -53,6 +63,8 @@ export class CreatorComponent implements OnInit {
             ]
         };
     }
+
+
     ngOnInit() {
         $("#sticker").sticky({topSpacing: 0});
         $('#froala-editor').froalaEditor({
@@ -60,11 +72,61 @@ export class CreatorComponent implements OnInit {
             height: '400'
         });
 
-        this.webSite = new WebSite("Mi First Site", "tralalallala", [], 2, 1, '#6699ff');
+        this.webSite = this.createCurrentSite();
+
         this.selectedPage = this.webSite.pages[0];
         $('.menu').css("background-color", this.webSite.menuColor);
+        this.getRouteParams();
+    }
+
+
+    ngOnDestroy(){
+        this.subParams.unsubscribe();
+    }
+
+    createCurrentSite(){
+        //TODO pagesString добавить сюда
+        let currentSite = this.sharedService.currentSite;
+        let curSiteId = currentSite.id;
+        let curSiteTitle = currentSite.title;
+        let curSiteDescr = currentSite.description;
+        let curSiteTags = currentSite.tags;
+        let curSiteMenuType = currentSite.menuType;
+        let curSiteMenuColor = currentSite.menuColor;
+
+        let webSitee = new WebSite( curSiteTitle,
+            curSiteDescr,
+            curSiteTags,
+            2,
+            curSiteMenuType,
+            curSiteMenuColor );
+        webSitee.id = curSiteId;
+
+        console.log(webSitee);
+        return webSitee;
+    }
+
+    saveSiteToServer(){
+        this.webSite.pagesString = JSON.stringify(this.webSite.pages);
+        console.log("Pagesstring: " + this.webSite.pages);
+        this.siteCreationService.saveOrUpdateSite(this.webSite)
+            .subscribe(siteFromServer => {
+               console.log(siteFromServer);
+               if(siteFromServer){
+                   this.router.navigate(['']);
+               } else console.log('EBANII SAIT NE SOZDALSYA NAHUI');
+            });
 
     }
+
+    getRouteParams(){
+        //to get params from route
+        this.subParams = this.activatedRoute.params.subscribe(params => {
+            this.editedSiteId = +params['id']; // (+) converts string 'id' to a number
+            // In a real app: dispatch action to load the details here.
+        });
+    }
+
 
     savePost() {
         let text = $('#froala-editor').froalaEditor('html.get');
@@ -195,4 +257,5 @@ export class CreatorComponent implements OnInit {
         }
         console.log(this.webSite);
     }
+
 }
