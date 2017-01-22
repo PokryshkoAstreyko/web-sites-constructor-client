@@ -35,6 +35,7 @@
 
             // other libraries
             'rxjs': 'npm:rxjs',
+
         },
         // packages tells the System loader how to load when no filename and/or no extension
         packages: {
@@ -43,6 +44,7 @@
                 defaultExtension: 'js'
             },
             rxjs: {
+                main: 'bundles/Rx.js',
                 defaultExtension: 'js'
             },
             'angular2-datatable': {

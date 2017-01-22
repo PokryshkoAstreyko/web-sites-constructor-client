@@ -9,10 +9,8 @@ export class JsonParse {
         if(!pagesString){
             return;
         }
-        console.log("PagesSring : " + pagesString);
         let newPages: Page[] = [];
         let parsedPagesString = JSON.parse(pagesString);
-        console.log(parsedPagesString);
 
         for (let i = 0; i < parsedPagesString.length; i++) {
             newPages.push(new Page(parsedPagesString[i].name));

@@ -17,70 +17,53 @@ import 'rxjs/Rx';
 
 @Injectable()
 export class SiteCreationService {
-
-
     public token: string;
-    private creationUrl = 'http://localhost:8080/createsite';
     private savingUrl = 'http://localhost:8080/savesite';
-    private getUserSitesUrl = 'http://localhost:8080/loadsites';
+    private getUserSitesUrl = 'http://localhost:8080/user';
 
     constructor(private http: Http) {
         // set token if saved in local storage
     }
 
     getRequestOptions(){
-        let currentUser  = localStorage.getItem('currentUser');
-        this.token = JSON.parse(currentUser).token;
-        console.log(this.token);
+        let currentUser = localStorage.getItem('currentUser');
+
+        if(currentUser){
+            this.token = JSON.parse(currentUser).token;
+        } else this.token = 'empty';
+
         let headers = new Headers(
             {'Content-Type': 'application/json;charset=utf-8',
-                'Accept' : 'application/json;charset=utf-8',
-                'X-AUTH-TOKEN' : this.token});
+             'Accept' : 'application/json;charset=utf-8',
+             'X-AUTH-TOKEN' : this.token});
 
         return new RequestOptions({headers: headers});
-    }
 
-
-    createSite(site : WebSite) : Observable<any>{ debugger;
-         let options = this.getRequestOptions();
-         let body = JSON.stringify(site);
-
-         return this.http.post(this.creationUrl, body, options)
-             .map((response: Response)=> {
-                 console.log(response.json() + ": siteFromServer");
-
-                return response.json() ;// Site object in json()
-             });
     }
 
     saveOrUpdateSite(site : WebSite){
-
         let body = JSON.stringify(site);
         return this.http.post(this.savingUrl, body, this.getRequestOptions())
             .map((response: Response) => {
             //TODO возможно добавить сюда добавленный в базу сайт для отображения
                 //если так не отобразится
                 return response.json();
-            });
+            })
+            .catch(this.handleError);
     }
 
-    loadAllUserSites(): Observable<WebSite[]>{
 
-        return this.http.get(this.getUserSitesUrl, this.getRequestOptions())
+    loadUserSitesByUserPage(userPageParam: number): Observable<any>{
+
+        return this.http.get(this.getUserSitesUrl + '/' + userPageParam,  this.getRequestOptions())
                 .map((response: Response) => {
-
-                return response.json();
-
+                    console.log(response.json());
+                    return response.json();
                 })
                 .catch(this.handleError);
     }
 
-    private extractData(res: Response) {
-        let body = res.json();
-        console.log(body + ": res.json()");
-        console.log(body.data + ": res.json().data");
-        return body.data || [];
-    }
+
 
     private handleError (error: Response | any) {
         // In a real world app, we might use a remote logging infrastructure

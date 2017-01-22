@@ -4,6 +4,8 @@ import {ModalText} from '../modals/modal.text'
 import {Tag} from "./tag";
 import {SiteCreationService} from "../_services/site.creation.service";
 import {JsonParse} from "../_services/json.parse.service";
+import {ActivatedRoute} from "@angular/router";
+import {UserSitesEditableResponse} from "./UserSitesEditableResponse";
 
 
 declare var $: any;
@@ -19,13 +21,21 @@ export class UserPageComponent implements OnInit{
     achievementsClass = "gray";
     modalText: ModalText = new ModalText();
 
-    constructor(private siteCreationService : SiteCreationService) {
+
+    editable : boolean;
+    userIdParam : number;
+    private subParams: any;
+
+    constructor(private siteCreationService : SiteCreationService,
+                private activatedRoute : ActivatedRoute) {
 
     }
 
     ngOnInit() {
         $('[data-toggle="tooltip"]').tooltip();
-        this.loadAllUserSites();
+        this.getRouteParams();
+        this.loadUserSites();
+
     }
 
     selectWebSite(event: any) {
@@ -39,14 +49,15 @@ export class UserPageComponent implements OnInit{
         this.achievementsClass="";
     }
 
-    loadAllUserSites(){
+
+    loadUserSites(){
         //TODO изменить юзер id(ищет по юзеру, который делает запрос)
-        this.siteCreationService.loadAllUserSites()
+        this.siteCreationService.loadUserSitesByUserPage(this.userIdParam)
             .subscribe(
                 data =>{
-                         this.webSites = data;
-                         this.getPagesFromString()
-                        },
+                    this.webSites = UserSitesEditableResponse.userEditableParseJSON(data.userSites);
+                    this.editable = data.editable;
+                },
                 error => alert(error),
                 () => console.log("Getting WebSites FINISHED"))
     }
@@ -56,6 +67,14 @@ export class UserPageComponent implements OnInit{
             site.pages = JsonParse.ourParseJSON(site.pagesString);
         }
         console.log(this.webSites);
+    }
+
+    getRouteParams(){
+        //to get params from route
+        this.subParams = this.activatedRoute.params.subscribe(params => {
+            this.userIdParam = +params['id']; // (+) converts string 'id' to a number
+            // In a real app: dispatch action to load the details here.
+        });
     }
 }
 

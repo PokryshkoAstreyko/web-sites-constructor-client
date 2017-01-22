@@ -20,7 +20,6 @@ var LoginComponent = (function () {
         this.error = '';
     }
     LoginComponent.prototype.ngOnInit = function () {
-        // reset login status
         this.authenticationService.logout();
     };
     LoginComponent.prototype.login = function () {
@@ -29,7 +28,7 @@ var LoginComponent = (function () {
         this.authenticationService.login(this.model.username, this.model.password)
             .subscribe(function (result) {
             if (result === true) {
-                _this.router.navigate(['/']);
+                _this.router.navigate(['/main']);
             }
             else {
                 _this.error = 'Username or password is incorrect';

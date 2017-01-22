@@ -17,9 +17,6 @@ export class WebSite{
     pages: Page[] = [];
     rating: number;
     pagesString: string;
-    date: number;
-    dateView: string='';
-
 
     constructor(
                 title:string,
@@ -36,9 +33,9 @@ export class WebSite{
         this.menuType=menuType;
         this.menuColor=menuColor;
         this.pages.push(new Page("Main"));
-        var today = new Date();
-        this.date= Date.now();
-        this.dateView+=('0' + today.getDate()).slice(-2)+'-'+('0' + (today.getMonth() + 1)).slice(-2)+'-' + today.getFullYear();
+
+
+
     }
 
 }

@@ -56,6 +56,7 @@ var CreatorComponent = (function () {
             charCounterCount: false,
             height: '400'
         });
+        console.log(this.sharedService.currentSite);
         this.webSite = this.createCurrentSite();
         this.selectedPage = this.webSite.pages[0];
         $('.menu').css("background-color", this.webSite.menuColor);
@@ -81,12 +82,10 @@ var CreatorComponent = (function () {
     CreatorComponent.prototype.saveSiteToServer = function () {
         var _this = this;
         this.webSite.pagesString = JSON.stringify(this.webSite.pages);
-        console.log("Pagesstring: " + this.webSite.pages);
         this.siteCreationService.saveOrUpdateSite(this.webSite)
             .subscribe(function (siteFromServer) {
-            console.log(siteFromServer);
             if (siteFromServer) {
-                _this.router.navigate(['']);
+                _this.router.navigate(['/userpage']);
             }
             else
                 console.log('EBANII SAIT NE SOZDALSYA NAHUI');

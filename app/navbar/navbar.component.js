@@ -82,17 +82,24 @@ var NavbarComponent = (function () {
     };
     NavbarComponent.prototype.saveSite = function (site) {
         var _this = this;
-        debugger;
-        console.log(site);
-        this.siteCreationService.createSite(site).
+        this.siteCreationService.saveOrUpdateSite(site).
             subscribe(function (siteFromServer) {
-            console.log(siteFromServer + ": siteFromServer");
             if (siteFromServer) {
                 _this.sharedService.currentSite = siteFromServer;
                 _this.router.navigate(['/creator', siteFromServer.id]);
             } //TODO возможно сделать обработку ошибки,
             // если сайт на серваке уже будет с таким именем
         });
+    };
+    // на юзерпейдже будет смотреться прараметр,
+    // если my - будет грузить текущего юзера
+    // + значок редактирования будет активным
+    //если придет не 'my' параметр, тогда будет грузиться страница с id юзера
+    // + значок редактирования будет спрятам
+    NavbarComponent.prototype.loadLoggedInUserUserPage = function () {
+        if (localStorage.getItem('currentUser')) {
+            this.router.navigate(['/userpage', 'my']);
+        }
     };
     return NavbarComponent;
 }());

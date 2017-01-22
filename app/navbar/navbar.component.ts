@@ -108,11 +108,9 @@ export class NavbarComponent implements OnInit{
         this.newTags.splice(this.newTags.indexOf(event), 1);
     }
 
-    saveSite(site : WebSite){ debugger;
-        console.log(site);
-        this.siteCreationService.createSite(site).
+    saveSite(site : WebSite){
+        this.siteCreationService.saveOrUpdateSite(site).
             subscribe(siteFromServer => {
-                console.log(siteFromServer + ": siteFromServer");
                 if(siteFromServer){
                     this.sharedService.currentSite = siteFromServer;
                     this.router.navigate( ['/creator', siteFromServer.id] );
@@ -120,4 +118,18 @@ export class NavbarComponent implements OnInit{
                     // если сайт на серваке уже будет с таким именем
         })
     }
+
+
+    // на юзерпейдже будет смотреться прараметр,
+    // если my - будет грузить текущего юзера
+    // + значок редактирования будет активным
+    //если придет не 'my' параметр, тогда будет грузиться страница с id юзера
+    // + значок редактирования будет спрятам
+
+    loadLoggedInUserUserPage(){
+        if(localStorage.getItem('currentUser')) {
+            this.router.navigate(['/userpage', 'my']);
+        }
+    }
+
 }

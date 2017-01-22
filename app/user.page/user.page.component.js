@@ -13,9 +13,12 @@ var website_1 = require("./website");
 var modal_text_1 = require("../modals/modal.text");
 var site_creation_service_1 = require("../_services/site.creation.service");
 var json_parse_service_1 = require("../_services/json.parse.service");
+var router_1 = require("@angular/router");
+var UserSitesEditableResponse_1 = require("./UserSitesEditableResponse");
 var UserPageComponent = (function () {
-    function UserPageComponent(siteCreationService) {
+    function UserPageComponent(siteCreationService, activatedRoute) {
         this.siteCreationService = siteCreationService;
+        this.activatedRoute = activatedRoute;
         this.webSites = [];
         this.selectedWebSite = new website_1.WebSite("", "", [], 5, 1, "");
         this.achievementsClass = "gray";
@@ -23,7 +26,8 @@ var UserPageComponent = (function () {
     }
     UserPageComponent.prototype.ngOnInit = function () {
         $('[data-toggle="tooltip"]').tooltip();
-        this.loadAllUserSites();
+        this.getRouteParams();
+        this.loadUserSites();
     };
     UserPageComponent.prototype.selectWebSite = function (event) {
         this.selectedWebSite = event;
@@ -34,13 +38,13 @@ var UserPageComponent = (function () {
     UserPageComponent.prototype.gray = function () {
         this.achievementsClass = "";
     };
-    UserPageComponent.prototype.loadAllUserSites = function () {
+    UserPageComponent.prototype.loadUserSites = function () {
         var _this = this;
         //TODO изменить юзер id(ищет по юзеру, который делает запрос)
-        this.siteCreationService.loadAllUserSites()
+        this.siteCreationService.loadUserSitesByUserPage(this.userIdParam)
             .subscribe(function (data) {
-            _this.webSites = data;
-            _this.getPagesFromString();
+            _this.webSites = UserSitesEditableResponse_1.UserSitesEditableResponse.userEditableParseJSON(data.userSites);
+            _this.editable = data.editable;
         }, function (error) { return alert(error); }, function () { return console.log("Getting WebSites FINISHED"); });
     };
     UserPageComponent.prototype.getPagesFromString = function () {
@@ -50,6 +54,14 @@ var UserPageComponent = (function () {
         }
         console.log(this.webSites);
     };
+    UserPageComponent.prototype.getRouteParams = function () {
+        var _this = this;
+        //to get params from route
+        this.subParams = this.activatedRoute.params.subscribe(function (params) {
+            _this.userIdParam = +params['id']; // (+) converts string 'id' to a number
+            // In a real app: dispatch action to load the details here.
+        });
+    };
     return UserPageComponent;
 }());
 UserPageComponent = __decorate([
@@ -58,7 +70,8 @@ UserPageComponent = __decorate([
         templateUrl: 'user.page.component.html',
         styleUrls: ['user.page.component.css'],
     }),
-    __metadata("design:paramtypes", [site_creation_service_1.SiteCreationService])
+    __metadata("design:paramtypes", [site_creation_service_1.SiteCreationService,
+        router_1.ActivatedRoute])
 ], UserPageComponent);
 exports.UserPageComponent = UserPageComponent;
 //# sourceMappingURL=user.page.component.js.map

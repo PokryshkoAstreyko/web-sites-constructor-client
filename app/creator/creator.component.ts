@@ -72,6 +72,7 @@ export class CreatorComponent implements OnInit {
             height: '400'
         });
 
+        console.log(this.sharedService.currentSite);
         this.webSite = this.createCurrentSite();
 
         this.selectedPage = this.webSite.pages[0];
@@ -108,12 +109,10 @@ export class CreatorComponent implements OnInit {
 
     saveSiteToServer(){
         this.webSite.pagesString = JSON.stringify(this.webSite.pages);
-        console.log("Pagesstring: " + this.webSite.pages);
         this.siteCreationService.saveOrUpdateSite(this.webSite)
             .subscribe(siteFromServer => {
-               console.log(siteFromServer);
                if(siteFromServer){
-                   this.router.navigate(['']);
+                   this.router.navigate(['/userpage']);
                } else console.log('EBANII SAIT NE SOZDALSYA NAHUI');
             });
 
@@ -256,6 +255,7 @@ export class CreatorComponent implements OnInit {
             this.classInputTitle = "has-error"
         }
         console.log(this.webSite);
+
     }
 
 }

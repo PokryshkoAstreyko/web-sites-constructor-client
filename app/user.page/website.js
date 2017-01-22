@@ -6,7 +6,6 @@ var page_1 = require("../creator/page");
 var WebSite = (function () {
     function WebSite(title, description, tags, rating, menuType, menuColor) {
         this.pages = [];
-        this.dateView = '';
         this.title = title;
         this.description = description;
         this.tags = tags;
@@ -14,9 +13,6 @@ var WebSite = (function () {
         this.menuType = menuType;
         this.menuColor = menuColor;
         this.pages.push(new page_1.Page("Main"));
-        var today = new Date();
-        this.date = Date.now();
-        this.dateView += ('0' + today.getDate()).slice(-2) + '-' + ('0' + (today.getMonth() + 1)).slice(-2) + '-' + today.getFullYear();
     }
     return WebSite;
 }());

@@ -24,29 +24,21 @@ require("rxjs/Rx");
 var SiteCreationService = (function () {
     function SiteCreationService(http) {
         this.http = http;
-        this.creationUrl = 'http://localhost:8080/createsite';
         this.savingUrl = 'http://localhost:8080/savesite';
-        this.getUserSitesUrl = 'http://localhost:8080/loadsites';
+        this.getUserSitesUrl = 'http://localhost:8080/user';
         // set token if saved in local storage
     }
     SiteCreationService.prototype.getRequestOptions = function () {
         var currentUser = localStorage.getItem('currentUser');
-        this.token = JSON.parse(currentUser).token;
-        console.log(this.token);
+        if (currentUser) {
+            this.token = JSON.parse(currentUser).token;
+        }
+        else
+            this.token = 'empty';
         var headers = new http_1.Headers({ 'Content-Type': 'application/json;charset=utf-8',
             'Accept': 'application/json;charset=utf-8',
             'X-AUTH-TOKEN': this.token });
         return new http_1.RequestOptions({ headers: headers });
-    };
-    SiteCreationService.prototype.createSite = function (site) {
-        debugger;
-        var options = this.getRequestOptions();
-        var body = JSON.stringify(site);
-        return this.http.post(this.creationUrl, body, options)
-            .map(function (response) {
-            console.log(response.json() + ": siteFromServer");
-            return response.json(); // Site object in json()
-        });
     };
     SiteCreationService.prototype.saveOrUpdateSite = function (site) {
         var body = JSON.stringify(site);
@@ -55,20 +47,16 @@ var SiteCreationService = (function () {
             //TODO возможно добавить сюда добавленный в базу сайт для отображения
             //если так не отобразится
             return response.json();
-        });
-    };
-    SiteCreationService.prototype.loadAllUserSites = function () {
-        return this.http.get(this.getUserSitesUrl, this.getRequestOptions())
-            .map(function (response) {
-            return response.json();
         })
             .catch(this.handleError);
     };
-    SiteCreationService.prototype.extractData = function (res) {
-        var body = res.json();
-        console.log(body + ": res.json()");
-        console.log(body.data + ": res.json().data");
-        return body.data || [];
+    SiteCreationService.prototype.loadUserSitesByUserPage = function (userPageParam) {
+        return this.http.get(this.getUserSitesUrl + '/' + userPageParam, this.getRequestOptions())
+            .map(function (response) {
+            console.log(response.json());
+            return response.json();
+        })
+            .catch(this.handleError);
     };
     SiteCreationService.prototype.handleError = function (error) {
         // In a real world app, we might use a remote logging infrastructure
